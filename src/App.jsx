@@ -23,7 +23,7 @@ const THUMB_STORE      = "episodeThumbs";
 
 /* ── Cloudinary config ───────────────────────────────────────── */
 const CLOUDINARY_CLOUD = "dz7nfmey1";
-const CLOUDINARY_PRESET = "podcast_unsigned"; // unsigned upload preset name
+const CLOUDINARY_PRESET = "podcast_upload"; // unsigned upload preset name
 const CLOUDINARY_UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/auto/upload`;
 
 /* ── helpers ─────────────────────────────────────────────────── */
