@@ -1,16 +1,34 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import { initializeApp, getApps } from "firebase/app";
+import {
+  getFirestore, collection, addDoc, getDocs,
+  deleteDoc, doc, query, orderBy, setDoc
+} from "firebase/firestore";
 
 /* ═══════════════════════════════════════════════════════════════
    DUAL STORAGE SYSTEM
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   CLOUD  → POST /api/upload  → saves to public/audios|videos|songs|images/
-            POST /api/episodes → saves metadata to episodes.json
-            GET  /api/episodes → loads metadata
-            DELETE /api/episodes/:id
+   CLOUD  → Cloudinary (files) + Firebase Firestore (metadata)
+            All episodes visible to every visitor — shared cloud DB.
 
-   LOCAL  → IndexedDB (blobs)  +  localStorage (metadata)
-            Always written as an offline backup / when server is down.
+   LOCAL  → IndexedDB (blobs)  +  localStorage (metadata cache)
+            Kept as offline fallback / instant load while Firestore fetches.
    ═══════════════════════════════════════════════════════════════ */
+
+/* ── Firebase config — REPLACE these values with yours ──────── */
+/* Get them from: Firebase Console → Project Settings → Your Apps */
+const FIREBASE_CONFIG = {
+  apiKey:            "AIzaSyAoPtqcQX4g1wsmvPa1ElkZ9XS3OCGvkHU",
+  authDomain:        "my-podcast-38f22.firebaseapp.com",
+  projectId:         "my-podcast-38f22",
+  storageBucket:     "my-podcast-38f22.firebasestorage.app",
+  messagingSenderId: "1054925017167",
+  appId:             "1:1054925017167:web:8bb8c96aa0b550d50d5a3a",
+};
+
+/* ── Firebase init (safe for hot-reload / Strict Mode) ──────── */
+const firebaseApp = getApps().length ? getApps()[0] : initializeApp(FIREBASE_CONFIG);
+const db = getFirestore(firebaseApp);
 
 const API_BASE         = typeof window !== "undefined" ? window.location.origin : "";
 const CATEGORY_FOLDER  = { audio:"audios", video:"videos", song:"songs", image:"images" };
@@ -37,7 +55,7 @@ function safeFileName(name) {
   return `${Date.now()}_${base}.${ext}`;
 }
 
-/* ── Cloudinary is always available — no ping needed ─────────── */
+/* ── Firebase is always available — no ping needed ───────────── */
 async function checkServerOnline() { return true; }
 
 /* ── Cloudinary upload (XHR for progress) ────────────────────── */
@@ -78,10 +96,73 @@ async function cloudUploadFile(file, category, onProgress) {
   } catch (e) { console.warn("[cloudinary] upload failed:", e.message); return null; }
 }
 
-/* ── Episode metadata: stored only in localStorage (no server) ── */
-async function cloudSaveEpisodeMeta(_ep) { return true; }
-async function cloudFetchEpisodes()      { return null;  }
-async function cloudDeleteEpisode(_id)   { return true;  }
+/* ── Episode metadata: Firestore (shared across all visitors) ─── */
+
+/**
+ * Save one episode's metadata to Firestore.
+ * We use the episode's own `id` as the Firestore document ID so
+ * deletes and dedup work correctly.
+ */
+async function cloudSaveEpisodeMeta(ep) {
+  try {
+    // Strip blob URLs — they only work in the uploading browser
+    const {
+      audioUrl, videoUrl, _blobUrl,
+      ...rest
+    } = ep;
+    const toSave = {
+      ...rest,
+      img:   rest.img?.startsWith("blob:")   ? FALLBACK_IMG : rest.img,
+      cover: rest.cover?.startsWith("blob:") ? FALLBACK_IMG : rest.cover,
+      savedAt: Date.now(),
+    };
+    // Use episode id as document id for easy lookup / overwrite
+    const docRef = doc(db, "episodes", String(ep.id));
+    await setDoc(docRef, toSave);
+    return true;
+  } catch (e) {
+    console.warn("[firestore] save failed:", e);
+    return false;
+  }
+}
+
+/**
+ * Fetch all episodes from Firestore, newest first.
+ * Returns null on error so the app falls back to localStorage.
+ */
+async function cloudFetchEpisodes() {
+  try {
+    const q = query(collection(db, "episodes"), orderBy("savedAt", "desc"));
+    const snap = await getDocs(q);
+    if (snap.empty) return null;
+    return snap.docs.map(d => ({
+      ...d.data(),
+      _firestoreId: d.id,
+      _storageMode: "cloud",
+      // Restore playable URL from the cloudinary fields
+      audioUrl: d.data().cloudAudioUrl || null,
+      videoUrl: d.data().cloudVideoUrl || null,
+      img:   d.data().cloudImgUrl || d.data().img   || FALLBACK_IMG,
+      cover: d.data().cloudImgUrl || d.data().cover || FALLBACK_IMG,
+    }));
+  } catch (e) {
+    console.warn("[firestore] fetch failed:", e);
+    return null;
+  }
+}
+
+/**
+ * Delete an episode document from Firestore.
+ */
+async function cloudDeleteEpisode(id) {
+  try {
+    await deleteDoc(doc(db, "episodes", String(id)));
+    return true;
+  } catch (e) {
+    console.warn("[firestore] delete failed:", e);
+    return false;
+  }
+}
 
 /* ── IndexedDB ───────────────────────────────────────────────── */
 function openDB() {
@@ -1346,10 +1427,8 @@ function Upload({ onEpisodeAdded, uploadedEps, onDeleteEpisode, serverOnline }) 
       let cloudImgUrl=null,thumbPublicFileName=null;
       const fallbackImg=meta.thumbnailUrl||FALLBACK_IMG;
       if(meta.thumbnailFile){
-        if(serverOnline){
-          const tr=await cloudUploadFile(meta.thumbnailFile,"image",null);
-          if(tr){cloudImgUrl=tr.publicUrl;thumbPublicFileName=tr.fileName;}
-        }
+        const tr=await cloudUploadFile(meta.thumbnailFile,"image",null);
+        if(tr){cloudImgUrl=tr.publicUrl;thumbPublicFileName=tr.fileName;}
         await saveThumbToIDB(id,meta.thumbnailFile).catch(()=>{});
       }
       setItemState(i,{uploading:false,uploadPct:100,storageMode});
@@ -1379,7 +1458,8 @@ function Upload({ onEpisodeAdded, uploadedEps, onDeleteEpisode, serverOnline }) 
       };
 
       /* Step 4: Persist metadata everywhere */
-      if(serverOnline)await cloudSaveEpisodeMeta(newEp);
+      /* Always save to Firestore so ALL visitors can see the episode */
+      await cloudSaveEpisodeMeta(newEp);
       onEpisodeAdded(newEp);
       setItemState(i,{done:true,storageMode});
       count++;
