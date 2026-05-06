@@ -2036,26 +2036,210 @@ function EpisodeDetail({ ep, onPlay }) {
 }
 
 /* ═══════════════════════════════════════════════════════════════
+   EDIT EPISODE MODAL
+   ═══════════════════════════════════════════════════════════════ */
+function EditEpisodeModal({ ep, onSave, onClose }) {
+  const [form, setForm] = useState({
+    title:       ep.title       || "",
+    guest:       ep.guest       || ep.host || "",
+    role:        ep.role        || "",
+    desc:        ep.desc        || "",
+    tags:        (ep.tags||[]).join(", "),
+    num:         ep.num         || "",
+    dur:         ep.dur         || "",
+  });
+  const set = (k,v) => setForm(f=>({...f,[k]:v}));
+
+  const handleSave = () => {
+    const updated = {
+      ...ep,
+      ...form,
+      host:  form.guest,
+      tags:  form.tags.split(",").map(t=>t.trim()).filter(Boolean),
+    };
+    onSave(updated);
+    onClose();
+  };
+
+  const Field = ({label, k, multiline=false}) => (
+    <div style={{marginBottom:16}}>
+      <div className="mn" style={{fontSize:8,color:"var(--a)",letterSpacing:".12em",marginBottom:6}}>{label}</div>
+      {multiline
+        ? <textarea className="field" rows={3} value={form[k]} onChange={e=>set(k,e.target.value)}
+            style={{width:"100%",resize:"vertical",fontFamily:"inherit",fontSize:12,lineHeight:1.6,padding:"10px 12px"}} />
+        : <input className="field" value={form[k]} onChange={e=>set(k,e.target.value)}
+            style={{width:"100%",fontSize:12,padding:"10px 12px"}} />}
+    </div>
+  );
+
+  return (
+    <div className="modal-bg" onClick={e=>{if(e.target===e.currentTarget)onClose();}}>
+      <div className="modal-box" style={{maxWidth:520,maxHeight:"90vh",overflowY:"auto"}}>
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:24}}>
+          <div>
+            <div className="mn" style={{fontSize:8,color:"var(--a)",letterSpacing:".14em",marginBottom:4}}>// EDIT_EPISODE</div>
+            <div style={{fontSize:16,fontWeight:700,color:"var(--c)"}}>Edit Episode Details</div>
+          </div>
+          <button onClick={onClose} style={{background:"transparent",border:"1px solid var(--bdr)",borderRadius:2,color:"var(--g)",cursor:"pointer",width:30,height:30,display:"flex",alignItems:"center",justifyContent:"center",fontSize:14}}>✕</button>
+        </div>
+
+        {/* Thumbnail preview */}
+        {ep.img && (
+          <div style={{marginBottom:20,display:"flex",gap:14,alignItems:"center",padding:"12px 14px",background:"rgba(255,255,255,.03)",border:"1px solid var(--bdr)",borderRadius:3}}>
+            <img src={ep.img} alt="" style={{width:52,height:52,borderRadius:"50%",objectFit:"cover",border:"2px solid var(--a)",flexShrink:0}} />
+            <div style={{fontSize:11,color:"var(--g)",lineHeight:1.6}}>
+              <span style={{color:"var(--c)",fontWeight:600}}>{ep.title}</span><br/>
+              <span className="mn" style={{fontSize:9}}>Thumbnail from upload · to change, re-upload the episode</span>
+            </div>
+          </div>
+        )}
+
+        <Field label="// EPISODE_TITLE" k="title" />
+        <Field label="// GUEST_OR_HOST_NAME" k="guest" />
+        <Field label="// ROLE_OR_TITLE" k="role" />
+        <Field label="// EPISODE_NUMBER  (e.g. E001)" k="num" />
+        <Field label="// DURATION  (e.g. 34:22)" k="dur" />
+        <Field label="// TAGS  (comma-separated)" k="tags" />
+        <Field label="// DESCRIPTION" k="desc" multiline />
+
+        <div style={{display:"flex",gap:10,justifyContent:"flex-end",marginTop:8}}>
+          <button onClick={onClose} className="btn btn-g" style={{fontSize:10,padding:"10px 18px"}}>Cancel</button>
+          <button onClick={handleSave} className="btn btn-a" style={{fontSize:10,padding:"10px 22px"}}>Save Changes ✓</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════
    SIMPLE PAGES  (Guests, About, Subscribe, Contact)
    ═══════════════════════════════════════════════════════════════ */
-function Guests({ onPlay }) {
+function Guests({ onPlay, uploadedEps=[], onEditEpisode }) {
   const [hovered,setHovered]=useState(null);
+
+  /* Merge uploaded episodes + fallback fake guests.
+     Uploaded episodes are shown first. Each uploaded ep becomes a "guest card"
+     using the guest/host name, thumbnail, and media file for playback. */
+  const allEps = [...uploadedEps, ...EPS];
+
+  /* Build guest cards from uploaded episodes */
+  const uploadedCards = uploadedEps.map(ep=>({
+    id:    ep.id,
+    name:  ep.guest || ep.host || ep.title,
+    role:  ep.role  || ep.tags?.[0] || "Featured Guest",
+    ep:    ep.num   || "",
+    img:   ep.img   || ep.cover || FALLBACK_IMG,
+    bio:   ep.desc  || "Uploaded episode.",
+    tw:    "",
+    _ep:   ep,   // full episode object — used directly for play
+  }));
+
+  /* Fill remaining slots with fake guests (so the page never looks empty) */
+  const fakeCards = GUESTS.map(g=>({
+    ...g,
+    _ep: EPS.find(e=>e.num===g.ep)||EPS[0],
+  }));
+
+  /* Show uploaded first, then fake ones */
+  const cards = uploadedCards.length > 0
+    ? [...uploadedCards, ...fakeCards]
+    : fakeCards;
+
   return (
     <div style={{paddingTop:68}}>
       <section style={{position:"relative",minHeight:"460px",display:"flex",alignItems:"center",overflow:"hidden",background:"#050505"}}>
-        <div style={{position:"absolute",inset:0,display:"grid",gridTemplateColumns:"repeat(6,1fr)"}}>{GUESTS.map(g=><div key={g.id} style={{overflow:"hidden"}}><img src={g.img} alt={g.name} style={{width:"100%",height:"100%",objectFit:"cover",filter:"grayscale(1) brightness(.35) contrast(1.15)"}} /></div>)}</div>
+        <div style={{position:"absolute",inset:0,display:"grid",gridTemplateColumns:"repeat(6,1fr)"}}>
+          {cards.slice(0,6).map((g,i)=>(
+            <div key={g.id??i} style={{overflow:"hidden"}}>
+              <img src={g.img} alt={g.name} style={{width:"100%",height:"100%",objectFit:"cover",filter:"grayscale(1) brightness(.35) contrast(1.15)"}} />
+            </div>
+          ))}
+        </div>
         <div style={{position:"absolute",inset:0,background:"linear-gradient(to right, #050505 30%, rgba(5,5,5,.82) 55%, rgba(5,5,5,.55) 100%)"}} />
         <div style={{position:"absolute",top:0,left:0,right:0,height:3,background:"linear-gradient(90deg,var(--a),var(--r),transparent)"}} />
         <div className="wrap" style={{position:"relative",zIndex:2,padding:"80px 0"}}>
-          <Rv><h1 className="bb" style={{fontSize:"clamp(56px,11vw,130px)",color:"var(--c)",lineHeight:.86,marginBottom:20}}>The <em className="sf" style={{color:"var(--a)"}}>Minds</em><br />We've Met</h1><p style={{fontSize:"clamp(13px,2.5vw,15px)",color:"var(--g)",maxWidth:"min(420px,90vw)",fontWeight:300,lineHeight:1.9}}>World-class thinkers, researchers, and rebels who've sat across from us.</p></Rv>
+          <Rv>
+            <h1 className="bb" style={{fontSize:"clamp(56px,11vw,130px)",color:"var(--c)",lineHeight:.86,marginBottom:20}}>
+              The <em className="sf" style={{color:"var(--a)"}}>Minds</em><br />We've Met
+            </h1>
+            <p style={{fontSize:"clamp(13px,2.5vw,15px)",color:"var(--g)",maxWidth:"min(420px,90vw)",fontWeight:300,lineHeight:1.9}}>
+              {uploadedEps.length > 0
+                ? `${uploadedEps.length} uploaded episode${uploadedEps.length>1?"s":""} · Click ▶ to play`
+                : "World-class thinkers, researchers, and rebels who've sat across from us."}
+            </p>
+          </Rv>
         </div>
       </section>
+
       <section className="sec" style={{background:"var(--d)"}}>
         <div className="wrap">
+          {uploadedEps.length === 0 && (
+            <div style={{textAlign:"center",padding:"24px 0 32px",marginBottom:8}}>
+              <span className="mn" style={{fontSize:9,color:"var(--g)",letterSpacing:".1em"}}>
+                NO UPLOADS YET — SHOWING SAMPLE GUESTS · UPLOAD AN EPISODE TO SEE IT HERE
+              </span>
+            </div>
+          )}
           <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(340px,1fr))",gap:2}}>
-            {GUESTS.map((g,i)=>{
-              const ep=EPS.find(e=>e.num===g.ep)||EPS[0], isHov=hovered===g.id;
-              return(<Rv key={g.id} delay={i*.06}><div onMouseEnter={()=>setHovered(g.id)} onMouseLeave={()=>setHovered(null)} style={{position:"relative",overflow:"hidden",background:isHov?"rgba(245,166,35,.04)":"var(--card)",border:`1px solid ${isHov?"rgba(245,166,35,.28)":"var(--bdr)"}`,transition:"all .3s cubic-bezier(.16,1,.3,1)"}}>{isHov&&<div style={{position:"absolute",top:0,left:0,right:0,height:2,background:"linear-gradient(90deg,var(--a),var(--r))"}} />}<div style={{padding:"28px 26px 22px"}}><div style={{display:"flex",gap:16,marginBottom:18,alignItems:"flex-start"}}><div style={{position:"relative",flexShrink:0}}><div style={{width:76,height:76,borderRadius:"50%",padding:2,background:isHov?"linear-gradient(135deg,var(--a),var(--r))":"rgba(255,255,255,.08)"}}><img src={g.img} alt={g.name} style={{width:"100%",height:"100%",borderRadius:"50%",objectFit:"cover",filter:isHov?"none":"grayscale(.3)",display:"block"}} /></div><div style={{position:"absolute",bottom:0,right:0,width:20,height:20,borderRadius:"50%",background:"var(--a)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:8,border:"2.5px solid var(--card)",fontWeight:700,color:"#070707"}}>✓</div></div><div style={{flex:1,minWidth:0,paddingTop:4}}><h3 style={{fontSize:17,fontWeight:700,color:"var(--c)",marginBottom:4}}>{g.name}</h3><div style={{fontSize:11,color:"var(--a)",fontWeight:500,marginBottom:5}}>{g.role}</div><div className="mn" style={{fontSize:8,color:"var(--g)"}}>{g.tw}</div></div><div style={{flexShrink:0}}><div style={{padding:"5px 10px",background:"var(--a2)",border:"1px solid rgba(245,166,35,.22)",borderRadius:2}}><span className="mn" style={{fontSize:8,color:"var(--a)"}}>{g.ep}</span></div></div></div><p style={{fontSize:12,color:"rgba(240,237,230,.65)",lineHeight:1.78,marginBottom:18,fontWeight:300}}>{g.bio}</p><div style={{borderTop:"1px solid var(--bdr)",paddingTop:16,display:"flex",justifyContent:"space-between",alignItems:"center"}}><div style={{flex:1,minWidth:0,paddingRight:12}}><div className="mn" style={{fontSize:8,color:"var(--g)",letterSpacing:".09em",marginBottom:4}}>Episode</div><div style={{fontSize:11,color:"var(--c)",fontWeight:600,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{ep.title}</div></div><button onClick={()=>onPlay(ep)} style={{width:40,height:40,borderRadius:"50%",background:isHov?"var(--a)":"var(--a2)",border:`1px solid rgba(245,166,35,${isHov?1:.22})`,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,color:isHov?"#070707":"var(--a)",transition:"all .25s",flexShrink:0}}>▶</button></div></div></div></Rv>);
+            {cards.map((g,i)=>{
+              const isHov=hovered===g.id;
+              const ep = g._ep;
+              return (
+                <Rv key={g.id??i} delay={i*.06}>
+                  <div
+                    onMouseEnter={()=>setHovered(g.id)}
+                    onMouseLeave={()=>setHovered(null)}
+                    style={{position:"relative",overflow:"hidden",background:isHov?"rgba(245,166,35,.04)":"var(--card)",border:`1px solid ${isHov?"rgba(245,166,35,.28)":"var(--bdr)"}`,transition:"all .3s cubic-bezier(.16,1,.3,1)"}}
+                  >
+                    {isHov&&<div style={{position:"absolute",top:0,left:0,right:0,height:2,background:"linear-gradient(90deg,var(--a),var(--r))"}} />}
+                    <div style={{padding:"28px 26px 22px"}}>
+                      <div style={{display:"flex",gap:16,marginBottom:18,alignItems:"flex-start"}}>
+                        <div style={{position:"relative",flexShrink:0}}>
+                          <div style={{width:76,height:76,borderRadius:"50%",padding:2,background:isHov?"linear-gradient(135deg,var(--a),var(--r))":"rgba(255,255,255,.08)"}}>
+                            <img src={g.img} alt={g.name} style={{width:"100%",height:"100%",borderRadius:"50%",objectFit:"cover",filter:isHov?"none":"grayscale(.3)",display:"block"}} />
+                          </div>
+                          <div style={{position:"absolute",bottom:0,right:0,width:20,height:20,borderRadius:"50%",background:"var(--a)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:8,border:"2.5px solid var(--card)",fontWeight:700,color:"#070707"}}>✓</div>
+                        </div>
+                        <div style={{flex:1,minWidth:0,paddingTop:4}}>
+                          <h3 style={{fontSize:17,fontWeight:700,color:"var(--c)",marginBottom:4}}>{g.name}</h3>
+                          <div style={{fontSize:11,color:"var(--a)",fontWeight:500,marginBottom:5}}>{g.role}</div>
+                          {g.tw&&<div className="mn" style={{fontSize:8,color:"var(--g)"}}>{g.tw}</div>}
+                        </div>
+                        {g.ep&&(
+                          <div style={{flexShrink:0}}>
+                            <div style={{padding:"5px 10px",background:"var(--a2)",border:"1px solid rgba(245,166,35,.22)",borderRadius:2}}>
+                              <span className="mn" style={{fontSize:8,color:"var(--a)"}}>{g.ep}</span>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                      <p style={{fontSize:12,color:"rgba(240,237,230,.65)",lineHeight:1.78,marginBottom:18,fontWeight:300,overflow:"hidden",display:"-webkit-box",WebkitLineClamp:3,WebkitBoxOrient:"vertical"}}>{g.bio}</p>
+                      <div style={{borderTop:"1px solid var(--bdr)",paddingTop:16,display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+                        <div style={{flex:1,minWidth:0,paddingRight:12}}>
+                          <div className="mn" style={{fontSize:8,color:"var(--g)",letterSpacing:".09em",marginBottom:4}}>Episode</div>
+                          <div style={{fontSize:11,color:"var(--c)",fontWeight:600,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{ep.title}</div>
+                          {ep.dur&&<div style={{fontSize:10,color:"var(--g)",marginTop:2}}>{ep.dur}</div>}
+                        </div>
+                        <div style={{display:"flex",gap:8,flexShrink:0}}>
+                          {g._ep&&g._ep._storageMode&&onEditEpisode&&(
+                            <button
+                              onClick={()=>onEditEpisode(g._ep)}
+                              title="Edit episode details"
+                              style={{width:36,height:36,borderRadius:"50%",background:"rgba(255,255,255,.04)",border:"1px solid var(--bdr)",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontSize:11,color:"var(--g)",transition:"all .25s"}}
+                              onMouseEnter={e=>{e.currentTarget.style.borderColor="var(--a)";e.currentTarget.style.color="var(--a)";}}
+                              onMouseLeave={e=>{e.currentTarget.style.borderColor="var(--bdr)";e.currentTarget.style.color="var(--g)";}}
+                            >✏️</button>
+                          )}
+                          <button
+                            onClick={()=>onPlay(ep)}
+                            style={{width:40,height:40,borderRadius:"50%",background:isHov?"var(--a)":"var(--a2)",border:`1px solid rgba(245,166,35,${isHov?1:.22})`,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,color:isHov?"#070707":"var(--a)",transition:"all .25s"}}
+                          >▶</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </Rv>
+              );
             })}
           </div>
         </div>
@@ -2222,6 +2406,7 @@ export default function App() {
   const [uploadedEps,setUploadedEps]=useState([]);
   const [serverOnline,setServerOnline]=useState(false);
   const [idbReady,  setIdbReady]  = useState(false);
+  const [editingEp,  setEditingEp]  = useState(null);
 
   /* ── CSS injection ───────────────────────────────────────── */
   useEffect(()=>{
@@ -2328,6 +2513,13 @@ export default function App() {
     showToast("Episode removed.");
   },[serverOnline]);
 
+  /* ── Episode edited callback ─────────────────────────────── */
+  const handleEditEpisode=useCallback(updatedEp=>{
+    setUploadedEps(prev=>prev.map(e=>e.id===updatedEp.id?updatedEp:e));
+    cloudSaveEpisodeMeta(updatedEp).catch(()=>{});
+    showToast(`✏️ Saved: ${updatedEp.title}`);
+  },[]);
+
   /* ── Play handler ────────────────────────────────────────── */
   const handlePlay=ep=>{
     if(ep.mediaType==="video"&&(ep.videoUrl||ep.cloudVideoUrl)){
@@ -2344,7 +2536,7 @@ export default function App() {
     home:     <Home      nav={nav} onPlay={handlePlay} uploadedEps={uploadedEps} />,
     episodes: <Episodes  nav={nav} onPlay={handlePlay} uploadedEps={uploadedEps} loading={loading} />,
     episode:  <EpisodeDetail ep={data||[...uploadedEps,...EPS][0]} onPlay={handlePlay} />,
-    guests:   <Guests    onPlay={handlePlay} />,
+    guests:   <Guests    onPlay={handlePlay} uploadedEps={uploadedEps} onEditEpisode={ep=>setEditingEp(ep)} />,
     about:    <About />,
     subscribe:<Subscribe />,
     contact:  <Contact />,
@@ -2377,6 +2569,9 @@ export default function App() {
 
       {/* ── Newsletter popup ──────────────────────────────────── */}
       {newsletter && <NewsletterPopup onClose={()=>setNewsletter(false)} />}
+
+      {/* ── Edit episode modal ─────────────────────────────────── */}
+      {editingEp && <EditEpisodeModal ep={editingEp} onSave={handleEditEpisode} onClose={()=>setEditingEp(null)} />}
 
       {/* ── Toast ─────────────────────────────────────────────── */}
       {toast && <Toast msg={toast} onDone={()=>setToast(null)} />}
