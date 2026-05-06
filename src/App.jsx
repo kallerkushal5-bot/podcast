@@ -211,13 +211,13 @@ function mergeEpisodeLists(cloudEps, localEps) {
    STATIC DATA
    ═══════════════════════════════════════════════════════════════ */
 const EPS = [
-  { id:1,num:"E001",title:"The Future of Gaming",host:"Alex Carter",guest:"Alex Carter",role:"Gaming Journalist & Host",dur:"28:45",date:"May 1, 2026",plays:"124K",tags:["Gaming","AI","Technology"],desc:"Discussion about AI, graphics evolution, and the future of open-world games. Alex explores how artificial intelligence is revolutionising NPC behaviour and procedural world generation.",img:"https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=500&q=80",cover:"https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1400&q=85",audioUrl:null,chapters:[{t:"00:00",l:"Intro & Gaming Evolution"},{t:"04:30",l:"AI in Modern Games"},{t:"12:15",l:"Graphics: Past to Future"},{t:"18:42",l:"Open-World Design Philosophy"},{t:"24:18",l:"The Next Decade of Gaming"}],featured:true,isNew:true},
-  { id:2,num:"E002",title:"Tech Talks Daily",host:"Sarah Johnson",guest:"Sarah Johnson",role:"Tech Industry Analyst",dur:"35:12",date:"April 28, 2026",plays:"98K",tags:["Technology","Startups","Innovation"],desc:"Latest trends in AI tools, startups, and software innovation. Sarah breaks down the most impactful tech developments of 2026.",img:"https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=500&q=80",cover:"https://images.unsplash.com/photo-1518770660439-4636190af475?w=1400&q=85",audioUrl:null,chapters:[{t:"00:00",l:"Welcome & Tech Headlines"},{t:"05:10",l:"AI Tools Reshaping Work"},{t:"14:30",l:"Startup Ecosystem Trends"},{t:"24:00",l:"Software Innovation Spotlight"},{t:"31:20",l:"Predictions for Q3 2026"}],featured:false,isNew:true},
-  { id:3,num:"E003",title:"Mindset Mastery",host:"Daniel Brooks",guest:"Daniel Brooks",role:"Performance Coach & Author",dur:"22:18",date:"April 22, 2026",plays:"156K",tags:["Productivity","Psychology","Self-Improvement"],desc:"Building discipline, focus, and productivity habits for success. Daniel shares science-backed strategies for developing unshakeable focus.",img:"https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=500&q=80",cover:"https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=1400&q=85",audioUrl:null,chapters:[{t:"00:00",l:"The Discipline Myth"},{t:"04:00",l:"Focus in a Distracted World"},{t:"10:45",l:"Building Keystone Habits"},{t:"16:30",l:"The Environment Design Method"},{t:"20:00",l:"Your 30-Day Challenge"}],featured:false,isNew:false},
-  { id:4,num:"E004",title:"Startup Stories",host:"Emma Wilson",guest:"Emma Wilson",role:"Serial Entrepreneur & Investor",dur:"41:05",date:"April 18, 2026",plays:"87K",tags:["Startups","Entrepreneurship","Business"],desc:"Interviews with startup founders discussing the highs, lows, and hard-learned lessons from building companies from zero to acquisition.",img:"https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=500&q=80",cover:"https://images.unsplash.com/photo-1559757175-5700dde675bc?w=1400&q=85",audioUrl:null,chapters:[{t:"00:00",l:"Meet Today's Founders"},{t:"06:10",l:"The Idea That Started It All"},{t:"14:30",l:"Fundraising War Stories"},{t:"24:00",l:"Scaling Through Crisis"},{t:"33:20",l:"The Exit"},{t:"38:45",l:"Advice for First-Time Founders"}],featured:false,isNew:false},
-  { id:5,num:"E005",title:"Cyber World",host:"Ryan Lee",guest:"Ryan Lee",role:"Cybersecurity Expert & Ethical Hacker",dur:"30:27",date:"April 10, 2026",plays:"142K",tags:["Cybersecurity","Privacy","Technology"],desc:"Exploring cybersecurity, hacking culture, and online privacy. Ryan demystifies ethical hacking and reveals common security vulnerabilities.",img:"https://images.unsplash.com/photo-1518770660439-4636190af475?w=500&q=80",cover:"https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1400&q=85",audioUrl:null,chapters:[{t:"00:00",l:"The State of Cybersecurity"},{t:"05:30",l:"Inside an Ethical Hacker's Mind"},{t:"12:15",l:"Common Vulnerabilities Exposed"},{t:"19:42",l:"Privacy in the Age of AI"},{t:"26:18",l:"Your Digital Security Checklist"}],featured:false,isNew:false},
-  { id:6,num:"E006",title:"Cinema Breakdown",host:"Olivia Martin",guest:"Olivia Martin",role:"Film Critic & Director",dur:"26:50",date:"April 5, 2026",plays:"76K",tags:["Film","Entertainment","Storytelling"],desc:"Deep dives into blockbuster movies, storytelling, and cinematography. Olivia analyses the visual language of modern cinema.",img:"https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=500&q=80",cover:"https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=1400&q=85",audioUrl:null,chapters:[{t:"00:00",l:"This Week in Cinema"},{t:"04:30",l:"Anatomy of a Perfect Scene"},{t:"11:15",l:"The Streaming Revolution"},{t:"18:42",l:"Cinematography Masterclass"},{t:"24:00",l:"Films You Need to Watch"}],featured:false,isNew:false},
-  { id:7,num:"E007",title:"Level Up Fitness",host:"Chris Adams",guest:"Chris Adams",role:"Certified Trainer & Nutrition Coach",dur:"33:40",date:"March 30, 2026",plays:"112K",tags:["Fitness","Health","Lifestyle"],desc:"Fitness routines, fat loss strategies, and healthy lifestyle discussions. Chris provides evidence-based training advice.",img:"https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=500&q=80",cover:"https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1400&q=85",audioUrl:null,chapters:[{t:"00:00",l:"Fitness Myths Busted"},{t:"05:30",l:"The Science of Fat Loss"},{t:"13:15",l:"Building an Effective Routine"},{t:"21:42",l:"Nutrition: What Actually Matters"},{t:"29:00",l:"Sustainable Lifestyle Changes"}],featured:false,isNew:false},
+  { id:1,num:"E001",title:"The Future of Gaming",host:"Alex Carter",guest:"Alex Carter",role:"Gaming Journalist & Host",dur:"28:45",date:"May 1, 2026",plays:"124K",tags:["Gaming","AI","Technology"],desc:"Discussion about AI, graphics evolution, and the future of open-world games. Alex explores how artificial intelligence is revolutionising NPC behaviour and procedural world generation.",img:"https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=500&q=80",cover:"https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1400&q=85",audioUrl:null,mediaType:"audio",chapters:[{t:"00:00",l:"Intro & Gaming Evolution"},{t:"04:30",l:"AI in Modern Games"},{t:"12:15",l:"Graphics: Past to Future"},{t:"18:42",l:"Open-World Design Philosophy"},{t:"24:18",l:"The Next Decade of Gaming"}],featured:true,isNew:true},
+  { id:2,num:"E002",title:"Tech Talks Daily",host:"Sarah Johnson",guest:"Sarah Johnson",role:"Tech Industry Analyst",dur:"35:12",date:"April 28, 2026",plays:"98K",tags:["Technology","Startups","Innovation"],desc:"Latest trends in AI tools, startups, and software innovation. Sarah breaks down the most impactful tech developments of 2026.",img:"https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=500&q=80",cover:"https://images.unsplash.com/photo-1518770660439-4636190af475?w=1400&q=85",audioUrl:null,mediaType:"audio",chapters:[{t:"00:00",l:"Welcome & Tech Headlines"},{t:"05:10",l:"AI Tools Reshaping Work"},{t:"14:30",l:"Startup Ecosystem Trends"},{t:"24:00",l:"Software Innovation Spotlight"},{t:"31:20",l:"Predictions for Q3 2026"}],featured:false,isNew:true},
+  { id:3,num:"E003",title:"Mindset Mastery",host:"Daniel Brooks",guest:"Daniel Brooks",role:"Performance Coach & Author",dur:"22:18",date:"April 22, 2026",plays:"156K",tags:["Productivity","Psychology","Self-Improvement"],desc:"Building discipline, focus, and productivity habits for success. Daniel shares science-backed strategies for developing unshakeable focus.",img:"https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=500&q=80",cover:"https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=1400&q=85",audioUrl:null,mediaType:"audio",chapters:[{t:"00:00",l:"The Discipline Myth"},{t:"04:00",l:"Focus in a Distracted World"},{t:"10:45",l:"Building Keystone Habits"},{t:"16:30",l:"The Environment Design Method"},{t:"20:00",l:"Your 30-Day Challenge"}],featured:false,isNew:false},
+  { id:4,num:"E004",title:"Startup Stories",host:"Emma Wilson",guest:"Emma Wilson",role:"Serial Entrepreneur & Investor",dur:"41:05",date:"April 18, 2026",plays:"87K",tags:["Startups","Entrepreneurship","Business"],desc:"Interviews with startup founders discussing the highs, lows, and hard-learned lessons from building companies from zero to acquisition.",img:"https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=500&q=80",cover:"https://images.unsplash.com/photo-1559757175-5700dde675bc?w=1400&q=85",audioUrl:null,mediaType:"audio",chapters:[{t:"00:00",l:"Meet Today's Founders"},{t:"06:10",l:"The Idea That Started It All"},{t:"14:30",l:"Fundraising War Stories"},{t:"24:00",l:"Scaling Through Crisis"},{t:"33:20",l:"The Exit"},{t:"38:45",l:"Advice for First-Time Founders"}],featured:false,isNew:false},
+  { id:5,num:"E005",title:"Cyber World",host:"Ryan Lee",guest:"Ryan Lee",role:"Cybersecurity Expert & Ethical Hacker",dur:"30:27",date:"April 10, 2026",plays:"142K",tags:["Cybersecurity","Privacy","Technology"],desc:"Exploring cybersecurity, hacking culture, and online privacy. Ryan demystifies ethical hacking and reveals common security vulnerabilities.",img:"https://images.unsplash.com/photo-1518770660439-4636190af475?w=500&q=80",cover:"https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1400&q=85",audioUrl:null,mediaType:"audio",chapters:[{t:"00:00",l:"The State of Cybersecurity"},{t:"05:30",l:"Inside an Ethical Hacker's Mind"},{t:"12:15",l:"Common Vulnerabilities Exposed"},{t:"19:42",l:"Privacy in the Age of AI"},{t:"26:18",l:"Your Digital Security Checklist"}],featured:false,isNew:false},
+  { id:6,num:"E006",title:"Cinema Breakdown",host:"Olivia Martin",guest:"Olivia Martin",role:"Film Critic & Director",dur:"26:50",date:"April 5, 2026",plays:"76K",tags:["Film","Entertainment","Storytelling"],desc:"Deep dives into blockbuster movies, storytelling, and cinematography. Olivia analyses the visual language of modern cinema.",img:"https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=500&q=80",cover:"https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=1400&q=85",audioUrl:null,mediaType:"audio",chapters:[{t:"00:00",l:"This Week in Cinema"},{t:"04:30",l:"Anatomy of a Perfect Scene"},{t:"11:15",l:"The Streaming Revolution"},{t:"18:42",l:"Cinematography Masterclass"},{t:"24:00",l:"Films You Need to Watch"}],featured:false,isNew:false},
+  { id:7,num:"E007",title:"Level Up Fitness",host:"Chris Adams",guest:"Chris Adams",role:"Certified Trainer & Nutrition Coach",dur:"33:40",date:"March 30, 2026",plays:"112K",tags:["Fitness","Health","Lifestyle"],desc:"Fitness routines, fat loss strategies, and healthy lifestyle discussions. Chris provides evidence-based training advice.",img:"https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=500&q=80",cover:"https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1400&q=85",audioUrl:null,mediaType:"audio",chapters:[{t:"00:00",l:"Fitness Myths Busted"},{t:"05:30",l:"The Science of Fat Loss"},{t:"13:15",l:"Building an Effective Routine"},{t:"21:42",l:"Nutrition: What Actually Matters"},{t:"29:00",l:"Sustainable Lifestyle Changes"}],featured:false,isNew:false},
 ];
 
 const GUESTS = [
@@ -239,10 +239,26 @@ const PLATFORMS = [
 ];
 
 const UPLOAD_CATEGORIES = {
-  audio:{ id:"audio",label:"Audio Podcast",icon:"🎙️",color:"var(--a)",  accent:"rgba(245,166,35,.15)",border:"rgba(245,166,35,.3)",  accepted:"audio/*,.mp3,.wav,.m4a,.aac,.ogg,.flac,.opus,.wma",exts:["mp3","wav","m4a","aac","ogg","flac","opus","wma","mpeg","mp4a"],mimePrefix:"audio/",formats:[".mp3",".wav",".m4a",".aac",".ogg",".flac",".opus",".wma"],maxMB:800,  dropLabel:"DRAG & DROP AUDIO FILES HERE OR CLICK TO BROWSE",formatsLine:"MP3 · WAV · M4A · AAC · OGG · FLAC · OPUS · WMA",desc:"Long-form interview or solo audio episodes"},
-  video:{ id:"video",label:"Video Podcast", icon:"🎬",color:"#a78bfa",  accent:"rgba(167,139,250,.12)",border:"rgba(167,139,250,.28)",accepted:"video/*,.mp4,.mov,.webm,.avi,.mkv,.m4v",                    exts:["mp4","mov","webm","avi","mkv","m4v","ogv"],              mimePrefix:"video/",formats:[".mp4",".mov",".webm",".avi",".mkv",".m4v"],        maxMB:2048, dropLabel:"DRAG & DROP VIDEO FILES HERE OR CLICK TO BROWSE",formatsLine:"MP4 · MOV · WEBM · AVI · MKV · M4V",             desc:"Full video episodes with host & guest on camera"},
-  song: { id:"song", label:"Songs",         icon:"🎵",color:"#34d399",  accent:"rgba(52,211,153,.1)",  border:"rgba(52,211,153,.25)", accepted:"audio/*,.mp3,.wav,.m4a,.aac,.ogg,.flac",                    exts:["mp3","wav","m4a","aac","ogg","flac"],                    mimePrefix:"audio/",formats:[".mp3",".wav",".m4a",".aac",".ogg",".flac"],          maxMB:200,  dropLabel:"DRAG & DROP SONG FILES HERE OR CLICK TO BROWSE",  formatsLine:"MP3 · WAV · M4A · AAC · OGG · FLAC",             desc:"Music tracks, jingles, and intro/outro songs"},
+  audio:{ id:"audio",label:"Audio Podcast",icon:"🎙️",color:"var(--a)",  accent:"rgba(245,166,35,.15)",border:"rgba(245,166,35,.3)",  accepted:"audio/*,.mp3,.wav,.m4a,.aac,.ogg,.flac,.opus,.wma",exts:["mp3","wav","m4a","aac","ogg","flac","opus","wma","mpeg","mp4a"],mimePrefix:"audio/",formats:[".mp3",".wav",".m4a",".aac",".ogg",".flac",".opus",".wma"],maxMB:800,  dropLabel:"DRAG & DROP AUDIO FILES HERE OR CLICK TO BROWSE",mobileLabel:"TAP TO BROWSE AUDIO FILES",formatsLine:"MP3 · WAV · M4A · AAC · OGG · FLAC · OPUS · WMA",desc:"Long-form interview or solo audio episodes"},
+  video:{ id:"video",label:"Video Podcast", icon:"🎬",color:"#a78bfa",  accent:"rgba(167,139,250,.12)",border:"rgba(167,139,250,.28)",accepted:"video/*,.mp4,.mov,.webm,.avi,.mkv,.m4v",                    exts:["mp4","mov","webm","avi","mkv","m4v","ogv"],              mimePrefix:"video/",formats:[".mp4",".mov",".webm",".avi",".mkv",".m4v"],        maxMB:2048, dropLabel:"DRAG & DROP VIDEO FILES HERE OR CLICK TO BROWSE",mobileLabel:"TAP TO BROWSE VIDEO FILES",formatsLine:"MP4 · MOV · WEBM · AVI · MKV · M4V",             desc:"Full video episodes with host & guest on camera"},
+  song: { id:"song", label:"Songs",         icon:"🎵",color:"#34d399",  accent:"rgba(52,211,153,.1)",  border:"rgba(52,211,153,.25)", accepted:"audio/*,.mp3,.wav,.m4a,.aac,.ogg,.flac",                    exts:["mp3","wav","m4a","aac","ogg","flac"],                    mimePrefix:"audio/",formats:[".mp3",".wav",".m4a",".aac",".ogg",".flac"],          maxMB:200,  dropLabel:"DRAG & DROP SONG FILES HERE OR CLICK TO BROWSE",  mobileLabel:"TAP TO BROWSE SONG FILES",formatsLine:"MP3 · WAV · M4A · AAC · OGG · FLAC",             desc:"Music tracks, jingles, and intro/outro songs"},
 };
+
+/* ── Podcast content categories ──────────────────────────────── */
+const PODCAST_CATEGORIES = [
+  { id:"all",        label:"All",          icon:"🎙",  color:"var(--a)",   accent:"rgba(245,166,35,.12)",  border:"rgba(245,166,35,.28)"  },
+  { id:"music",      label:"Music",        icon:"🎵",  color:"#ec4899",    accent:"rgba(236,72,153,.1)",   border:"rgba(236,72,153,.25)"  },
+  { id:"sports",     label:"Sports",       icon:"⚽",  color:"#22d3ee",    accent:"rgba(34,211,238,.1)",   border:"rgba(34,211,238,.25)"  },
+  { id:"sports_songs",label:"Sports Songs",icon:"🏆",  color:"#f472b6",    accent:"rgba(244,114,182,.1)",  border:"rgba(244,114,182,.25)" },
+  { id:"games",      label:"Games",        icon:"🎮",  color:"#a78bfa",    accent:"rgba(167,139,250,.12)", border:"rgba(167,139,250,.28)" },
+  { id:"technology", label:"Technology",   icon:"💻",  color:"#60a5fa",    accent:"rgba(96,165,250,.1)",   border:"rgba(96,165,250,.25)"  },
+  { id:"comedy",     label:"Comedy",       icon:"😂",  color:"#fbbf24",    accent:"rgba(251,191,36,.1)",   border:"rgba(251,191,36,.25)"  },
+  { id:"news",       label:"News",         icon:"📰",  color:"#94a3b8",    accent:"rgba(148,163,184,.1)",  border:"rgba(148,163,184,.22)" },
+  { id:"education",  label:"Education",    icon:"📚",  color:"#34d399",    accent:"rgba(52,211,153,.1)",   border:"rgba(52,211,153,.25)"  },
+  { id:"lifestyle",  label:"Lifestyle",    icon:"🌟",  color:"#fb923c",    accent:"rgba(251,146,60,.1)",   border:"rgba(251,146,60,.25)"  },
+  { id:"health",     label:"Health",       icon:"❤️",  color:"#f87171",    accent:"rgba(248,113,113,.1)",  border:"rgba(248,113,113,.22)" },
+  { id:"other",      label:"Other",        icon:"📻",  color:"var(--g)",   accent:"rgba(138,134,128,.1)",  border:"rgba(138,134,128,.22)" },
+];
 
 function validateMediaFile(f, catId) {
   const cat = UPLOAD_CATEGORIES[catId];
@@ -291,6 +307,7 @@ body{background:#070707;color:#f0ede6;font-family:'DM Sans',system-ui,sans-serif
   --fs-h1:clamp(40px,8vw,116px);--fs-h2:clamp(32px,6vw,80px);--fs-h3:clamp(24px,4vw,34px);
   --fs-body:clamp(14px,2vw,16px);--fs-small:clamp(11px,1.5vw,13px);--fs-xs:clamp(9px,1.2vw,11px);
   --sp-xs:4px;--sp-sm:8px;--sp-md:16px;--sp-lg:24px;--sp-xl:32px;--sp-2xl:48px;--sp-3xl:64px;
+  --navbar-h:68px;--player-h:0px;
 }
 ::-webkit-scrollbar{width:4px;height:4px}
 ::-webkit-scrollbar-track{background:var(--d)}
@@ -318,6 +335,15 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 @keyframes shimmer{0%{background-position:-600px 0}100%{background-position:600px 0}}
 @keyframes uploadPulse{0%,100%{opacity:.6}50%{opacity:1}}
 @keyframes progressStripe{0%{background-position:0 0}100%{background-position:40px 0}}
+
+/* ── Video fullscreen ───────────────────────────────────────── */
+:fullscreen { background:#000 !important; }
+:-webkit-full-screen { background:#000 !important; }
+:fullscreen video { width:100% !important; height:100% !important; max-height:100vh !important; object-fit:contain; }
+:-webkit-full-screen video { width:100% !important; height:100% !important; object-fit:contain; }
+/* When the wrapper div is fullscreen, stretch it and show controls */
+:fullscreen > video { display:block; }
+:fullscreen .vid-ctrl-overlay { opacity:1; pointer-events:auto; }
 
 .fu{animation:fadeUp .7s cubic-bezier(.16,1,.3,1) both}
 .d1{animation-delay:.08s}.d2{animation-delay:.16s}.d3{animation-delay:.24s}.d4{animation-delay:.32s}
@@ -418,7 +444,26 @@ body.light .toast{background:#fff}
 body.light .search-input-big{color:#1a1815}
 
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important}}
-@media(max-width:479px){a,button,[role="button"]{min-height:44px;-webkit-tap-highlight-color:transparent}.wrap{padding:0 8px}.toast{top:auto;bottom:100px;right:8px;left:8px}.btt{bottom:90px;right:8px}.nl-popup{bottom:0!important;right:0!important;left:0!important;width:100%!important;border-radius:16px 16px 0 0!important}}
+@media(max-width:479px){a,button,[role="button"]{min-height:44px;-webkit-tap-highlight-color:transparent}.wrap{padding:0 8px}.toast{top:auto;bottom:100px;right:8px;left:8px}.btt{bottom:90px;right:8px}.nl-popup{bottom:0!important;right:0!important;left:0!important;width:100%!important;border-radius:16px 16px 0 0!important}.kbd-hint{display:none!important}}
+@media(max-width:767px){.kbd-hint{display:none!important}}
+body.player-active .btt{bottom:120px}
+body.player-active .nl-popup{bottom:118px}
+@media(max-width:479px){body.player-active .btt{bottom:120px}body.player-active .nl-popup{bottom:0!important;bottom:118px!important}}
+
+/* Video sidebar thumbnail hover */
+.thumb-wrap{position:relative;flex-shrink:0;width:130px;height:74px;border-radius:4px;overflow:hidden;background:#111}
+.thumb-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.35);opacity:0;transition:opacity .2s}
+.thumb-wrap:hover .thumb-overlay{opacity:1}
+
+/* Video modal responsive */
+.vid-modal-body{flex-direction:column}
+@media(min-width:768px){.vid-modal-body{flex-direction:row!important}}
+.vid-sidebar{max-height:280px;border-left:none!important;border-top:1px solid rgba(255,255,255,.06)!important;width:100%!important;flex-shrink:0}
+@media(min-width:768px){.vid-sidebar{max-height:none!important;width:320px!important;flex-shrink:0!important;border-top:none!important;border-left:1px solid rgba(255,255,255,.06)!important}}
+@media(min-width:1024px){.vid-sidebar{width:360px!important}}
+
+/* Video controls row — wrap on very small screens */
+@media(max-width:479px){.vid-ctrl-row{flex-wrap:wrap;gap:6px!important}.vid-speed-pills{flex-wrap:wrap;gap:3px}}
 @media print{body{background:white;color:black}.btt,.toast{display:none!important}}
 `;
 
@@ -642,6 +687,25 @@ function FileRow({ item, idx, onRemove, onMetaChange, catId }) {
             <label className="mn" style={{ fontSize:8,color:"var(--g)",letterSpacing:".1em",display:"block",marginBottom:5,textTransform:"uppercase" }}>Description</label>
             <textarea className="field" style={{fontSize:12,resize:"vertical",minHeight:70}} value={item.meta?.desc||""} placeholder={isSong?"About this track…":"Brief summary of the episode..."} onChange={e=>onMetaChange(idx,"desc",e.target.value)} />
           </div>
+          {/* ── Podcast Category Picker ─── */}
+          <div>
+            <label className="mn" style={{ fontSize:8,color:"var(--a)",letterSpacing:".1em",display:"block",marginBottom:8,textTransform:"uppercase" }}>📂 Podcast Category <span style={{color:"var(--r)",fontWeight:700}}>*</span></label>
+            <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(110px,1fr))",gap:6}}>
+              {PODCAST_CATEGORIES.filter(c=>c.id!=="all").map(c=>{
+                const selected=(item.meta?.podcastCategory||"other")===c.id;
+                return (
+                  <button key={c.id} type="button" onClick={()=>onMetaChange(idx,"podcastCategory",c.id)}
+                    style={{display:"flex",alignItems:"center",gap:6,padding:"7px 10px",border:`1px solid ${selected?c.border:"var(--bdr)"}`,borderRadius:3,background:selected?c.accent:"rgba(255,255,255,.02)",cursor:"pointer",transition:"all .2s",outline:"none"}}
+                    onMouseEnter={e=>{if(!selected)e.currentTarget.style.borderColor=c.border;}}
+                    onMouseLeave={e=>{if(!selected)e.currentTarget.style.borderColor="var(--bdr)";}}>
+                    <span style={{fontSize:13,flexShrink:0}}>{c.icon}</span>
+                    <span style={{fontSize:9,fontFamily:"'JetBrains Mono'",color:selected?c.color:"var(--g)",letterSpacing:".04em",fontWeight:selected?700:400,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{c.label}</span>
+                    {selected&&<span style={{marginLeft:"auto",fontSize:10,color:c.color,flexShrink:0}}>✓</span>}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
         </div>
       )}
     </div>
@@ -685,7 +749,7 @@ function NavbarV2({ page, nav, onSearch, darkMode, toggleDark, serverOnline }) {
           <div className="hm"><ServerStatusBadge online={serverOnline} /></div>
           <button onClick={onSearch} style={{ width:34,height:34,borderRadius:2,background:"rgba(255,255,255,.05)",border:"1px solid var(--bdr)",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",color:"var(--g)",fontSize:14,transition:"all .2s" }} onMouseEnter={e=>{e.currentTarget.style.borderColor="var(--a)";e.currentTarget.style.color="var(--a)"}} onMouseLeave={e=>{e.currentTarget.style.borderColor="var(--bdr)";e.currentTarget.style.color="var(--g)"}}>⌕</button>
           <button onClick={toggleDark} style={{ width:34,height:34,borderRadius:2,background:"rgba(255,255,255,.05)",border:"1px solid var(--bdr)",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,transition:"all .2s" }} onMouseEnter={e=>e.currentTarget.style.borderColor="var(--a)"} onMouseLeave={e=>e.currentTarget.style.borderColor="var(--bdr)"}>{darkMode?"☀":"🌙"}</button>
-          <button className="btn btn-a hm" onClick={()=>nav("subscribe")} style={{ padding:"9px 20px",fontSize:10,whiteSpace:"nowrap" }}>Subscribe</button>
+          <button className="btn btn-a" onClick={()=>nav("subscribe")} style={{ padding:"9px 20px",fontSize:10,whiteSpace:"nowrap" }}>Subscribe</button>
           <button onClick={()=>setOpen(!open)} style={{ background:"none",border:"none",cursor:"pointer",display:"flex",flexDirection:"column",gap:5,padding:4,minWidth:44,minHeight:44,justifyContent:"center",alignItems:"center" }}>
             {[0,1,2].map(i=><div key={i} style={{ width:22,height:1.5,background:"var(--c)",transition:"all .3s", transform:open?(i===0?"rotate(45deg) translate(4px,4.5px)":i===2?"rotate(-45deg) translate(4px,-4.5px)":"none"):"none", opacity:open&&i===1?0:1 }} />)}
           </button>
@@ -705,91 +769,281 @@ function NavbarV2({ page, nav, onSearch, darkMode, toggleDark, serverOnline }) {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   AUDIO PLAYER BAR
+   SCRUBBER  — drag-aware progress bar (works for both players)
+   ═══════════════════════════════════════════════════════════════ */
+function Scrubber({ prog, dur, onSeek, disabled, accentColor="var(--a)", height=4 }) {
+  const barRef = useRef(null);
+  const dragging = useRef(false);
+  const [hover, setHover] = useState(false);
+  const [localPct, setLocalPct] = useState(null); // override during drag
+
+  const pct = localPct !== null ? localPct : prog;
+  const curSec = dur ? (pct / 100) * dur : 0;
+  const fmt = s => { if (!s || isNaN(s)) return "0:00"; const m = Math.floor(s/60), sc = Math.floor(s%60); return `${m}:${String(sc).padStart(2,"0")}`; };
+
+  const getPct = e => {
+    const bar = barRef.current; if (!bar) return 0;
+    const r = bar.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    return Math.max(0, Math.min(100, ((clientX - r.left) / r.width) * 100));
+  };
+
+  const startDrag = e => {
+    if (disabled) return;
+    e.preventDefault();
+    dragging.current = true;
+    const p = getPct(e);
+    setLocalPct(p);
+    const onMove = ev => { if (!dragging.current) return; setLocalPct(getPct(ev)); };
+    const onUp   = ev => {
+      if (!dragging.current) return;
+      dragging.current = false;
+      const final = getPct(ev);
+      setLocalPct(null);
+      onSeek(final);
+    };
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseup",   onUp);
+    window.addEventListener("touchmove", onMove, { passive: false });
+    window.addEventListener("touchend",  onUp);
+    const cleanup = () => {
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mouseup",   onUp);
+      window.removeEventListener("touchmove", onMove);
+      window.removeEventListener("touchend",  onUp);
+    };
+    window._scrubCleanup = cleanup;
+    // auto-cleanup if mouseup fires on window
+    window.addEventListener("mouseup", () => { cleanup(); }, { once: true });
+  };
+
+  const h = hover || dragging.current ? height * 2.5 : height;
+
+  return (
+    <div style={{ display:"flex", alignItems:"center", gap:10, width:"100%" }}>
+      <span style={{ fontSize:10, fontFamily:"'JetBrains Mono'", color:"rgba(255,255,255,.45)", flexShrink:0, minWidth:34, textAlign:"right", userSelect:"none" }}>{fmt(curSec)}</span>
+      <div
+        ref={barRef}
+        style={{ flex:1, position:"relative", height:24, display:"flex", alignItems:"center", cursor:disabled?"not-allowed":"pointer" }}
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => { if (!dragging.current) setHover(false); }}
+        onMouseDown={startDrag}
+        onTouchStart={startDrag}
+      >
+        {/* Track background */}
+        <div style={{ position:"absolute", left:0, right:0, height:h, background:"rgba(255,255,255,.15)", borderRadius:h, transition:"height .12s", overflow:"hidden" }}>
+          {/* Filled */}
+          <div style={{ height:"100%", width:`${pct}%`, background: disabled ? "rgba(255,255,255,.25)" : accentColor, borderRadius:h, transition: dragging.current ? "none" : "width .08s linear" }} />
+        </div>
+        {/* Thumb */}
+        {!disabled && (
+          <div style={{ position:"absolute", left:`${pct}%`, top:"50%", width: hover || dragging.current ? 14 : 0, height: hover || dragging.current ? 14 : 0, borderRadius:"50%", background:"#fff", transform:"translate(-50%,-50%)", boxShadow:`0 0 6px ${accentColor}`, transition:"width .12s, height .12s", flexShrink:0, pointerEvents:"none", zIndex:2 }} />
+        )}
+      </div>
+      <span style={{ fontSize:10, fontFamily:"'JetBrains Mono'", color:"rgba(255,255,255,.3)", flexShrink:0, minWidth:34, userSelect:"none" }}>{fmt(dur)||"—:——"}</span>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   AUDIO PLAYER BAR  — Spotify style
    ═══════════════════════════════════════════════════════════════ */
 function PlayerBar({ ep, onClose }) {
   const audioRef = useRef(null);
-  const [playing,setPlaying]=useState(false), [prog,setProg]=useState(0), [dur,setDur]=useState(0);
-  const [vol,setVol]=useState(80), [muted,setMuted]=useState(false), [speed,setSpeed]=useState(1);
-  const [noAudio,setNoAudio]=useState(false);
+  const [playing, setPlaying] = useState(false);
+  const [prog,    setProg]    = useState(0);
+  const [dur,     setDur]     = useState(0);
+  const [vol,     setVol]     = useState(80);
+  const [muted,   setMuted]   = useState(false);
+  const [speed,   setSpeed]   = useState(1);
+  const [noAudio, setNoAudio] = useState(false);
+  const [liked,   setLiked]   = useState(false);
+  const [showSpeed, setShowSpeed] = useState(false);
+  const isSong = ep.mediaType === "song";
+  const accentColor = isSong ? "#1db954" : "var(--a)";
 
-  useEffect(()=>{
-    const a=audioRef.current; if(!a) return;
-    const src=ep.audioUrl||ep.cloudAudioUrl||null;
-    if(!src){setNoAudio(true);setPlaying(false);return;}
-    setNoAudio(false); a.src=src; a.playbackRate=speed; a.volume=muted?0:vol/100;
-    a.play().then(()=>setPlaying(true)).catch(()=>setPlaying(false));
-    const onTU=()=>{if(a.duration)setProg((a.currentTime/a.duration)*100)};
-    const onLM=()=>setDur(a.duration||0), onEnd=()=>setPlaying(false);
-    a.addEventListener("timeupdate",onTU); a.addEventListener("loadedmetadata",onLM); a.addEventListener("ended",onEnd);
-    return ()=>{ a.pause(); a.removeEventListener("timeupdate",onTU); a.removeEventListener("loadedmetadata",onLM); a.removeEventListener("ended",onEnd); };
-  },[ep]);
-  useEffect(()=>{ const a=audioRef.current; if(!a||noAudio)return; playing?a.play().catch(()=>{}):a.pause(); },[playing]);
-  useEffect(()=>{ const a=audioRef.current; if(!a)return; a.volume=muted?0:vol/100; },[vol,muted]);
-  useEffect(()=>{ const a=audioRef.current; if(!a)return; a.playbackRate=speed; },[speed]);
+  /* ── load audio on ep change ─── */
+  useEffect(() => {
+    const a = audioRef.current; if (!a) return;
+    const src = ep.audioUrl || ep.cloudAudioUrl || null;
+    if (!src) { setNoAudio(true); setPlaying(false); return; }
+    setNoAudio(false); setProg(0); setDur(0);
+    a.src = src; a.playbackRate = speed; a.volume = muted ? 0 : vol / 100;
+    a.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
+    const onTU  = () => { if (a.duration) setProg((a.currentTime / a.duration) * 100); };
+    const onLM  = () => setDur(a.duration || 0);
+    const onEnd = () => setPlaying(false);
+    a.addEventListener("timeupdate",    onTU);
+    a.addEventListener("loadedmetadata",onLM);
+    a.addEventListener("ended",         onEnd);
+    return () => { a.pause(); a.removeEventListener("timeupdate",onTU); a.removeEventListener("loadedmetadata",onLM); a.removeEventListener("ended",onEnd); };
+  }, [ep]);
 
-  const fmt=s=>{if(!s||isNaN(s))return"0:00";const m=Math.floor(s/60),sc=Math.floor(s%60);return`${m}:${String(sc).padStart(2,"0")}`};
-  const curSec=dur?(prog/100)*dur:0;
-  const clickProg=e=>{const r=e.currentTarget.getBoundingClientRect(),pct=((e.clientX-r.left)/r.width)*100;setProg(pct);const a=audioRef.current;if(a&&a.duration)a.currentTime=(pct/100)*a.duration;};
-  const skip=d=>{const a=audioRef.current;if(a&&a.duration)a.currentTime=Math.max(0,Math.min(a.duration,a.currentTime+d));else setProg(p=>Math.max(0,Math.min(100,p+(d>0?2:-2))));};
+  useEffect(() => { const a = audioRef.current; if (!a || noAudio) return; playing ? a.play().catch(() => {}) : a.pause(); }, [playing]);
+  useEffect(() => { const a = audioRef.current; if (!a) return; a.volume = muted ? 0 : vol / 100; }, [vol, muted]);
+  useEffect(() => { const a = audioRef.current; if (!a) return; a.playbackRate = speed; }, [speed]);
+
+  /* ── keyboard shortcuts ─── */
+  useEffect(() => {
+    const fn = e => {
+      const tag = document.activeElement.tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA") return;
+      if (e.key === " ") { e.preventDefault(); if (!noAudio) setPlaying(p => !p); }
+      if (e.key === "ArrowRight") skip(15);
+      if (e.key === "ArrowLeft")  skip(-15);
+      if (e.key === "m" || e.key === "M") setMuted(m => !m);
+    };
+    window.addEventListener("keydown", fn);
+    return () => window.removeEventListener("keydown", fn);
+  }, [noAudio]);
+
+  const skip = d => {
+    const a = audioRef.current;
+    if (a && a.duration) a.currentTime = Math.max(0, Math.min(a.duration, a.currentTime + d));
+  };
+
+  const handleSeek = pct => {
+    setProg(pct);
+    const a = audioRef.current;
+    if (a && a.duration) a.currentTime = (pct / 100) * a.duration;
+  };
+
+  const IconBtn = ({ onClick, children, title, size=20, active=false, disabled=false }) => (
+    <button onClick={onClick} title={title} disabled={disabled}
+      style={{ background:"none", border:"none", cursor: disabled?"not-allowed":"pointer", color: active ? accentColor : "rgba(255,255,255,.55)", fontSize:size, lineHeight:1, padding:"6px 8px", borderRadius:4, transition:"color .15s, transform .12s", display:"flex", alignItems:"center", justifyContent:"center", opacity: disabled ? .3 : 1, flexShrink:0 }}
+      onMouseEnter={e => { if (!disabled) e.currentTarget.style.color = active ? accentColor : "#fff"; e.currentTarget.style.transform = "scale(1.12)"; }}
+      onMouseLeave={e => { e.currentTarget.style.color = active ? accentColor : "rgba(255,255,255,.55)"; e.currentTarget.style.transform = "scale(1)"; }}>
+      {children}
+    </button>
+  );
+
+  /* ── SVG icons ─── */
+  const IC = {
+    prev: <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>,
+    next: <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zm2.5-6 5.5 3.94V8.06L8.5 12zM16 6h2v12h-2z"/></svg>,
+    play: <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>,
+    pause:<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>,
+    heart:<svg width="16" height="16" viewBox="0 0 24 24" fill={liked?accentColor:"none"} stroke={liked?accentColor:"currentColor"} strokeWidth="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>,
+    volHigh:<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>,
+    volLow: <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M18.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM5 9v6h4l5 5V4L9 9H5z"/></svg>,
+    volMute:<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>,
+    close:  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>,
+  };
 
   return (
-    <div style={{ position:"fixed",bottom:0,left:0,right:0,zIndex:900,background:"rgba(8,8,8,.97)",backdropFilter:"blur(24px)",borderTop:"1px solid var(--bdr)",animation:"fadeUp .5s cubic-bezier(.16,1,.3,1)" }}>
+    <div style={{ position:"fixed", bottom:0, left:0, right:0, zIndex:900, background:"rgba(12,12,12,.97)", backdropFilter:"blur(28px)", borderTop:"1px solid rgba(255,255,255,.07)", animation:"fadeUp .4s cubic-bezier(.16,1,.3,1)", userSelect:"none" }}>
       <audio ref={audioRef} preload="metadata" />
+
+      {/* No audio warning */}
       {noAudio && (
-        <div style={{ background:"rgba(245,166,35,.08)",borderBottom:"1px solid rgba(245,166,35,.18)",padding:"6px 20px",display:"flex",alignItems:"center",gap:8 }}>
-          <span style={{ fontSize:11,color:"var(--a)",fontFamily:"'JetBrains Mono'",letterSpacing:".05em" }}>⚠ No audio attached — upload via the <strong>Upload</strong> page to enable playback.</span>
+        <div style={{ background:"rgba(245,166,35,.07)", borderBottom:"1px solid rgba(245,166,35,.14)", padding:"7px 20px", display:"flex", alignItems:"center", gap:8 }}>
+          <span style={{ fontSize:11, color:"var(--a)", fontFamily:"'JetBrains Mono'", letterSpacing:".05em" }}>⚠ No audio file attached — upload one to enable playback.</span>
         </div>
       )}
-      <div className="prog" onClick={!noAudio?clickProg:undefined} style={{ borderRadius:0,cursor:noAudio?"not-allowed":"pointer",opacity:noAudio?.35:1 }}>
-        <div className="progf" style={{ width:`${prog}%` }} />
-        <div style={{ position:"absolute",top:"50%",left:`${prog}%`,width:10,height:10,borderRadius:"50%",background:"var(--a)",transform:"translate(-50%,-50%)",boxShadow:"0 0 8px var(--a3)" }} />
-      </div>
-      <div className="wrap" style={{ display:"flex",alignItems:"center",gap:18,height:70,padding:"0 40px" }}>
-        <img src={ep.img} alt="" style={{ width:42,height:42,objectFit:"cover",borderRadius:2,flexShrink:0,border:"1px solid var(--bdr)" }} />
-        <div style={{ flex:1,minWidth:0 }}>
-          <div style={{ display:"flex",alignItems:"center",gap:7,marginBottom:2 }}>
-            <div className="mn" style={{ fontSize:8,color:"var(--a)",letterSpacing:".1em" }}>{ep.num}</div>
-            {ep._storageMode && <StorageBadge mode={ep._storageMode} />}
-            {(ep.cloudAudioUrl) && <span className="mn" style={{fontSize:7,color:"var(--cloud-c)",letterSpacing:".06em"}}>☁ cloud</span>}
+
+      {/* Main bar — mobile-first layout */}
+      <div style={{ display:"flex", flexDirection:"column", padding:"8px 12px 10px" }}>
+
+        {/* Scrubber — full width, always on top on mobile */}
+        <div style={{ marginBottom:8 }}>
+          <Scrubber prog={prog} dur={dur} onSeek={handleSeek} disabled={noAudio} accentColor={accentColor} height={4} />
+        </div>
+
+        {/* Controls row */}
+        <div style={{ display:"flex", alignItems:"center", gap:0, minHeight:52 }}>
+
+          {/* LEFT — track info */}
+          <div style={{ display:"flex", alignItems:"center", gap:10, flex:1, minWidth:0, marginRight:8 }}>
+            <div style={{ position:"relative", flexShrink:0 }}>
+              <img src={ep.img||ep.cover||FALLBACK_IMG} alt="" style={{ width:44, height:44, objectFit:"cover", borderRadius:4, border:"1px solid rgba(255,255,255,.08)", boxShadow:"0 4px 16px rgba(0,0,0,.5)", display:"block" }} />
+              {isSong && <div style={{ position:"absolute", inset:0, borderRadius:4, background:"linear-gradient(135deg,rgba(29,185,84,.2),transparent)" }} />}
+            </div>
+            <div style={{ minWidth:0, flex:1 }}>
+              <div style={{ fontSize:13, fontWeight:600, color:"#fff", overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap", marginBottom:1 }}>{ep.title}</div>
+              <div style={{ fontSize:11, color:"rgba(255,255,255,.45)", overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{ep.guest||ep.host||"Signal & Noise"}{ep.num?` · ${ep.num}`:""}</div>
+            </div>
+            <IconBtn onClick={() => setLiked(v => !v)} title={liked?"Unlike":"Like"} active={liked} size={16}>{IC.heart}</IconBtn>
           </div>
-          <div style={{ fontSize:12,fontWeight:600,color:"var(--c)",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap" }}>{ep.title}</div>
+
+          {/* CENTER — playback controls */}
+          <div style={{ display:"flex", alignItems:"center", gap:2, flexShrink:0 }}>
+            <IconBtn onClick={() => skip(-15)} title="Back 15s" disabled={noAudio} size={18}>{IC.prev}</IconBtn>
+            <button onClick={() => !noAudio && setPlaying(p => !p)}
+              style={{ width:40, height:40, borderRadius:"50%", background: noAudio ? "rgba(255,255,255,.1)" : "#fff", border:"none", cursor: noAudio ? "not-allowed" : "pointer", display:"flex", alignItems:"center", justifyContent:"center", fontSize:18, color: noAudio ? "rgba(255,255,255,.3)" : "#000", flexShrink:0, transition:"transform .12s, background .2s", boxShadow: noAudio ? "none" : "0 0 20px rgba(255,255,255,.15)" }}
+              onMouseEnter={e => { if (!noAudio) e.currentTarget.style.transform = "scale(1.08)"; }}
+              onMouseLeave={e => e.currentTarget.style.transform = "scale(1)"}>
+              {playing ? IC.pause : IC.play}
+            </button>
+            <IconBtn onClick={() => skip(15)} title="Forward 15s" disabled={noAudio} size={18}>{IC.next}</IconBtn>
+          </div>
+
+          {/* RIGHT — speed + volume + close (desktop-enhanced) */}
+          <div style={{ display:"flex", alignItems:"center", gap:4, marginLeft:8, flexShrink:0 }}>
+            {/* Speed picker */}
+            <div style={{ position:"relative" }}>
+              <button onClick={() => setShowSpeed(v => !v)}
+                style={{ background: showSpeed ? "rgba(255,255,255,.1)" : "none", border:"1px solid " + (showSpeed?"rgba(255,255,255,.2)":"transparent"), borderRadius:4, cursor:"pointer", color: speed!==1 ? accentColor : "rgba(255,255,255,.5)", fontFamily:"'JetBrains Mono'", fontSize:9, letterSpacing:".05em", padding:"4px 7px", transition:"all .15s", whiteSpace:"nowrap", minHeight:32 }}>
+                {speed}×
+              </button>
+              {showSpeed && (
+                <div style={{ position:"absolute", bottom:"calc(100% + 8px)", right:0, left:"auto", background:"#282828", border:"1px solid rgba(255,255,255,.1)", borderRadius:6, padding:6, display:"flex", flexDirection:"column", gap:2, zIndex:10, boxShadow:"0 8px 24px rgba(0,0,0,.6)", minWidth:70, maxWidth:"90vw" }}>
+                  {[0.5,0.75,1,1.25,1.5,2].map(s => (
+                    <button key={s} onClick={() => { setSpeed(s); setShowSpeed(false); }}
+                      style={{ padding:"8px 12px", background: speed===s ? "rgba(255,255,255,.12)" : "transparent", border:"none", borderRadius:4, color: speed===s ? "#fff" : "rgba(255,255,255,.6)", fontFamily:"'JetBrains Mono'", fontSize:11, cursor:"pointer", textAlign:"left", transition:"background .15s" }}
+                      onMouseEnter={e => e.currentTarget.style.background = "rgba(255,255,255,.08)"}
+                      onMouseLeave={e => e.currentTarget.style.background = speed===s ? "rgba(255,255,255,.12)" : "transparent"}>
+                      {s}× {speed===s && "✓"}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+            {/* Volume — hidden on small screens */}
+            <div className="hm" style={{ display:"flex", alignItems:"center", gap:6, flexShrink:0 }}>
+              <IconBtn onClick={() => setMuted(m => !m)} title="Mute (M)" size={16}>
+                {muted || vol === 0 ? IC.volMute : vol > 50 ? IC.volHigh : IC.volLow}
+              </IconBtn>
+              <div style={{ width:72, position:"relative", height:20, display:"flex", alignItems:"center" }}>
+                <div style={{ position:"absolute", left:0, right:0, height:4, background:"rgba(255,255,255,.15)", borderRadius:2, overflow:"hidden" }}>
+                  <div style={{ height:"100%", width:`${muted?0:vol}%`, background:accentColor, borderRadius:2, transition:"width .08s" }} />
+                </div>
+                <input type="range" min="0" max="100" value={muted?0:vol}
+                  onChange={e => { setVol(+e.target.value); setMuted(false); }}
+                  style={{ position:"absolute", left:0, right:0, width:"100%", opacity:0, cursor:"pointer", height:20, margin:0, padding:0 }} />
+              </div>
+            </div>
+            {/* Wave bars — desktop only */}
+            <div className="hm"><WaveBars count={10} height={20} playing={playing && !noAudio} color={accentColor} /></div>
+            <IconBtn onClick={onClose} title="Close" size={16}>{IC.close}</IconBtn>
+          </div>
         </div>
-        <div style={{ display:"flex",alignItems:"center",gap:16,flexShrink:0 }}>
-          <button onClick={()=>skip(-15)} disabled={noAudio} style={{ background:"none",border:"none",cursor:noAudio?"not-allowed":"pointer",color:"var(--g)",fontSize:16,lineHeight:1,opacity:noAudio?.45:1,transition:"color .2s" }} onMouseEnter={e=>{if(!noAudio)e.target.style.color="var(--c)"}} onMouseLeave={e=>e.target.style.color="var(--g)"}>⏮</button>
-          <button onClick={()=>!noAudio&&setPlaying(!playing)} style={{ width:42,height:42,borderRadius:"50%",background:noAudio?"rgba(245,166,35,.3)":"var(--a)",border:"none",cursor:noAudio?"not-allowed":"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontSize:16,color:"#070707",transition:"transform .2s",flexShrink:0,animation:noAudio?"none":"glow 2.8s ease-in-out infinite" }} onMouseEnter={e=>{if(!noAudio)e.currentTarget.style.transform="scale(1.1)"}} onMouseLeave={e=>e.currentTarget.style.transform="scale(1)"}>
-            {playing?"⏸":"▶"}
-          </button>
-          <button onClick={()=>skip(15)} disabled={noAudio} style={{ background:"none",border:"none",cursor:noAudio?"not-allowed":"pointer",color:"var(--g)",fontSize:16,lineHeight:1,opacity:noAudio?.45:1,transition:"color .2s" }} onMouseEnter={e=>{if(!noAudio)e.target.style.color="var(--c)"}} onMouseLeave={e=>e.target.style.color="var(--g)"}>⏭</button>
-        </div>
-        <div className="mn hm" style={{ fontSize:10,color:"var(--g)",flexShrink:0 }}>{noAudio?"—:—":`${fmt(curSec)} / ${fmt(dur)||ep.dur}`}</div>
-        <div className="hm" style={{flexShrink:0}}><WaveBars count={18} height={28} playing={playing&&!noAudio} /></div>
-        <div className="hm" style={{ display:"flex",gap:3,flexShrink:0 }}>
-          {[0.8,1,1.5,2].map(s=><button key={s} onClick={()=>setSpeed(s)} disabled={noAudio} style={{ padding:"3px 8px",border:`1px solid ${speed===s?"var(--a)":"var(--bdr)"}`,background:speed===s?"var(--a2)":"transparent",color:speed===s?"var(--a)":"var(--g)",fontFamily:"'JetBrains Mono'",fontSize:9,cursor:noAudio?"not-allowed":"pointer",borderRadius:2,transition:"all .2s",opacity:noAudio?.5:1 }}>{s}x</button>)}
-        </div>
-        <div className="hm" style={{ display:"flex",alignItems:"center",gap:7,flexShrink:0 }}>
-          <button onClick={()=>setMuted(!muted)} style={{ background:"none",border:"none",cursor:"pointer",fontSize:14,lineHeight:1 }}>{muted||vol===0?"🔇":vol>50?"🔊":"🔉"}</button>
-          <input type="range" min="0" max="100" value={muted?0:vol} onChange={e=>{setVol(+e.target.value);setMuted(false);}} style={{ width:64,accentColor:"var(--a)",cursor:"pointer" }} />
-        </div>
-        <button onClick={onClose} style={{ background:"none",border:"none",cursor:"pointer",color:"var(--g)",fontSize:18,lineHeight:1,flexShrink:0,transition:"color .2s" }} onMouseEnter={e=>e.target.style.color="var(--c)"} onMouseLeave={e=>e.target.style.color="var(--g)"}>✕</button>
       </div>
     </div>
   );
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   VIDEO PLAYER MODAL
+   VIDEO PLAYER MODAL  — YouTube-style
    ═══════════════════════════════════════════════════════════════ */
-function VideoPlayerModal({ ep, onClose, allEps=[] }) {
+function VideoPlayerModal({ ep:initialEp, onClose, allEps=[] }) {
+  const [ep,setEp]=useState(initialEp);
   const vRef=useRef(null);
   const [playing,setPlaying]=useState(false),[prog,setProg]=useState(0),[dur,setDur]=useState(0);
   const [muted,setMuted]=useState(false),[vol,setVol]=useState(90),[speed,setSpeed]=useState(1);
-  const [showCtrl,setShowCtrl]=useState(true),[fullscreen,setFullscreen]=useState(false); 
+  const [showCtrl,setShowCtrl]=useState(true),[fullscreen,setFullscreen]=useState(false);
+  const [volHover,setVolHover]=useState(false);
   const hideT=useRef(null);
-  const containerRef=useRef(null);
+  const videoWrapRef=useRef(null);   // fullscreen target = the video wrapper div
 
-  // Suggested: other videos from allEps, falling back to EPS
-  const suggested=allEps.filter(e=>e.id!==ep.id).slice(0,8);
+  // Sidebar: uploaded videos first, then demo audio episodes as "More Episodes"
+  const uploadedVideos=allEps.filter(e=>e.mediaType==="video"&&String(e.id)!==String(ep.id)&&(e.videoUrl||e.cloudVideoUrl));
+  const demoAudioRecs=allEps.filter(e=>!e.isLocal&&String(e.id)!==String(ep.id)).slice(0,6);
+
+  // Switch to another video
+  const switchEp=rec=>{
+    const v=vRef.current; if(v){v.pause();v.src="";}
+    setProg(0);setDur(0);setPlaying(false);setEp(rec);
+  };
 
   useEffect(()=>{
     document.body.style.overflow="hidden";
@@ -799,7 +1053,7 @@ function VideoPlayerModal({ ep, onClose, allEps=[] }) {
   useEffect(()=>{
     const v=vRef.current; if(!v) return;
     const src=ep.videoUrl||ep.cloudVideoUrl||null; if(!src) return;
-    v.src=src; v.volume=vol/100;
+    v.src=src; v.volume=muted?0:vol/100;
     v.play().then(()=>setPlaying(true)).catch(()=>setPlaying(false));
     const onTU=()=>{if(v.duration)setProg((v.currentTime/v.duration)*100)};
     const onLM=()=>setDur(v.duration||0), onEnd=()=>setPlaying(false);
@@ -809,140 +1063,199 @@ function VideoPlayerModal({ ep, onClose, allEps=[] }) {
   useEffect(()=>{const v=vRef.current;if(!v)return;playing?v.play().catch(()=>{}):v.pause();},[playing]);
   useEffect(()=>{const v=vRef.current;if(!v)return;v.volume=muted?0:vol/100;},[vol,muted]);
   useEffect(()=>{const v=vRef.current;if(!v)return;v.playbackRate=speed;},[speed]);
+
+  // Keyboard shortcuts
   useEffect(()=>{
     const fn=e=>{
-      if(e.key==="Escape")onClose();
+      if(e.key==="Escape"){if(document.fullscreenElement){document.exitFullscreen?.();}else{onClose();}return;}
       if(e.key===" "){e.preventDefault();setPlaying(p=>!p);}
-      if(e.key==="ArrowRight"){const v=vRef.current;if(v)v.currentTime=Math.min(v.duration,v.currentTime+10);}
+      if(e.key==="ArrowRight"){const v=vRef.current;if(v)v.currentTime=Math.min(v.duration||0,v.currentTime+10);}
       if(e.key==="ArrowLeft"){const v=vRef.current;if(v)v.currentTime=Math.max(0,v.currentTime-10);}
+      if(e.key==="ArrowUp"){setVol(v=>Math.min(100,v+10));setMuted(false);}
+      if(e.key==="ArrowDown"){setVol(v=>Math.max(0,v-10));}
+      if(e.key==="m"||e.key==="M"){setMuted(m=>!m);}
+      if(e.key==="f"||e.key==="F"){toggleFS();}
     };
     window.addEventListener("keydown",fn);return()=>window.removeEventListener("keydown",fn);
+  },[]);
+
+  // Track fullscreen state changes (e.g. user pressed Esc in native FS)
+  useEffect(()=>{
+    const fn=()=>setFullscreen(!!document.fullscreenElement);
+    document.addEventListener("fullscreenchange",fn);
+    return()=>document.removeEventListener("fullscreenchange",fn);
   },[]);
 
   const fmt=s=>{if(!s||isNaN(s))return"0:00";const m=Math.floor(s/60),sc=Math.floor(s%60);return`${m}:${String(sc).padStart(2,"0")}`};
   const clickProg=e=>{const r=e.currentTarget.getBoundingClientRect(),pct=((e.clientX-r.left)/r.width)*100;setProg(pct);const v=vRef.current;if(v&&v.duration)v.currentTime=(pct/100)*v.duration;};
   const skip=d=>{const v=vRef.current;if(v&&v.duration)v.currentTime=Math.max(0,Math.min(v.duration,v.currentTime+d));};
-  const onMM=()=>{setShowCtrl(true);clearTimeout(hideT.current);hideT.current=setTimeout(()=>{if(playing)setShowCtrl(false);},2800);};
+  const onMM=()=>{setShowCtrl(true);clearTimeout(hideT.current);hideT.current=setTimeout(()=>{if(playing)setShowCtrl(false);},3000);};
   const curSec=dur?(prog/100)*dur:0;
 
+  // Fullscreen: target the video wrapper div so controls stay inside it
   const toggleFS=()=>{
-    if(!document.fullscreenElement){containerRef.current?.requestFullscreen?.();setFullscreen(true);}
-    else{document.exitFullscreen?.();setFullscreen(false);}
+    if(!document.fullscreenElement){
+      videoWrapRef.current?.requestFullscreen?.().then(()=>setFullscreen(true)).catch(()=>{});
+    } else {
+      document.exitFullscreen?.();
+    }
   };
 
   return (
     <div style={{ position:"fixed",inset:0,zIndex:2500,background:"#070707",display:"flex",flexDirection:"column",animation:"fadeIn .2s ease",overflow:"hidden" }}>
       {/* Top bar */}
-      <div style={{ display:"flex",alignItems:"center",gap:14,padding:"12px 20px",borderBottom:"1px solid rgba(255,255,255,.07)",background:"#0a0a0a",flexShrink:0 }}>
-        <button onClick={onClose} style={{ width:34,height:34,borderRadius:4,background:"rgba(255,255,255,.08)",border:"1px solid rgba(255,255,255,.12)",cursor:"pointer",color:"#fff",fontSize:13,display:"flex",alignItems:"center",justifyContent:"center",transition:"background .2s",flexShrink:0 }} onMouseEnter={e=>e.currentTarget.style.background="rgba(255,255,255,.18)"} onMouseLeave={e=>e.currentTarget.style.background="rgba(255,255,255,.08)"}> ← </button>
+      <div style={{ display:"flex",alignItems:"center",gap:14,padding:"10px 18px",borderBottom:"1px solid rgba(255,255,255,.07)",background:"#0a0a0a",flexShrink:0 }}>
+        <button onClick={onClose} style={{ width:34,height:34,borderRadius:4,background:"rgba(255,255,255,.08)",border:"1px solid rgba(255,255,255,.1)",cursor:"pointer",color:"#fff",fontSize:16,display:"flex",alignItems:"center",justifyContent:"center",transition:"background .2s",flexShrink:0 }} onMouseEnter={e=>e.currentTarget.style.background="rgba(255,255,255,.18)"} onMouseLeave={e=>e.currentTarget.style.background="rgba(255,255,255,.08)"}> ← </button>
         <div style={{ flex:1,minWidth:0 }}>
-          <div className="mn" style={{ fontSize:8,color:"rgba(139,92,246,.9)",letterSpacing:".12em",marginBottom:1 }}>🎬 VIDEO EPISODE</div>
+          <div className="mn" style={{ fontSize:8,color:"rgba(139,92,246,.9)",letterSpacing:".12em",marginBottom:1 }}>🎬 NOW PLAYING</div>
           <div style={{ fontSize:14,fontWeight:600,color:"#fff",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap" }}>{ep.title}</div>
         </div>
         <WaveBars count={8} height={20} playing={playing} color="#8b5cf6" />
       </div>
 
-      {/* Main content: video + sidebar */}
-      <div style={{ display:"flex",flex:1,overflow:"hidden",minHeight:0 }}>
+      {/* Main content: video + sidebar — flex column on mobile, row on desktop */}
+      <div style={{ display:"flex",flex:1,overflow:"hidden",minHeight:0,flexDirection:"column" }}
+        className="vid-modal-body">
+
         {/* Video column */}
-        <div style={{ flex:1,display:"flex",flexDirection:"column",overflow:"hidden",background:"#000" }}>
-          {/* Video player */}
-          <div ref={containerRef} style={{ position:"relative",width:"100%",background:"#000",flexShrink:0 }} onMouseMove={onMM} onMouseLeave={()=>{if(playing)setShowCtrl(false);}}>
-            <video ref={vRef} style={{ width:"100%",display:"block",maxHeight:"calc(100vh - 180px)",background:"#000",cursor:"pointer" }} onClick={()=>setPlaying(p=>!p)} playsInline />
-            
-            {/* Play overlay */}
+        <div style={{ flex:1,display:"flex",flexDirection:"column",overflow:"hidden",background:"#000",minHeight:0 }}>
+
+          {/* ── Video wrapper — this is what goes fullscreen ── */}
+          <div
+            ref={videoWrapRef}
+            style={{ position:"relative",width:"100%",flex:1,background:"#000",cursor:"pointer",overflow:"hidden",display:"flex",alignItems:"center",justifyContent:"center" }}
+            onMouseMove={onMM}
+            onMouseLeave={()=>{if(playing)setShowCtrl(false);}}
+          >
+            <video
+              ref={vRef}
+              style={{ width:"100%",height:"100%",objectFit:"contain",display:"block",background:"#000" }}
+              onClick={()=>setPlaying(p=>!p)}
+              onDoubleClick={toggleFS}
+              playsInline
+            />
+
+            {/* Big play overlay */}
             {!playing && (
-              <div onClick={()=>setPlaying(true)} style={{ position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",background:"rgba(0,0,0,.3)" }}>
-                <div style={{ width:80,height:80,borderRadius:"50%",background:"rgba(139,92,246,.92)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:30,color:"#fff",boxShadow:"0 0 50px rgba(139,92,246,.6)",transition:"transform .2s" }} onMouseEnter={e=>e.currentTarget.style.transform="scale(1.1)"} onMouseLeave={e=>e.currentTarget.style.transform="scale(1)"}>▶</div>
+              <div onClick={()=>setPlaying(true)} style={{ position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",background:"rgba(0,0,0,.25)" }}>
+                <div style={{ width:80,height:80,borderRadius:"50%",background:"rgba(139,92,246,.92)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:30,color:"#fff",boxShadow:"0 0 50px rgba(139,92,246,.5)",transition:"transform .2s" }}
+                  onMouseEnter={e=>e.currentTarget.style.transform="scale(1.12)"}
+                  onMouseLeave={e=>e.currentTarget.style.transform="scale(1)"}>▶</div>
               </div>
             )}
 
-            {/* Controls overlay */}
-            <div style={{ position:"absolute",bottom:0,left:0,right:0,zIndex:10,background:"linear-gradient(to top,rgba(0,0,0,.95) 0%,rgba(0,0,0,.4) 60%,transparent 100%)",padding:"32px 16px 12px",transition:"opacity .3s",opacity:showCtrl?1:0,pointerEvents:showCtrl?"auto":"none" }}>
-              {/* Progress bar */}
-              <div style={{ position:"relative",height:5,background:"rgba(255,255,255,.2)",borderRadius:3,cursor:"pointer",marginBottom:10 }} onClick={clickProg}
-                onMouseEnter={e=>e.currentTarget.style.height="8px"} onMouseLeave={e=>e.currentTarget.style.height="5px"}>
-                <div style={{ height:"100%",width:`${prog}%`,background:"#8b5cf6",borderRadius:3,transition:"width .1s linear" }} />
-                <div style={{ position:"absolute",top:"50%",left:`${prog}%`,width:14,height:14,borderRadius:"50%",background:"#a78bfa",transform:"translate(-50%,-50%)",boxShadow:"0 0 6px rgba(139,92,246,.8)" }} />
+            {/* Controls overlay — stays inside fullscreen container */}
+            <div style={{ position:"absolute",bottom:0,left:0,right:0,zIndex:10,background:"linear-gradient(to top,rgba(0,0,0,.92) 0%,rgba(0,0,0,.5) 50%,transparent 100%)",padding:"36px 18px 14px",transition:"opacity .35s",opacity:showCtrl?1:0,pointerEvents:showCtrl?"auto":"none" }}>
+
+              {/* Scrubber */}
+              <div style={{ position:"relative",height:5,background:"rgba(255,255,255,.22)",borderRadius:3,cursor:"pointer",marginBottom:12,transition:"height .15s" }}
+                onClick={clickProg}
+                onMouseEnter={e=>e.currentTarget.style.height="8px"}
+                onMouseLeave={e=>e.currentTarget.style.height="5px"}>
+                <div style={{ height:"100%",width:`${prog}%`,background:"#8b5cf6",borderRadius:3 }} />
+                <div style={{ position:"absolute",top:"50%",left:`${prog}%`,width:14,height:14,borderRadius:"50%",background:"#a78bfa",transform:"translate(-50%,-50%)",boxShadow:"0 0 8px rgba(139,92,246,.9)" }} />
               </div>
+
               {/* Controls row */}
-              <div style={{ display:"flex",alignItems:"center",gap:10 }}>
-                <button onClick={()=>skip(-10)} style={{ background:"none",border:"none",cursor:"pointer",color:"rgba(255,255,255,.8)",fontSize:18,lineHeight:1,padding:4,transition:"color .15s" }} onMouseEnter={e=>e.currentTarget.style.color="#fff"} onMouseLeave={e=>e.currentTarget.style.color="rgba(255,255,255,.8)"}>⏮</button>
-                <button onClick={()=>setPlaying(p=>!p)} style={{ width:42,height:42,borderRadius:"50%",background:"#8b5cf6",border:"none",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontSize:16,color:"#fff",flexShrink:0,transition:"transform .15s,background .2s" }} onMouseEnter={e=>e.currentTarget.style.transform="scale(1.1)"} onMouseLeave={e=>e.currentTarget.style.transform="scale(1)"}>{playing?"⏸":"▶"}</button>
-                <button onClick={()=>skip(10)} style={{ background:"none",border:"none",cursor:"pointer",color:"rgba(255,255,255,.8)",fontSize:18,lineHeight:1,padding:4,transition:"color .15s" }} onMouseEnter={e=>e.currentTarget.style.color="#fff"} onMouseLeave={e=>e.currentTarget.style.color="rgba(255,255,255,.8)"}>⏭</button>
-                <span className="mn" style={{ fontSize:11,color:"rgba(255,255,255,.7)",flexShrink:0 }}>{fmt(curSec)} / {fmt(dur)||ep.dur}</span>
+              <div className="vid-ctrl-row" style={{ display:"flex",alignItems:"center",gap:10 }}>
+                {/* Skip back */}
+                <button onClick={()=>skip(-10)} title="Back 10s" style={{ background:"none",border:"none",cursor:"pointer",color:"rgba(255,255,255,.75)",fontSize:18,lineHeight:1,padding:"6px 8px",transition:"color .15s",minHeight:44 }} onMouseEnter={e=>e.currentTarget.style.color="#fff"} onMouseLeave={e=>e.currentTarget.style.color="rgba(255,255,255,.75)"}>⏮</button>
+                {/* Play/Pause */}
+                <button onClick={()=>setPlaying(p=>!p)} style={{ width:44,height:44,borderRadius:"50%",background:"#8b5cf6",border:"none",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontSize:17,color:"#fff",flexShrink:0,transition:"transform .15s,background .2s" }}
+                  onMouseEnter={e=>e.currentTarget.style.transform="scale(1.1)"}
+                  onMouseLeave={e=>e.currentTarget.style.transform="scale(1)"}>{playing?"⏸":"▶"}</button>
+                {/* Skip forward */}
+                <button onClick={()=>skip(10)} title="Forward 10s" style={{ background:"none",border:"none",cursor:"pointer",color:"rgba(255,255,255,.75)",fontSize:18,lineHeight:1,padding:"6px 8px",transition:"color .15s",minHeight:44 }} onMouseEnter={e=>e.currentTarget.style.color="#fff"} onMouseLeave={e=>e.currentTarget.style.color="rgba(255,255,255,.75)"}>⏭</button>
+                {/* Time */}
+                <span className="mn" style={{ fontSize:11,color:"rgba(255,255,255,.7)",flexShrink:0,userSelect:"none" }}>{fmt(curSec)} / {fmt(dur)||ep.dur}</span>
+
                 <div style={{flex:1}} />
-                <div style={{display:"flex",gap:3}}>
-                  {[0.5,1,1.5,2].map(s=><button key={s} onClick={()=>setSpeed(s)} style={{ padding:"3px 8px",border:`1px solid ${speed===s?"#8b5cf6":"rgba(255,255,255,.18)"}`,background:speed===s?"rgba(139,92,246,.3)":"transparent",color:speed===s?"#a78bfa":"rgba(255,255,255,.55)",fontFamily:"'JetBrains Mono'",fontSize:9,cursor:"pointer",borderRadius:3,transition:"all .15s" }}>{s}x</button>)}
+
+                {/* Speed */}
+                <div className="vid-speed-pills" style={{display:"flex",gap:3,flexShrink:0}}>
+                  {[0.5,1,1.5,2].map(s=><button key={s} onClick={()=>setSpeed(s)} style={{ padding:"5px 9px",border:`1px solid ${speed===s?"#8b5cf6":"rgba(255,255,255,.15)"}`,background:speed===s?"rgba(139,92,246,.3)":"transparent",color:speed===s?"#c4b5fd":"rgba(255,255,255,.5)",fontFamily:"'JetBrains Mono'",fontSize:9,cursor:"pointer",borderRadius:3,transition:"all .15s",minHeight:34 }}>{s}x</button>)}
                 </div>
-                <div style={{display:"flex",alignItems:"center",gap:6}}>
-                  <button onClick={()=>setMuted(!muted)} style={{background:"none",border:"none",cursor:"pointer",fontSize:15,lineHeight:1,color:"rgba(255,255,255,.8)"}}>{muted||vol===0?"🔇":vol>50?"🔊":"🔉"}</button>
-                  <input type="range" min="0" max="100" value={muted?0:vol} onChange={e=>{setVol(+e.target.value);setMuted(false);}} style={{width:70,accentColor:"#8b5cf6",cursor:"pointer"}} />
+
+                {/* Volume */}
+                <div style={{display:"flex",alignItems:"center",gap:6,flexShrink:0}}
+                  onMouseEnter={()=>setVolHover(true)} onMouseLeave={()=>setVolHover(false)}>
+                  <button onClick={()=>setMuted(m=>!m)} style={{background:"none",border:"none",cursor:"pointer",fontSize:16,lineHeight:1,color:"rgba(255,255,255,.8)",transition:"color .15s"}} onMouseEnter={e=>e.currentTarget.style.color="#fff"} onMouseLeave={e=>e.currentTarget.style.color="rgba(255,255,255,.8)"}>{muted||vol===0?"🔇":vol>50?"🔊":"🔉"}</button>
+                  <div style={{width:volHover?72:0,overflow:"hidden",transition:"width .25s",opacity:volHover?1:0}}>
+                    <input type="range" min="0" max="100" value={muted?0:vol} onChange={e=>{setVol(+e.target.value);setMuted(false);}} style={{width:72,accentColor:"#8b5cf6",cursor:"pointer",display:"block"}} />
+                  </div>
                 </div>
-                <button onClick={toggleFS} title="Fullscreen" style={{ background:"none",border:"none",cursor:"pointer",color:"rgba(255,255,255,.8)",fontSize:16,lineHeight:1,padding:4 }} onMouseEnter={e=>e.currentTarget.style.color="#fff"} onMouseLeave={e=>e.currentTarget.style.color="rgba(255,255,255,.8)"}>{fullscreen?"⛶":"⛶"}</button>
+
+                {/* Fullscreen button */}
+                <button onClick={toggleFS} title={fullscreen?"Exit Fullscreen (F)":"Fullscreen (F)"}
+                  style={{ background:"none",border:"none",cursor:"pointer",color:"rgba(255,255,255,.8)",fontSize:18,lineHeight:1,padding:"4px 6px",transition:"color .15s",flexShrink:0 }}
+                  onMouseEnter={e=>e.currentTarget.style.color="#fff"}
+                  onMouseLeave={e=>e.currentTarget.style.color="rgba(255,255,255,.8)"}>
+                  {fullscreen?(
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+                  ):(
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/></svg>
+                  )}
+                </button>
               </div>
             </div>
           </div>
 
           {/* Episode info below video */}
-          <div style={{ padding:"16px 20px",background:"#0d0d0d",borderTop:"1px solid rgba(255,255,255,.06)",flexShrink:0 }}>
+          <div style={{ padding:"14px 20px",background:"#0d0d0d",borderTop:"1px solid rgba(255,255,255,.06)",flexShrink:0 }}>
             <div style={{ display:"flex",alignItems:"flex-start",gap:14 }}>
-              <img src={ep.img} alt="" style={{ width:52,height:52,borderRadius:4,objectFit:"cover",flexShrink:0,border:"2px solid rgba(139,92,246,.35)" }} />
+              <img src={ep.img||ep.cover||FALLBACK_IMG} alt="" style={{ width:48,height:48,borderRadius:3,objectFit:"cover",flexShrink:0,border:"2px solid rgba(139,92,246,.35)" }} />
               <div style={{ flex:1,minWidth:0 }}>
                 <div style={{ display:"flex",alignItems:"center",gap:8,marginBottom:4,flexWrap:"wrap" }}>
-                  <div className="mn" style={{ fontSize:8,color:"rgba(139,92,246,.8)",letterSpacing:".12em" }}>{ep.num} · {ep.date||"Uploaded"}</div>
+                  <div className="mn" style={{ fontSize:8,color:"rgba(139,92,246,.8)",letterSpacing:".12em" }}>{ep.num||"UPLOAD"} · {ep.date||"Uploaded"}</div>
                   {ep._storageMode && <StorageBadge mode={ep._storageMode} />}
                 </div>
                 <div style={{ fontSize:15,fontWeight:700,color:"#fff",marginBottom:3 }}>{ep.title}</div>
-                <div style={{ fontSize:12,color:"rgba(255,255,255,.45)",marginBottom:6 }}>{ep.guest||ep.host}{ep.role?` · ${ep.role}`:""}</div>
-                {ep.desc&&<p style={{ fontSize:12,color:"rgba(255,255,255,.35)",lineHeight:1.65,margin:0 }}>{ep.desc.slice(0,200)}{ep.desc.length>200?"…":""}</p>}
+                <div style={{ fontSize:12,color:"rgba(255,255,255,.45)",marginBottom:4 }}>{ep.guest||ep.host}{ep.role?` · ${ep.role}`:""}</div>
+                {ep.desc&&<p style={{ fontSize:12,color:"rgba(255,255,255,.32)",lineHeight:1.65,margin:0 }}>{ep.desc.slice(0,200)}{ep.desc.length>200?"…":""}</p>}
               </div>
             </div>
           </div>
         </div>
 
-        {/* Sidebar — recommended videos */}
-        <div style={{ width:360,flexShrink:0,background:"#0a0a0a",borderLeft:"1px solid rgba(255,255,255,.06)",overflowY:"auto",display:"flex",flexDirection:"column" }}>
+        {/* Sidebar — ONLY uploaded videos — collapses on mobile */}
+        <div className="vid-sidebar" style={{ background:"#0a0a0a",borderTop:"1px solid rgba(255,255,255,.06)",overflowY:"auto",display:"flex",flexDirection:"column" }}>
           <div style={{ padding:"14px 16px",borderBottom:"1px solid rgba(255,255,255,.07)",flexShrink:0 }}>
             <div className="mn" style={{ fontSize:8,color:"rgba(139,92,246,.7)",letterSpacing:".14em",marginBottom:4 }}>// UP_NEXT</div>
-            <div style={{ fontSize:13,fontWeight:600,color:"#fff" }}>More Episodes</div>
+            <div style={{ fontSize:13,fontWeight:600,color:"#fff" }}>{uploadedVideos.length>0?"Your Videos":"More Episodes"} <span style={{fontSize:11,color:"rgba(255,255,255,.3)",fontWeight:400}}>({uploadedVideos.length>0?uploadedVideos.length:demoAudioRecs.length})</span></div>
           </div>
           <div style={{ flex:1,padding:"10px 12px",display:"flex",flexDirection:"column",gap:8 }}>
-            {suggested.length===0&&EPS.filter(e=>e.id!==ep.id).slice(0,6).map((rec,i)=>(
-              <div key={rec.id} style={{ display:"flex",gap:10,padding:8,borderRadius:4,cursor:"pointer",background:"rgba(255,255,255,.02)",border:"1px solid rgba(255,255,255,.05)",transition:"all .2s" }}
-                onMouseEnter={e=>{e.currentTarget.style.background="rgba(139,92,246,.08)";e.currentTarget.style.borderColor="rgba(139,92,246,.2)"}}
-                onMouseLeave={e=>{e.currentTarget.style.background="rgba(255,255,255,.02)";e.currentTarget.style.borderColor="rgba(255,255,255,.05)"}}>
-                <div style={{ position:"relative",flexShrink:0,width:120,height:68,borderRadius:3,overflow:"hidden" }}>
-                  <img src={rec.img} alt="" style={{ width:"100%",height:"100%",objectFit:"cover" }} />
-                  <div style={{ position:"absolute",bottom:4,right:4,background:"rgba(0,0,0,.75)",borderRadius:2,padding:"1px 5px",fontSize:9,color:"#fff",fontFamily:"'JetBrains Mono'" }}>{rec.dur}</div>
+            {uploadedVideos.length===0&&demoAudioRecs.length===0?(
+              <div style={{textAlign:"center",padding:"48px 16px"}}>
+                <div style={{fontSize:40,marginBottom:12,opacity:.35}}>🎬</div>
+                <div className="mn" style={{fontSize:10,color:"rgba(255,255,255,.3)",letterSpacing:".08em",marginBottom:16}}>No other videos yet</div>
+                <div style={{fontSize:11,color:"rgba(255,255,255,.2)",lineHeight:1.7}}>Upload more videos to see them here</div>
+              </div>
+            ):(uploadedVideos.length>0?uploadedVideos:demoAudioRecs).map((rec)=>(
+              <div key={rec.id}
+                onClick={()=>switchEp(rec)}
+                style={{ display:"flex",gap:10,padding:8,borderRadius:4,cursor:"pointer",background:String(rec.id)===String(ep.id)?"rgba(139,92,246,.15)":"rgba(255,255,255,.02)",border:`1px solid ${String(rec.id)===String(ep.id)?"rgba(139,92,246,.4)":"rgba(255,255,255,.05)"}`,transition:"all .2s" }}
+                onMouseEnter={e=>{e.currentTarget.style.background="rgba(139,92,246,.12)";e.currentTarget.style.borderColor="rgba(139,92,246,.3)";}}
+                onMouseLeave={e=>{e.currentTarget.style.background=String(rec.id)===String(ep.id)?"rgba(139,92,246,.15)":"rgba(255,255,255,.02)";e.currentTarget.style.borderColor=String(rec.id)===String(ep.id)?"rgba(139,92,246,.4)":"rgba(255,255,255,.05)";}}>
+                {/* Thumbnail */}
+                <div className="thumb-wrap">
+                  <img src={rec.img||rec.cover||FALLBACK_IMG} alt="" style={{ width:"100%",height:"100%",objectFit:"cover" }} />
+                  <div className="thumb-overlay">
+                    <div style={{width:32,height:32,borderRadius:"50%",background:"rgba(139,92,246,.9)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:13,color:"#fff"}}>▶</div>
+                  </div>
+                  {rec.dur&&<div style={{ position:"absolute",bottom:4,right:4,background:"rgba(0,0,0,.82)",borderRadius:2,padding:"1px 6px",fontSize:9,color:"#fff",fontFamily:"'JetBrains Mono'" }}>{rec.dur}</div>}
+                  {rec._storageMode&&<div style={{ position:"absolute",top:3,left:3 }}><StorageBadge mode={rec._storageMode} /></div>}
                 </div>
+                {/* Info */}
                 <div style={{ flex:1,minWidth:0 }}>
-                  <div style={{ fontSize:11,fontWeight:600,color:"rgba(255,255,255,.85)",lineHeight:1.4,marginBottom:4,overflow:"hidden",display:"-webkit-box",WebkitLineClamp:2,WebkitBoxOrient:"vertical" }}>{rec.title}</div>
-                  <div style={{ fontSize:10,color:"rgba(255,255,255,.4)" }}>{rec.guest}</div>
-                  <div className="mn" style={{ fontSize:8,color:"rgba(139,92,246,.6)",marginTop:2 }}>{rec.num}</div>
+                  <div style={{ fontSize:11,fontWeight:600,color:"rgba(255,255,255,.88)",lineHeight:1.4,marginBottom:5,overflow:"hidden",display:"-webkit-box",WebkitLineClamp:2,WebkitBoxOrient:"vertical" }}>{rec.title}</div>
+                  <div style={{ fontSize:10,color:"rgba(255,255,255,.38)",marginBottom:4 }}>{rec.guest||rec.host||"Uploaded"}</div>
+                  <div style={{ display:"flex",gap:6,alignItems:"center",flexWrap:"wrap" }}>
+                    <div className="mn" style={{ fontSize:8,color:"rgba(74,222,128,.65)",letterSpacing:".06em" }}>✓ Uploaded</div>
+                    {rec.date&&<div className="mn" style={{fontSize:8,color:"rgba(255,255,255,.2)"}}>{rec.date}</div>}
+                  </div>
                 </div>
               </div>
             ))}
-            {suggested.map((rec,i)=>{
-              const isVideo=rec.mediaType==="video", icon=isVideo?"🎬":rec.mediaType==="song"?"🎵":"🎙";
-              return(
-              <div key={rec.id||i} style={{ display:"flex",gap:10,padding:8,borderRadius:4,cursor:"pointer",background:"rgba(255,255,255,.02)",border:"1px solid rgba(255,255,255,.05)",transition:"all .2s" }}
-                onMouseEnter={e=>{e.currentTarget.style.background="rgba(139,92,246,.08)";e.currentTarget.style.borderColor="rgba(139,92,246,.2)"}}
-                onMouseLeave={e=>{e.currentTarget.style.background="rgba(255,255,255,.02)";e.currentTarget.style.borderColor="rgba(255,255,255,.05)"}}>
-                <div style={{ position:"relative",flexShrink:0,width:120,height:68,borderRadius:3,overflow:"hidden",background:"#111" }}>
-                  <img src={rec.img||rec.cover||FALLBACK_IMG} alt="" style={{ width:"100%",height:"100%",objectFit:"cover" }} />
-                  <div style={{ position:"absolute",top:4,left:4,fontSize:12 }}>{icon}</div>
-                  {rec._storageMode&&<div style={{ position:"absolute",bottom:2,left:2 }}><StorageBadge mode={rec._storageMode} /></div>}
-                  {rec.dur&&<div style={{ position:"absolute",bottom:4,right:4,background:"rgba(0,0,0,.75)",borderRadius:2,padding:"1px 5px",fontSize:9,color:"#fff",fontFamily:"'JetBrains Mono'" }}>{rec.dur}</div>}
-                </div>
-                <div style={{ flex:1,minWidth:0 }}>
-                  <div style={{ fontSize:11,fontWeight:600,color:"rgba(255,255,255,.85)",lineHeight:1.4,marginBottom:4,overflow:"hidden",display:"-webkit-box",WebkitLineClamp:2,WebkitBoxOrient:"vertical" }}>{rec.title}</div>
-                  <div style={{ fontSize:10,color:"rgba(255,255,255,.4)" }}>{rec.guest||rec.host||"Uploaded"}</div>
-                  <div className="mn" style={{ fontSize:8,color:"rgba(74,222,128,.6)",marginTop:2 }}>✓ Uploaded</div>
-                </div>
-              </div>
-            );})}
-            {suggested.length===0&&EPS.filter(e=>e.id!==ep.id).length===0&&<div style={{textAlign:"center",padding:"40px 16px",color:"rgba(255,255,255,.3)",fontSize:12}}>No other episodes yet.</div>}
           </div>
         </div>
       </div>
@@ -971,7 +1284,7 @@ function Upload({ onEpisodeAdded, uploadedEps, onDeleteEpisode, serverOnline }) 
     }));
   },[]);
 
-  const defaultMeta=(f,catId)=>({title:f.name.replace(/\.[^.]+$/,"").replace(/[-_]/g," "),guest:"",epNum:"",tags:"",desc:"",thumbnailUrl:null,thumbnailName:null,thumbnailFile:null,quality:"",catId});
+  const defaultMeta=(f,catId)=>({title:f.name.replace(/\.[^.]+$/,"").replace(/[-_]/g," "),guest:"",epNum:"",tags:"",desc:"",thumbnailUrl:null,thumbnailName:null,thumbnailFile:null,quality:"",podcastCategory:"other",catId});
 
   const processFiles=async files=>{
     const items=[];
@@ -1050,6 +1363,7 @@ function Upload({ onEpisodeAdded, uploadedEps, onDeleteEpisode, serverOnline }) 
         plays:"0",
         tags:tags.length?tags:[activeTab==="song"?"Song":activeTab==="video"?"Video":"Uploaded"],
         desc,
+        podcastCategory:meta.podcastCategory||"other",
         /* Cloud public paths (persist across devices/sessions) */
         cloudAudioUrl,cloudVideoUrl,cloudImgUrl,
         /* Blob URLs for immediate local playback */
@@ -1150,7 +1464,7 @@ function Upload({ onEpisodeAdded, uploadedEps, onDeleteEpisode, serverOnline }) 
                       onDragLeave={e=>{e.preventDefault();setDragOver(false)}}
                       onDrop={e=>{e.preventDefault();setDragOver(false);const files=Array.from(e.dataTransfer.files||[]);if(files.length)processFiles(files);}}>
                       <div style={{fontSize:38,marginBottom:10}}>{cat.icon}</div>
-                      <div className="mn" style={{fontSize:11,color:"var(--c)",marginBottom:6,letterSpacing:".06em"}}>{cat.dropLabel}</div>
+                      <div className="mn" style={{fontSize:11,color:"var(--c)",marginBottom:6,letterSpacing:".06em"}}>{typeof window!=="undefined"&&window.matchMedia("(pointer:coarse)").matches?cat.mobileLabel:cat.dropLabel}</div>
                       <div style={{fontSize:11,color:"rgba(138,134,128,.7)",marginBottom:14}}>{cat.formatsLine}</div>
                       <div style={{display:"inline-flex",gap:10,flexWrap:"wrap",justifyContent:"center"}}>
                         <span style={{padding:"6px 18px",background:cat.color,borderRadius:2,fontSize:10,color:"#070707",fontFamily:"'JetBrains Mono'",fontWeight:700,letterSpacing:".08em"}}>Choose {cat.label} Files</span>
@@ -1347,8 +1661,8 @@ function Home({ nav, onPlay, uploadedEps=[] }) {
         <div style={{position:"absolute",inset:0,background:"linear-gradient(135deg, rgba(7,7,7,.55) 0%, rgba(7,7,7,.98) 60%)",zIndex:1}} />
         <div style={{position:"absolute",top:0,width:"100vw",height:"1px",background:"linear-gradient(90deg,transparent,rgba(245,166,35,.4),transparent)",animation:"scanX 10s linear infinite",zIndex:2,pointerEvents:"none"}} />
         <div className="gbg" style={{position:"absolute",inset:0,zIndex:1,opacity:.4}} />
-        <div className="wrap" style={{position:"relative",zIndex:3,padding:"80px 40px 60px"}}>
-          <div style={{display:"grid",gridTemplateColumns:"1fr auto",gap:40,alignItems:"center"}}>
+        <div className="wrap" style={{position:"relative",zIndex:3,padding:"clamp(60px,10vw,80px) clamp(16px,4vw,40px) 60px"}}>
+          <div style={{display:"grid",gridTemplateColumns:"1fr auto",gap:"clamp(16px,4vw,40px)",alignItems:"center"}}>
             <div style={{maxWidth:780}}>
               <div className="fu" style={{display:"flex",alignItems:"center",gap:10,marginBottom:24}}><div className="ld" /><span className="tag">Now Featured — {heroEp.num}</span><span className="tag tag-r">Season 3</span></div>
               <h1 className="bb fu d1" style={{fontSize:"clamp(48px,8.5vw,112px)",color:"var(--c)",lineHeight:.9,marginBottom:20}}>{heroEp.title.split(" ").map((w,i)=><span key={i} style={{display:"inline-block",marginRight:".16em",color:i%4===2?"var(--a)":"var(--c)",transition:"color .6s"}}>{w}</span>)}</h1>
@@ -1368,7 +1682,7 @@ function Home({ nav, onPlay, uploadedEps=[] }) {
           </div>
         </div>
         <div style={{position:"relative",zIndex:3,borderTop:"1px solid var(--bdr)",background:"rgba(0,0,0,.5)",backdropFilter:"blur(12px)"}}>
-          <div className="wrap"><div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",padding:"20px 0",gap:16}}>{[["1M+","Monthly Listeners"],["48","Episodes"],["14K+","5★ Reviews"],["94","Countries"]].map(([v,l],i)=><div key={i} style={{borderLeft:i>0?"1px solid var(--bdr)":undefined,paddingLeft:i>0?16:0}}><div className="bb" style={{fontSize:34,color:"var(--a)",lineHeight:1}}>{v}</div><div className="mn" style={{fontSize:8,color:"var(--g)",letterSpacing:".1em",marginTop:3,textTransform:"uppercase"}}>{l}</div></div>)}</div></div>
+          <div className="wrap"><div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(100px,1fr))",padding:"20px 0",gap:16}}>{[["1M+","Monthly Listeners"],["48","Episodes"],["14K+","5★ Reviews"],["94","Countries"]].map(([v,l],i)=><div key={i} style={{borderLeft:i>0?"1px solid var(--bdr)":undefined,paddingLeft:i>0?16:0}}><div className="bb" style={{fontSize:34,color:"var(--a)",lineHeight:1}}>{v}</div><div className="mn" style={{fontSize:8,color:"var(--g)",letterSpacing:".1em",marginTop:3,textTransform:"uppercase"}}>{l}</div></div>)}</div></div>
         </div>
       </section>
       <Ticker />
@@ -1414,11 +1728,22 @@ function Home({ nav, onPlay, uploadedEps=[] }) {
    ═══════════════════════════════════════════════════════════════ */
 function Episodes({ nav, onPlay, uploadedEps=[], loading=false }) {
   const [filter,setFilter]=useState("All");
+  const [categoryFilter,setCategoryFilter]=useState("all");
   const allTags=["All",...new Set(EPS.flatMap(e=>e.tags))];
   const uploadedVideos=uploadedEps.filter(e=>e.mediaType==="video");
   const uploadedAudios=uploadedEps.filter(e=>e.mediaType==="audio"||!e.mediaType);
   const uploadedSongs=uploadedEps.filter(e=>e.mediaType==="song");
+
+  // All uploaded eps filtered by podcast category
+  const allUploaded=uploadedEps.filter(e=>categoryFilter==="all"||(e.podcastCategory||"other")===categoryFilter);
+  const filtUplVideos=allUploaded.filter(e=>e.mediaType==="video");
+  const filtUplAudios=allUploaded.filter(e=>e.mediaType==="audio"||!e.mediaType);
+  const filtUplSongs=allUploaded.filter(e=>e.mediaType==="song");
+
   const filteredDemo=filter==="All"?EPS:EPS.filter(e=>e.tags.includes(filter));
+
+  // Count uploaded per category (excluding "all")
+  const catCount=id=>id==="all"?uploadedEps.length:uploadedEps.filter(e=>(e.podcastCategory||"other")===id).length;
 
   const EpCard=({ep,i})=>{
     const isUploaded=ep.isLocal, playUrl=ep.audioUrl||ep.videoUrl||ep.cloudAudioUrl||ep.cloudVideoUrl;
@@ -1437,7 +1762,10 @@ function Episodes({ nav, onPlay, uploadedEps=[], loading=false }) {
             <button onClick={()=>onPlay(ep)} style={{position:"absolute",bottom:10,right:10,width:38,height:38,borderRadius:"50%",background:playUrl?"var(--a)":"rgba(138,134,128,.4)",border:"none",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,color:"#070707",transition:"all .2s",minWidth:44,minHeight:44}} onMouseEnter={e=>{e.currentTarget.style.transform="scale(1.15)";e.currentTarget.style.boxShadow="0 0 20px var(--a3)"}} onMouseLeave={e=>{e.currentTarget.style.transform="scale(1)";e.currentTarget.style.boxShadow="none"}}>▶</button>
           </div>
           <div style={{padding:"16px 18px"}}>
-            <div style={{display:"flex",flexWrap:"wrap",gap:5,marginBottom:9}}>{ep.tags.map(t=><span key={t} className="mn" style={{fontSize:8,color:"var(--g)"}}>{t}</span>)}</div>
+            <div style={{display:"flex",flexWrap:"wrap",gap:5,marginBottom:9}}>
+              {ep.podcastCategory&&ep.isLocal&&(()=>{const cat=PODCAST_CATEGORIES.find(c=>c.id===ep.podcastCategory);return cat?<span style={{fontSize:8,fontFamily:"'JetBrains Mono'",color:cat.color,background:cat.accent,border:`1px solid ${cat.border}`,padding:"2px 7px",borderRadius:2,letterSpacing:".06em"}}>{cat.icon} {cat.label}</span>:null;})()}
+              {ep.tags.map(t=><span key={t} className="mn" style={{fontSize:8,color:"var(--g)"}}>{t}</span>)}
+            </div>
             <h3 className="sf" style={{fontSize:15,fontWeight:400,color:"var(--c)",marginBottom:6,lineHeight:1.3,cursor:"pointer"}} onClick={()=>nav("episode",ep)}>{ep.title}</h3>
             {isUploaded&&ep.fileName&&<div className="mn" style={{fontSize:9,color:"rgba(74,222,128,.55)",marginBottom:4,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{ep.fileName}</div>}
             {isUploaded&&(ep.cloudAudioUrl||ep.cloudVideoUrl)&&<div className="mn" style={{fontSize:8,color:"var(--cloud-c)",marginBottom:4,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>☁ {ep.cloudAudioUrl||ep.cloudVideoUrl}</div>}
@@ -1461,7 +1789,7 @@ function Episodes({ nav, onPlay, uploadedEps=[], loading=false }) {
   const INIT=6;
   const Section=({items,icon,label,color,accentBg,onUpload})=>{
     const [expanded,setExpanded]=useState(false);
-    const visible=expanded?items:items.slice(0,INIT), hasMore=items.length>INIT;
+    const visible=expanded?items:items.slice(0,INIT), hasMore=items.length>INIT+2;
     return (
       <div>
         <SectionHeader icon={icon} label={label} color={color} count={items.length} accentBg={accentBg} />
@@ -1489,23 +1817,51 @@ function Episodes({ nav, onPlay, uploadedEps=[], loading=false }) {
           </Rv>
         </div>
       </section>
-      {/* Filter bar */}
-      <div style={{background:"var(--d)",borderBottom:"1px solid var(--bdr)",position:"sticky",top:68,zIndex:50}}>
+
+      {/* ── Podcast Category Filter Bar ── */}
+      {uploadedEps.length>0&&(
+        <div style={{background:"var(--d2)",borderBottom:"1px solid var(--bdr)"}}>
+          <div className="wrap" style={{padding:"14px var(--container-padding)"}}>
+            <div className="mn" style={{fontSize:8,color:"var(--a)",letterSpacing:".14em",marginBottom:10}}>// FILTER_BY_CATEGORY</div>
+            <div style={{display:"flex",gap:7,overflowX:"auto",WebkitOverflowScrolling:"touch",scrollbarWidth:"none",paddingBottom:2}}>
+              {PODCAST_CATEGORIES.map(c=>{
+                const cnt=catCount(c.id);
+                const active=categoryFilter===c.id;
+                return (
+                  <button key={c.id} onClick={()=>setCategoryFilter(c.id)}
+                    style={{display:"flex",alignItems:"center",gap:6,padding:"8px 14px",borderRadius:2,border:`1px solid ${active?c.border:"var(--bdr)"}`,background:active?c.accent:"transparent",color:active?c.color:"var(--g)",fontFamily:"'JetBrains Mono'",fontSize:9,letterSpacing:".07em",textTransform:"uppercase",cursor:"pointer",transition:"all .2s",whiteSpace:"nowrap",flexShrink:0,minHeight:36}}
+                    onMouseEnter={e=>{if(!active){e.currentTarget.style.borderColor=c.border;e.currentTarget.style.color=c.color;}}}
+                    onMouseLeave={e=>{if(!active){e.currentTarget.style.borderColor="var(--bdr)";e.currentTarget.style.color="var(--g)";}}}
+                  >
+                    <span style={{fontSize:13}}>{c.icon}</span>
+                    {c.label}
+                    {cnt>0&&<span style={{fontSize:8,background:active?c.color+"33":"rgba(255,255,255,.06)",color:active?c.color:"var(--g)",borderRadius:10,padding:"1px 6px",marginLeft:2}}>{cnt}</span>}
+                  </button>
+                );
+              })}
+            </div>
+            {categoryFilter!=="all"&&(()=>{const cat=PODCAST_CATEGORIES.find(c=>c.id===categoryFilter);return<div style={{marginTop:10,fontSize:11,color:"var(--g)"}}>Showing <strong style={{color:cat?.color}}>{cat?.icon} {cat?.label}</strong> — {allUploaded.length} upload{allUploaded.length!==1?"s":""}. <button onClick={()=>setCategoryFilter("all")} style={{background:"none",border:"none",color:"var(--a)",cursor:"pointer",fontFamily:"'JetBrains Mono'",fontSize:9,letterSpacing:".07em",textDecoration:"underline",padding:0}}>Clear filter</button></div>;})()}
+          </div>
+        </div>
+      )}
+
+      {/* Tag filter bar (for demo episodes) */}
+      <div style={{background:"var(--d)",borderBottom:"1px solid var(--bdr)",position:"sticky",top:"var(--navbar-h)",zIndex:50}}>
         <div className="wrap" style={{display:"flex",gap:8,padding:"12px var(--container-padding)",overflowX:"auto",WebkitOverflowScrolling:"touch",scrollbarWidth:"none"}}>
           {allTags.map(t=><button key={t} onClick={()=>setFilter(t)} style={{padding:"8px 14px",borderRadius:2,border:`1px solid ${filter===t?"var(--a)":"var(--bdr)"}`,background:filter===t?"var(--a2)":"transparent",color:filter===t?"var(--a)":"var(--g)",fontFamily:"'JetBrains Mono'",fontSize:9,letterSpacing:".09em",textTransform:"uppercase",cursor:"pointer",transition:"all .2s",whiteSpace:"nowrap",flexShrink:0,minHeight:36}}>{t}</button>)}
         </div>
       </div>
       {/* Videos */}
       <section style={{padding:"56px 0 48px",background:"var(--d)",borderBottom:"1px solid var(--bdr)"}}>
-        <div className="wrap"><Section items={uploadedVideos} icon="🎬" label="Videos" color="#8b5cf6" accentBg="rgba(139,92,246,.12)" onUpload={()=>nav("upload")} /></div>
+        <div className="wrap"><Section items={filtUplVideos} icon="🎬" label="Videos" color="#8b5cf6" accentBg="rgba(139,92,246,.12)" onUpload={()=>nav("upload")} /></div>
       </section>
       {/* Audio */}
       <section style={{padding:"56px 0 48px",background:"var(--d2)",borderBottom:"1px solid var(--bdr)"}}>
-        <div className="wrap"><Section items={[...uploadedAudios,...filteredDemo]} icon="🎙" label="Audio Podcasts" color="var(--a)" accentBg="rgba(245,166,35,.1)" onUpload={()=>nav("upload")} /></div>
+        <div className="wrap"><Section items={[...filtUplAudios,...filteredDemo]} icon="🎙" label="Audio Podcasts" color="var(--a)" accentBg="rgba(245,166,35,.1)" onUpload={()=>nav("upload")} /></div>
       </section>
       {/* Songs */}
       <section style={{padding:"56px 0 56px",background:"var(--d)"}}>
-        <div className="wrap"><Section items={uploadedSongs} icon="🎵" label="Songs" color="#ec4899" accentBg="rgba(236,72,153,.1)" onUpload={()=>nav("upload")} /></div>
+        <div className="wrap"><Section items={filtUplSongs} icon="🎵" label="Songs" color="#ec4899" accentBg="rgba(236,72,153,.1)" onUpload={()=>nav("upload")} /></div>
       </section>
     </div>
   );
@@ -1515,13 +1871,14 @@ function Episodes({ nav, onPlay, uploadedEps=[], loading=false }) {
    EPISODE DETAIL (compact)
    ═══════════════════════════════════════════════════════════════ */
 function EpisodeDetail({ ep, onPlay }) {
-  const [playing,setPlaying]=useState(false),[prog,setProg]=useState(0),[chap,setChap]=useState(0);
   const [activeTab,setActiveTab]=useState("notes"),[liked,setLiked]=useState(false),[scrollY,setScrollY]=useState(0);
   if(!ep)ep=EPS[0];
   useEffect(()=>{const fn=()=>setScrollY(window.scrollY);window.addEventListener("scroll",fn,{passive:true});return()=>window.removeEventListener("scroll",fn);},[]);
-  useEffect(()=>{if(!playing)return;const t=setInterval(()=>setProg(p=>Math.min(100,p+.07)),500);return()=>clearInterval(t);},[playing]);
+  const hasAudio=!!(ep.audioUrl||ep.cloudAudioUrl);
   const waveData=useRef(Array.from({length:120},()=>15+Math.random()*75));
-  const fmtProg=()=>{const total=ep.dur.split(":").reduce((a,b,i,arr)=>a+parseInt(b)*(arr.length-1-i===0?1:60),0),cur=Math.floor((prog/100)*total),m=Math.floor(cur/60),s=cur%60;return`${m}:${String(s).padStart(2,"0")}`;};
+  // Parse chapter timestamp "MM:SS" → seconds
+  const parseChapTime=t=>{const p=t.split(":");return p.length===2?parseInt(p[0])*60+parseInt(p[1]):0;};
+  const totalDurSec=ep.dur?ep.dur.split(":").reduce((a,b,i,arr)=>a+parseInt(b)*(arr.length-1-i===0?1:60),0):0;
   return (
     <div style={{paddingTop:68,background:"var(--d)"}}>
       {/* Cinematic hero */}
@@ -1546,21 +1903,23 @@ function EpisodeDetail({ ep, onPlay }) {
           </Rv>
         </div>
       </section>
-      {/* Sticky player */}
-      <section style={{background:"linear-gradient(to bottom,var(--d) 0%,var(--d2) 100%)",borderBottom:"1px solid var(--bdr)",position:"sticky",top:68,zIndex:40}}>
-        <div className="wrap" style={{padding:"16px var(--container-padding)"}}>
-          <div className="ep-player-row">
-            <button onClick={()=>setPlaying(v=>!v)} style={{width:52,height:52,borderRadius:"50%",background:playing?"var(--a)":"rgba(245,166,35,.12)",border:`2px solid ${playing?"var(--a)":"rgba(245,166,35,.3)"}`,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontSize:18,color:playing?"#070707":"var(--a)",flexShrink:0,transition:"all .25s"}}>{playing?"⏸":"▶"}</button>
-            <div style={{flex:1,minWidth:180,cursor:"pointer"}} onClick={e=>{const r=e.currentTarget.getBoundingClientRect();setProg(((e.clientX-r.left)/r.width)*100)}}>
+      {/* Episode info bar — replaces the fake scrubber */}
+      <section style={{background:"linear-gradient(to bottom,var(--d) 0%,var(--d2) 100%)",borderBottom:"1px solid var(--bdr)",position:"sticky",top:"var(--navbar-h)",zIndex:40}}>
+        <div className="wrap" style={{padding:"14px var(--container-padding)"}}>
+          <div className="ep-player-row" style={{display:"flex",alignItems:"center",gap:14,flexWrap:"wrap"}}>
+            <button onClick={()=>onPlay(ep)} style={{width:52,height:52,borderRadius:"50%",background:hasAudio?"var(--a)":"rgba(245,166,35,.12)",border:`2px solid ${hasAudio?"var(--a)":"rgba(245,166,35,.3)"}`,cursor:hasAudio?"pointer":"not-allowed",display:"flex",alignItems:"center",justifyContent:"center",fontSize:18,color:hasAudio?"#070707":"var(--a)",flexShrink:0,transition:"all .25s",opacity:hasAudio?1:.55}} title={hasAudio?"Play in player":"No audio file attached"}>▶</button>
+            {/* Decorative waveform — visual only, play routes to PlayerBar */}
+            <div style={{flex:1,minWidth:180}}>
               <div style={{display:"flex",alignItems:"flex-end",gap:1,height:40,marginBottom:4,borderRadius:2,overflow:"hidden",padding:"0 1px"}}>
-                {waveData.current.map((h,i)=>{const pct=(i/waveData.current.length)*100,active=pct<prog;return<div key={i} style={{flex:1,minWidth:1,borderRadius:"1px 1px 0 0",height:`${h}%`,background:active?`rgba(245,166,35,${0.7+h/200})`:"rgba(255,255,255,.07)",animation:playing&&active?`waveBar ${0.5+h/200}s ease-in-out infinite`:"none",animationDelay:`${i*.012}s`,transformOrigin:"bottom"}} />;})}
+                {waveData.current.map((h,i)=><div key={i} style={{flex:1,minWidth:1,borderRadius:"1px 1px 0 0",height:`${h}%`,background:`rgba(245,166,35,${0.12+h/400})`,transformOrigin:"bottom"}} />)}
               </div>
-              <div style={{height:3,background:"rgba(255,255,255,.08)",borderRadius:2,position:"relative"}}><div style={{height:"100%",width:`${prog}%`,background:"linear-gradient(90deg,var(--a),var(--r))",borderRadius:2,transition:"width .15s linear"}} /><div style={{position:"absolute",top:"50%",left:`${prog}%`,width:9,height:9,borderRadius:"50%",background:"var(--a)",transform:"translate(-50%,-50%)"}} /></div>
+              <div style={{height:3,background:"rgba(255,255,255,.08)",borderRadius:2}} />
             </div>
-            <div className="mn" style={{fontSize:10,color:"var(--g)",flexShrink:0,minWidth:60,textAlign:"center"}}><span style={{color:"var(--c)"}}>{fmtProg()}</span><span style={{opacity:.45}}> / {ep.dur}</span></div>
+            <div className="mn" style={{fontSize:10,color:"var(--g)",flexShrink:0,minWidth:60,textAlign:"center"}}><span style={{color:"var(--c)"}}>{ep.dur}</span></div>
             <div className="ep-speed-pills" style={{display:"flex",gap:3,flexShrink:0}}>
-              {["0.8×","1×","1.5×","2×"].map(s=><button key={s} style={{padding:"4px 8px",border:"1px solid var(--bdr)",background:"transparent",color:"var(--g)",fontFamily:"'JetBrains Mono'",fontSize:8,cursor:"pointer",borderRadius:2}}>{s}</button>)}
+              {["0.8×","1×","1.5×","2×"].map(s=><span key={s} style={{padding:"4px 8px",border:"1px solid var(--bdr)",background:"transparent",color:"var(--g)",fontFamily:"'JetBrains Mono'",fontSize:8,borderRadius:2}}>{s}</span>)}
             </div>
+            {!hasAudio&&<div className="mn" style={{fontSize:9,color:"var(--a)",letterSpacing:".06em"}}>⚠ Upload audio to enable playback</div>}
           </div>
         </div>
       </section>
@@ -1584,7 +1943,7 @@ function EpisodeDetail({ ep, onPlay }) {
                 <div style={{background:"var(--card)",border:"1px solid var(--bdr)",borderRadius:3,overflow:"hidden"}}>
                   <div style={{padding:"14px 18px",borderBottom:"1px solid var(--bdr)",display:"flex",alignItems:"center",justifyContent:"space-between"}}><div className="mn" style={{fontSize:8,color:"var(--a)",letterSpacing:".14em"}}>// CHAPTERS</div><span style={{fontSize:10,color:"var(--g)"}}>{ep.chapters.length} chapters</span></div>
                   <div style={{padding:"8px 0"}}>
-                    {ep.chapters.length===0?<div style={{padding:"20px 18px",fontSize:11,color:"var(--g)",textAlign:"center",opacity:.6}}>No chapters defined.</div>:ep.chapters.map((c,i)=>{const isActive=chap===i;return(<button key={i} onClick={()=>{setChap(i);setProg((i/ep.chapters.length)*100);if(!playing)setPlaying(true);}} style={{display:"flex",gap:12,alignItems:"center",padding:"10px 18px",background:isActive?"var(--a2)":"transparent",border:"none",borderLeft:`3px solid ${isActive?"var(--a)":"transparent"}`,cursor:"pointer",textAlign:"left",transition:"all .18s",width:"100%",minHeight:44}}><div style={{width:20,height:20,borderRadius:"50%",background:isActive?"var(--a)":"rgba(255,255,255,.07)",border:`1px solid ${isActive?"var(--a)":"rgba(255,255,255,.1)"}`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{isActive?<span style={{fontSize:7,color:"#070707"}}>▶</span>:<span className="mn" style={{fontSize:7,color:"var(--g)"}}>{i+1}</span>}</div><div style={{flex:1,minWidth:0}}><div style={{fontSize:12,color:isActive?"var(--c)":"rgba(240,237,230,.65)",fontWeight:isActive?600:400,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{c.l}</div><div className="mn" style={{fontSize:8,color:"var(--a)",marginTop:2,opacity:isActive?1:.7}}>{c.t}</div></div></button>);})}
+                    {ep.chapters.length===0?<div style={{padding:"20px 18px",fontSize:11,color:"var(--g)",textAlign:"center",opacity:.6}}>No chapters defined.</div>:ep.chapters.map((c,i)=>{return(<button key={i} onClick={()=>{onPlay(ep);}} style={{display:"flex",gap:12,alignItems:"center",padding:"10px 18px",background:"transparent",border:"none",borderLeft:"3px solid transparent",cursor:"pointer",textAlign:"left",transition:"all .18s",width:"100%",minHeight:44}} onMouseEnter={e=>{e.currentTarget.style.background="var(--a2)";e.currentTarget.style.borderLeftColor="var(--a)";}} onMouseLeave={e=>{e.currentTarget.style.background="transparent";e.currentTarget.style.borderLeftColor="transparent";}}><div style={{width:20,height:20,borderRadius:"50%",background:"rgba(255,255,255,.07)",border:"1px solid rgba(255,255,255,.1)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><span className="mn" style={{fontSize:7,color:"var(--g)"}}>{i+1}</span></div><div style={{flex:1,minWidth:0}}><div style={{fontSize:12,color:"rgba(240,237,230,.65)",fontWeight:400,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{c.l}</div><div className="mn" style={{fontSize:8,color:"var(--a)",marginTop:2,opacity:.7}}>{c.t}</div></div></button>);})}
                   </div>
                 </div>
               </Rv>
@@ -1735,7 +2094,7 @@ function Footer({ nav }) {
   return (
     <footer style={{background:"#030303",borderTop:"1px solid var(--bdr)",padding:"68px 0 28px"}}>
       <div className="wrap">
-        <div style={{display:"grid",gridTemplateColumns:"2fr 1fr 1fr 1fr",gap:44,marginBottom:60}}>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(140px,1fr))",gap:"clamp(20px,4vw,44px)",marginBottom:60}}>
           <div><div style={{display:"flex",alignItems:"center",gap:10,marginBottom:16}}><WaveBars count={5} height={16} /><span className="bb" style={{fontSize:20,color:"var(--c)",letterSpacing:".06em"}}>Signal & Noise</span></div><p style={{fontSize:12,color:"var(--g)",lineHeight:1.8,maxWidth:260,fontWeight:300,marginBottom:20}}>The podcast that asks the questions nobody else is asking — and gives ideas room to breathe.</p></div>
           {[
             {t:"Navigate",items:[{to:"home",l:"Home",href:null},{to:"episodes",l:"Episodes",href:null},{to:"guests",l:"Guests",href:null},{to:"about",l:"About",href:null}]},
@@ -1833,6 +2192,9 @@ export default function App() {
   /* ── Dark mode body class ────────────────────────────────── */
   useEffect(()=>{ document.body.classList.toggle("light",!darkMode); },[darkMode]);
 
+  /* ── Player-active body class (for btt + newsletter offset) ─ */
+  useEffect(()=>{ document.body.classList.toggle("player-active",!!playing); },[playing]);
+
   /* ── Newsletter popup ────────────────────────────────────── */
   useEffect(()=>{ const t=setTimeout(()=>setNewsletter(true),18000); return()=>clearTimeout(t); },[]);
 
@@ -1913,7 +2275,7 @@ export default function App() {
     <div style={{minHeight:"100vh",background:"var(--d)"}}>
       <NavbarV2 page={page} nav={nav} onSearch={()=>setShowSearch(true)} darkMode={darkMode} toggleDark={()=>setDarkMode(v=>!v)} serverOnline={serverOnline} />
 
-      <main key={page} style={{ paddingBottom:playing?82:0, transition:"padding-bottom .4s", animation:"fadeIn .38s ease" }}>
+      <main key={page} style={{ paddingBottom:playing?130:0, transition:"padding-bottom .4s", animation:"fadeIn .38s ease" }}>
         {loading?(
           <div style={{paddingTop:160,display:"flex",justifyContent:"center"}}>
             <div style={{display:"flex",gap:5,alignItems:"flex-end"}}>{[1,.6,1,.5,.9].map((h,i)=><div key={i} className="wb" style={{height:`${20*h}px`,animationDelay:`${i*.09}s`}} />)}</div>
@@ -1943,7 +2305,7 @@ export default function App() {
       <BackToTop />
 
       {/* ── Keyboard shortcut hint ────────────────────────────── */}
-      <div style={{position:"fixed",bottom:28,left:28,zIndex:700,display:"flex",alignItems:"center",gap:6,padding:"6px 10px",background:"rgba(255,255,255,.04)",border:"1px solid var(--bdr)",borderRadius:2,transition:"all .2s"}} onMouseEnter={e=>e.currentTarget.style.borderColor="var(--a)"} onMouseLeave={e=>e.currentTarget.style.borderColor="var(--bdr)"}>
+      <div className="kbd-hint" style={{position:"fixed",bottom:28,left:28,zIndex:700,display:"flex",alignItems:"center",gap:6,padding:"6px 10px",background:"rgba(255,255,255,.04)",border:"1px solid var(--bdr)",borderRadius:2,transition:"all .2s"}} onMouseEnter={e=>e.currentTarget.style.borderColor="var(--a)"} onMouseLeave={e=>e.currentTarget.style.borderColor="var(--bdr)"}>
         <span className="kbd">⌘K</span>
         <span className="mn" style={{fontSize:8,color:"var(--g)",letterSpacing:".08em"}}>search</span>
         <span className="kbd" style={{marginLeft:4}}>Gh</span>
