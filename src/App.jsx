@@ -534,17 +534,46 @@ body.player-active .nl-popup{bottom:118px}
 /* Video sidebar thumbnail hover */
 .thumb-wrap{position:relative;flex-shrink:0;width:130px;height:74px;border-radius:4px;overflow:hidden;background:#111}
 .thumb-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.35);opacity:0;transition:opacity .2s}
-.thumb-wrap:hover .thumb-overlay{opacity:1}
+.thumb-wrap:hover .thumb-overlay,.thumb-wrap:active .thumb-overlay{opacity:1}
+@media(max-width:767px){.thumb-wrap{width:100px;height:58px}}
 
 /* Video modal responsive */
-.vid-modal-body{flex-direction:column}
+.vid-modal-body{flex-direction:column;overflow:hidden}
 @media(min-width:768px){.vid-modal-body{flex-direction:row!important}}
-.vid-sidebar{max-height:280px;border-left:none!important;border-top:1px solid rgba(255,255,255,.06)!important;width:100%!important;flex-shrink:0}
-@media(min-width:768px){.vid-sidebar{max-height:none!important;width:320px!important;flex-shrink:0!important;border-top:none!important;border-left:1px solid rgba(255,255,255,.06)!important}}
-@media(min-width:1024px){.vid-sidebar{width:360px!important}}
 
-/* Video controls row — wrap on very small screens */
-@media(max-width:479px){.vid-ctrl-row{flex-wrap:wrap;gap:6px!important}.vid-speed-pills{flex-wrap:wrap;gap:3px}}
+/* Mobile: video takes ~55% height, sidebar takes ~45% */
+.vid-video-col{flex:1;display:flex;flex-direction:column;overflow:hidden;background:#000;min-height:0}
+@media(max-width:767px){.vid-video-col{flex:0 0 auto;height:55dvh;min-height:200px}}
+@media(min-width:768px){.vid-video-col{flex:1}}
+
+.vid-sidebar{overflow-y:auto;display:flex;flex-direction:column;flex-shrink:0;background:#0a0a0a}
+/* Mobile: sidebar scrolls below video */
+@media(max-width:767px){
+  .vid-sidebar{flex:1;min-height:0;border-left:none!important;border-top:1px solid rgba(255,255,255,.06)!important;width:100%!important;max-height:none!important}
+}
+@media(min-width:768px){.vid-sidebar{max-height:none!important;width:300px!important;flex-shrink:0!important;border-top:none!important;border-left:1px solid rgba(255,255,255,.06)!important}}
+@media(min-width:1024px){.vid-sidebar{width:340px!important}}
+
+/* Video controls — mobile-friendly */
+.vid-ctrl-row{display:flex;align-items:center;gap:8px;flex-wrap:nowrap;min-height:44px}
+@media(max-width:479px){
+  .vid-ctrl-row{flex-wrap:wrap;gap:4px;padding:6px 12px!important}
+  .vid-speed-pills{display:none!important}
+  .vid-vol-wrap{display:none!important}
+  .vid-mute-sm{display:flex!important}
+  .vid-time{font-size:10px!important}
+}
+@media(max-width:767px){
+  .vid-speed-pills button{padding:4px 7px!important;font-size:8px!important}
+}
+
+/* Episode cards grid — mobile */
+@media(max-width:479px){
+  .ep-cards-grid{grid-template-columns:1fr!important;gap:10px!important}
+}
+@media(max-width:767px){
+  .ep-cards-grid{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))!important}
+}
 @media print{body{background:white;color:black}.btt,.toast{display:none!important}}
 `;
 
@@ -806,7 +835,7 @@ function NavbarV2({ page, nav, onSearch, darkMode, toggleDark, serverOnline }) {
   const [open, setOpen] = useState(false);
   const scrolled = y > 50;
   const desktopLinks = [
-    {id:"episodes",l:"Episodes"},{id:"guests",l:"Guests"},
+    {id:"home",l:"Home"},{id:"episodes",l:"Episodes"},{id:"guests",l:"Guests"},
     {id:"about",l:"About"},{id:"subscribe",l:"Subscribe"},{id:"contact",l:"Contact"},{id:"upload",l:"Upload"},
   ];
   const mobileLinks = [
@@ -815,23 +844,23 @@ function NavbarV2({ page, nav, onSearch, darkMode, toggleDark, serverOnline }) {
   ];
   return (
     <nav style={{ position:"fixed",top:0,left:0,right:0,zIndex:1000, background:darkMode?(scrolled?"rgba(7,7,7,.96)":"transparent"):(scrolled?"rgba(245,243,239,.96)":"transparent"), backdropFilter:scrolled?"blur(20px)":"none", borderBottom:scrolled?"1px solid var(--bdr)":"1px solid transparent", transition:"all .4s ease" }}>
-      <div className="wrap" style={{ display:"flex",alignItems:"center",justifyContent:"space-between",height:68,gap:16 }}>
-        <button onClick={()=>nav("home")} style={{ background:"none",border:"none",cursor:"pointer",display:"flex",alignItems:"center",gap:11,padding:0,flexShrink:0 }}>
+      <div className="wrap" style={{ display:"flex",alignItems:"center",justifyContent:"space-between",height:68,gap:16,minWidth:0 }}>
+        <button onClick={()=>nav("home")} style={{ background:"none",border:"none",cursor:"pointer",display:"flex",alignItems:"center",gap:11,padding:0,flexShrink:0,minWidth:0,maxWidth:"clamp(120px,30vw,200px)",overflow:"hidden" }}>
           <WaveBars count={6} height={18} />
-          <div>
-            <div className="bb" style={{ fontSize:"clamp(14px,3vw,19px)",color:"var(--c)",letterSpacing:".06em",lineHeight:1,whiteSpace:"nowrap" }}>Signal & Noise</div>
+          <div style={{minWidth:0,overflow:"hidden"}}>
+            <div className="bb" style={{ fontSize:"clamp(13px,2.5vw,19px)",color:"var(--c)",letterSpacing:".06em",lineHeight:1,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis" }}>Signal & Noise</div>
             <div className="mn" style={{ fontSize:"clamp(7px,1.5vw,8px)",color:"var(--g)",letterSpacing:".16em" }}>THE PODCAST</div>
           </div>
         </button>
-        <div className="hm" style={{ display:"flex",gap:"clamp(12px,2.5vw,28px)",alignItems:"center",flex:1,justifyContent:"center" }}>
+        <div className="hm" style={{ display:"flex",gap:"clamp(12px,2.5vw,28px)",alignItems:"center",flex:1,justifyContent:"center",minWidth:0 }}>
           {desktopLinks.map(l=><button key={l.id} className={`nl${page===l.id?" act":""}`} onClick={()=>nav(l.id)}>{l.l}</button>)}
         </div>
         <div style={{ display:"flex",gap:"clamp(6px,2vw,8px)",alignItems:"center",flexShrink:0 }}>
           <div className="hm"><ServerStatusBadge online={serverOnline} /></div>
-          <button onClick={onSearch} style={{ width:34,height:34,borderRadius:2,background:"rgba(255,255,255,.05)",border:"1px solid var(--bdr)",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",color:"var(--g)",fontSize:14,transition:"all .2s" }} onMouseEnter={e=>{e.currentTarget.style.borderColor="var(--a)";e.currentTarget.style.color="var(--a)"}} onMouseLeave={e=>{e.currentTarget.style.borderColor="var(--bdr)";e.currentTarget.style.color="var(--g)"}}>⌕</button>
-          <button onClick={toggleDark} style={{ width:34,height:34,borderRadius:2,background:"rgba(255,255,255,.05)",border:"1px solid var(--bdr)",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,transition:"all .2s" }} onMouseEnter={e=>e.currentTarget.style.borderColor="var(--a)"} onMouseLeave={e=>e.currentTarget.style.borderColor="var(--bdr)"}>{darkMode?"☀":"🌙"}</button>
-          <button className="btn btn-a" onClick={()=>nav("subscribe")} style={{ padding:"9px 20px",fontSize:10,whiteSpace:"nowrap" }}>Subscribe</button>
-          <button onClick={()=>setOpen(!open)} style={{ background:"none",border:"none",cursor:"pointer",display:"flex",flexDirection:"column",gap:5,padding:4,minWidth:44,minHeight:44,justifyContent:"center",alignItems:"center" }}>
+          <button onClick={onSearch} className="hm" style={{ width:34,height:34,borderRadius:2,background:"rgba(255,255,255,.05)",border:"1px solid var(--bdr)",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",color:"var(--g)",fontSize:14,transition:"all .2s" }} onMouseEnter={e=>{e.currentTarget.style.borderColor="var(--a)";e.currentTarget.style.color="var(--a)"}} onMouseLeave={e=>{e.currentTarget.style.borderColor="var(--bdr)";e.currentTarget.style.color="var(--g)"}}>⌕</button>
+          <button onClick={toggleDark} className="hm" style={{ width:34,height:34,borderRadius:2,background:"rgba(255,255,255,.05)",border:"1px solid var(--bdr)",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,transition:"all .2s" }} onMouseEnter={e=>e.currentTarget.style.borderColor="var(--a)"} onMouseLeave={e=>e.currentTarget.style.borderColor="var(--bdr)"}>{darkMode?"☀":"🌙"}</button>
+          <button className="btn btn-a hm" onClick={()=>nav("subscribe")} style={{ padding:"9px 20px",fontSize:10,whiteSpace:"nowrap" }}>Subscribe</button>
+          <button onClick={()=>setOpen(!open)} style={{ background:"none",border:"none",cursor:"pointer",display:"flex",flexDirection:"column",gap:5,padding:4,width:44,height:44,justifyContent:"center",alignItems:"center",flexShrink:0 }}>
             {[0,1,2].map(i=><div key={i} style={{ width:22,height:1.5,background:"var(--c)",transition:"all .3s", transform:open?(i===0?"rotate(45deg) translate(4px,4.5px)":i===2?"rotate(-45deg) translate(4px,-4.5px)":"none"):"none", opacity:open&&i===1?0:1 }} />)}
           </button>
         </div>
@@ -1195,11 +1224,11 @@ function VideoPlayerModal({ ep:initialEp, onClose, allEps=[] }) {
       </div>
 
       {/* Main content: video + sidebar — flex column on mobile, row on desktop */}
-      <div style={{ display:"flex",flex:1,overflow:"hidden",minHeight:0,flexDirection:"column" }}
+      <div style={{ display:"flex",flex:1,overflow:"hidden",minHeight:0 }}
         className="vid-modal-body">
 
         {/* Video column */}
-        <div style={{ flex:1,display:"flex",flexDirection:"column",overflow:"hidden",background:"#000",minHeight:0 }}>
+        <div className="vid-video-col">
 
           {/* ── Video wrapper — this is what goes fullscreen ── */}
           <div
@@ -1207,6 +1236,7 @@ function VideoPlayerModal({ ep:initialEp, onClose, allEps=[] }) {
             style={{ position:"relative",width:"100%",flex:1,background:"#000",cursor:"pointer",overflow:"hidden",display:"flex",alignItems:"center",justifyContent:"center" }}
             onMouseMove={onMM}
             onMouseLeave={()=>{if(playing)setShowCtrl(false);}}
+            onTouchStart={()=>{setShowCtrl(true);clearTimeout(hideT.current);hideT.current=setTimeout(()=>{if(playing)setShowCtrl(false);},3500);}}
           >
             <video
               ref={vRef}
@@ -1226,49 +1256,53 @@ function VideoPlayerModal({ ep:initialEp, onClose, allEps=[] }) {
             )}
 
             {/* Controls overlay — stays inside fullscreen container */}
-            <div style={{ position:"absolute",bottom:0,left:0,right:0,zIndex:10,background:"linear-gradient(to top,rgba(0,0,0,.92) 0%,rgba(0,0,0,.5) 50%,transparent 100%)",padding:"36px 18px 14px",transition:"opacity .35s",opacity:showCtrl?1:0,pointerEvents:showCtrl?"auto":"none" }}>
+            <div style={{ position:"absolute",bottom:0,left:0,right:0,zIndex:10,background:"linear-gradient(to top,rgba(0,0,0,.95) 0%,rgba(0,0,0,.5) 60%,transparent 100%)",padding:"40px 14px 10px",transition:"opacity .35s",opacity:showCtrl?1:0,pointerEvents:showCtrl?"auto":"none" }}>
 
-              {/* Scrubber */}
-              <div style={{ position:"relative",height:5,background:"rgba(255,255,255,.22)",borderRadius:3,cursor:"pointer",marginBottom:12,transition:"height .15s" }}
+              {/* Scrubber — wider touch target */}
+              <div style={{ position:"relative",height:5,background:"rgba(255,255,255,.22)",borderRadius:3,cursor:"pointer",marginBottom:10,transition:"height .15s" }}
                 onClick={clickProg}
+                onTouchStart={e=>{e.preventDefault();const r=e.currentTarget.getBoundingClientRect(),pct=((e.touches[0].clientX-r.left)/r.width)*100;setProg(Math.max(0,Math.min(100,pct)));const v=vRef.current;if(v&&v.duration)v.currentTime=(Math.max(0,Math.min(100,pct))/100)*v.duration;}}
                 onMouseEnter={e=>e.currentTarget.style.height="8px"}
                 onMouseLeave={e=>e.currentTarget.style.height="5px"}>
                 <div style={{ height:"100%",width:`${prog}%`,background:"#8b5cf6",borderRadius:3 }} />
-                <div style={{ position:"absolute",top:"50%",left:`${prog}%`,width:14,height:14,borderRadius:"50%",background:"#a78bfa",transform:"translate(-50%,-50%)",boxShadow:"0 0 8px rgba(139,92,246,.9)" }} />
+                <div style={{ position:"absolute",top:"50%",left:`${prog}%`,width:16,height:16,borderRadius:"50%",background:"#a78bfa",transform:"translate(-50%,-50%)",boxShadow:"0 0 8px rgba(139,92,246,.9)" }} />
               </div>
 
               {/* Controls row */}
-              <div className="vid-ctrl-row" style={{ display:"flex",alignItems:"center",gap:10 }}>
+              <div className="vid-ctrl-row" style={{ padding:"2px 0" }}>
                 {/* Skip back */}
-                <button onClick={()=>skip(-10)} title="Back 10s" style={{ background:"none",border:"none",cursor:"pointer",color:"rgba(255,255,255,.75)",fontSize:18,lineHeight:1,padding:"6px 8px",transition:"color .15s",minHeight:44 }} onMouseEnter={e=>e.currentTarget.style.color="#fff"} onMouseLeave={e=>e.currentTarget.style.color="rgba(255,255,255,.75)"}>⏮</button>
+                <button onClick={()=>skip(-10)} title="Back 10s" style={{ background:"none",border:"none",cursor:"pointer",color:"rgba(255,255,255,.75)",fontSize:20,lineHeight:1,padding:"4px 6px",transition:"color .15s",minHeight:44,minWidth:36,display:"flex",alignItems:"center",justifyContent:"center" }} onMouseEnter={e=>e.currentTarget.style.color="#fff"} onMouseLeave={e=>e.currentTarget.style.color="rgba(255,255,255,.75)"}>⏮</button>
                 {/* Play/Pause */}
-                <button onClick={()=>setPlaying(p=>!p)} style={{ width:44,height:44,borderRadius:"50%",background:"#8b5cf6",border:"none",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontSize:17,color:"#fff",flexShrink:0,transition:"transform .15s,background .2s" }}
+                <button onClick={()=>setPlaying(p=>!p)} style={{ width:46,height:46,borderRadius:"50%",background:"#8b5cf6",border:"none",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontSize:18,color:"#fff",flexShrink:0,transition:"transform .15s,background .2s",minWidth:46 }}
                   onMouseEnter={e=>e.currentTarget.style.transform="scale(1.1)"}
                   onMouseLeave={e=>e.currentTarget.style.transform="scale(1)"}>{playing?"⏸":"▶"}</button>
                 {/* Skip forward */}
-                <button onClick={()=>skip(10)} title="Forward 10s" style={{ background:"none",border:"none",cursor:"pointer",color:"rgba(255,255,255,.75)",fontSize:18,lineHeight:1,padding:"6px 8px",transition:"color .15s",minHeight:44 }} onMouseEnter={e=>e.currentTarget.style.color="#fff"} onMouseLeave={e=>e.currentTarget.style.color="rgba(255,255,255,.75)"}>⏭</button>
+                <button onClick={()=>skip(10)} title="Forward 10s" style={{ background:"none",border:"none",cursor:"pointer",color:"rgba(255,255,255,.75)",fontSize:20,lineHeight:1,padding:"4px 6px",transition:"color .15s",minHeight:44,minWidth:36,display:"flex",alignItems:"center",justifyContent:"center" }} onMouseEnter={e=>e.currentTarget.style.color="#fff"} onMouseLeave={e=>e.currentTarget.style.color="rgba(255,255,255,.75)"}>⏭</button>
                 {/* Time */}
-                <span className="mn" style={{ fontSize:11,color:"rgba(255,255,255,.7)",flexShrink:0,userSelect:"none" }}>{fmt(curSec)} / {fmt(dur)||ep.dur}</span>
+                <span className="mn vid-time" style={{ fontSize:11,color:"rgba(255,255,255,.7)",flexShrink:0,userSelect:"none",whiteSpace:"nowrap" }}>{fmt(curSec)} / {fmt(dur)||ep.dur}</span>
 
                 <div style={{flex:1}} />
 
                 {/* Speed */}
                 <div className="vid-speed-pills" style={{display:"flex",gap:3,flexShrink:0}}>
-                  {[0.5,1,1.5,2].map(s=><button key={s} onClick={()=>setSpeed(s)} style={{ padding:"5px 9px",border:`1px solid ${speed===s?"#8b5cf6":"rgba(255,255,255,.15)"}`,background:speed===s?"rgba(139,92,246,.3)":"transparent",color:speed===s?"#c4b5fd":"rgba(255,255,255,.5)",fontFamily:"'JetBrains Mono'",fontSize:9,cursor:"pointer",borderRadius:3,transition:"all .15s",minHeight:34 }}>{s}x</button>)}
+                  {[0.5,1,1.5,2].map(s=><button key={s} onClick={()=>setSpeed(s)} style={{ padding:"5px 8px",border:`1px solid ${speed===s?"#8b5cf6":"rgba(255,255,255,.15)"}`,background:speed===s?"rgba(139,92,246,.3)":"transparent",color:speed===s?"#c4b5fd":"rgba(255,255,255,.5)",fontFamily:"'JetBrains Mono'",fontSize:9,cursor:"pointer",borderRadius:3,transition:"all .15s",minHeight:36 }}>{s}x</button>)}
                 </div>
 
-                {/* Volume */}
-                <div style={{display:"flex",alignItems:"center",gap:6,flexShrink:0}}
+                {/* Volume — always visible on mobile as tap-to-toggle mute */}
+                <div className="vid-vol-wrap" style={{display:"flex",alignItems:"center",gap:6,flexShrink:0}}
                   onMouseEnter={()=>setVolHover(true)} onMouseLeave={()=>setVolHover(false)}>
-                  <button onClick={()=>setMuted(m=>!m)} style={{background:"none",border:"none",cursor:"pointer",fontSize:16,lineHeight:1,color:"rgba(255,255,255,.8)",transition:"color .15s"}} onMouseEnter={e=>e.currentTarget.style.color="#fff"} onMouseLeave={e=>e.currentTarget.style.color="rgba(255,255,255,.8)"}>{muted||vol===0?"🔇":vol>50?"🔊":"🔉"}</button>
-                  <div style={{width:volHover?72:0,overflow:"hidden",transition:"width .25s",opacity:volHover?1:0}}>
-                    <input type="range" min="0" max="100" value={muted?0:vol} onChange={e=>{setVol(+e.target.value);setMuted(false);}} style={{width:72,accentColor:"#8b5cf6",cursor:"pointer",display:"block"}} />
+                  <button onClick={()=>setMuted(m=>!m)} style={{background:"none",border:"none",cursor:"pointer",fontSize:18,lineHeight:1,color:"rgba(255,255,255,.8)",transition:"color .15s",minHeight:44,minWidth:36,display:"flex",alignItems:"center",justifyContent:"center"}} onMouseEnter={e=>e.currentTarget.style.color="#fff"} onMouseLeave={e=>e.currentTarget.style.color="rgba(255,255,255,.8)"}>{muted||vol===0?"🔇":vol>50?"🔊":"🔉"}</button>
+                  <div style={{width:volHover?68:0,overflow:"hidden",transition:"width .25s",opacity:volHover?1:0}}>
+                    <input type="range" min="0" max="100" value={muted?0:vol} onChange={e=>{setVol(+e.target.value);setMuted(false);}} style={{width:68,accentColor:"#8b5cf6",cursor:"pointer",display:"block"}} />
                   </div>
                 </div>
 
+                {/* Mute button only on very small screens */}
+                <button className="vid-mute-sm" onClick={()=>setMuted(m=>!m)} style={{display:"none",background:"none",border:"none",cursor:"pointer",fontSize:18,lineHeight:1,color:"rgba(255,255,255,.8)",minHeight:44,minWidth:36,alignItems:"center",justifyContent:"center"}}>{muted||vol===0?"🔇":vol>50?"🔊":"🔉"}</button>
+
                 {/* Fullscreen button */}
                 <button onClick={toggleFS} title={fullscreen?"Exit Fullscreen (F)":"Fullscreen (F)"}
-                  style={{ background:"none",border:"none",cursor:"pointer",color:"rgba(255,255,255,.8)",fontSize:18,lineHeight:1,padding:"4px 6px",transition:"color .15s",flexShrink:0 }}
+                  style={{ background:"none",border:"none",cursor:"pointer",color:"rgba(255,255,255,.8)",fontSize:18,lineHeight:1,padding:"4px 6px",transition:"color .15s",flexShrink:0,minHeight:44,minWidth:36,display:"flex",alignItems:"center",justifyContent:"center" }}
                   onMouseEnter={e=>e.currentTarget.style.color="#fff"}
                   onMouseLeave={e=>e.currentTarget.style.color="rgba(255,255,255,.8)"}>
                   {fullscreen?(
@@ -1281,25 +1315,24 @@ function VideoPlayerModal({ ep:initialEp, onClose, allEps=[] }) {
             </div>
           </div>
 
-          {/* Episode info below video */}
-          <div style={{ padding:"14px 20px",background:"#0d0d0d",borderTop:"1px solid rgba(255,255,255,.06)",flexShrink:0 }}>
-            <div style={{ display:"flex",alignItems:"flex-start",gap:14 }}>
-              <img src={ep.img||ep.cover||FALLBACK_IMG} alt="" style={{ width:48,height:48,borderRadius:3,objectFit:"cover",flexShrink:0,border:"2px solid rgba(139,92,246,.35)" }} />
+          {/* Episode info below video — compact on mobile */}
+          <div style={{ padding:"10px 14px",background:"#0d0d0d",borderTop:"1px solid rgba(255,255,255,.06)",flexShrink:0 }}>
+            <div style={{ display:"flex",alignItems:"flex-start",gap:10 }}>
+              <img src={ep.img||ep.cover||FALLBACK_IMG} alt="" style={{ width:40,height:40,borderRadius:3,objectFit:"cover",flexShrink:0,border:"2px solid rgba(139,92,246,.35)" }} />
               <div style={{ flex:1,minWidth:0 }}>
-                <div style={{ display:"flex",alignItems:"center",gap:8,marginBottom:4,flexWrap:"wrap" }}>
+                <div style={{ display:"flex",alignItems:"center",gap:8,marginBottom:2,flexWrap:"wrap" }}>
                   <div className="mn" style={{ fontSize:8,color:"rgba(139,92,246,.8)",letterSpacing:".12em" }}>{ep.num||"UPLOAD"} · {ep.date||"Uploaded"}</div>
                   {ep._storageMode && <StorageBadge mode={ep._storageMode} />}
                 </div>
-                <div style={{ fontSize:15,fontWeight:700,color:"#fff",marginBottom:3 }}>{ep.title}</div>
-                <div style={{ fontSize:12,color:"rgba(255,255,255,.45)",marginBottom:4 }}>{ep.guest||ep.host}{ep.role?` · ${ep.role}`:""}</div>
-                {ep.desc&&<p style={{ fontSize:12,color:"rgba(255,255,255,.32)",lineHeight:1.65,margin:0 }}>{ep.desc.slice(0,200)}{ep.desc.length>200?"…":""}</p>}
+                <div style={{ fontSize:14,fontWeight:700,color:"#fff",marginBottom:2,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap" }}>{ep.title}</div>
+                <div style={{ fontSize:11,color:"rgba(255,255,255,.45)" }}>{ep.guest||ep.host}{ep.role?` · ${ep.role}`:""}</div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Sidebar — ONLY uploaded videos — collapses on mobile */}
-        <div className="vid-sidebar" style={{ background:"#0a0a0a",borderTop:"1px solid rgba(255,255,255,.06)",overflowY:"auto",display:"flex",flexDirection:"column" }}>
+        {/* Sidebar — scrollable list of other videos */}
+        <div className="vid-sidebar" style={{ borderTop:"1px solid rgba(255,255,255,.06)" }}>
           <div style={{ padding:"14px 16px",borderBottom:"1px solid rgba(255,255,255,.07)",flexShrink:0 }}>
             <div className="mn" style={{ fontSize:8,color:"rgba(139,92,246,.7)",letterSpacing:".14em",marginBottom:4 }}>// UP_NEXT</div>
             <div style={{ fontSize:13,fontWeight:600,color:"#fff" }}>{uploadedVideos.length>0?"Your Videos":"More Episodes"} <span style={{fontSize:11,color:"rgba(255,255,255,.3)",fontWeight:400}}>({uploadedVideos.length>0?uploadedVideos.length:demoAudioRecs.length})</span></div>
@@ -1468,6 +1501,10 @@ function Upload({ onEpisodeAdded, uploadedEps, onDeleteEpisode, serverOnline }) 
     setSuccessCount(count);setSubmitting(false);
   };
 
+  const [view,setView]=useState("upload"); // "upload" | "library"
+  const [libFilter,setLibFilter]=useState("all"); // "all"|"audio"|"video"|"song"
+  const [libSearch,setLibSearch]=useState("");
+
   const clearDone=()=>setQueues(prev=>({...prev,[activeTab]:prev[activeTab].filter(item=>!item.done)}));
   const clearAll=()=>{queue.forEach(item=>{if(item.blobUrl)URL.revokeObjectURL(item.blobUrl);if(item.meta?.thumbnailUrl?.startsWith("blob:"))URL.revokeObjectURL(item.meta.thumbnailUrl);});setQueues(prev=>({...prev,[activeTab]:[]}));};
   const validCount=queue.filter(item=>item.blobUrl&&!item.error&&!item.done).length;
@@ -1475,25 +1512,184 @@ function Upload({ onEpisodeAdded, uploadedEps, onDeleteEpisode, serverOnline }) 
   const doneCount=queue.filter(item=>item.done).length;
   const tabCount=id=>queues[id].length;
 
+  // Library filtered list
+  const libEps=(()=>{
+    let eps=uploadedEps;
+    if(libFilter!=="all")eps=eps.filter(e=>(e.mediaType||"audio")===libFilter);
+    if(libSearch.trim()){const q=libSearch.trim().toLowerCase();eps=eps.filter(e=>(e.title||"").toLowerCase().includes(q)||(e.guest||"").toLowerCase().includes(q)||(e.fileName||"").toLowerCase().includes(q));}
+    return eps;
+  })();
+  const libCount=(t)=>t==="all"?uploadedEps.length:uploadedEps.filter(e=>(e.mediaType||"audio")===t).length;
+
   return (
     <div style={{paddingTop:68}}>
-      <section style={{ position:"relative",minHeight:"300px",display:"flex",alignItems:"center",overflow:"hidden",background:"#060606" }}>
+      {/* ── Hero ─────────────────────────────────────────── */}
+      <section style={{ position:"relative",minHeight:"280px",display:"flex",alignItems:"center",overflow:"hidden",background:"#060606" }}>
         <div style={{ position:"absolute",inset:0,backgroundImage:"repeating-linear-gradient(0deg,transparent,transparent 23px,rgba(245,166,35,.025) 23px,rgba(245,166,35,.025) 24px)",pointerEvents:"none" }} />
         <div style={{ position:"absolute",left:0,top:0,bottom:0,width:3,background:"linear-gradient(to bottom,var(--a),var(--r))" }} />
-        <div className="wrap" style={{ position:"relative",zIndex:1,padding:"50px 0" }}>
+        <div className="wrap" style={{ position:"relative",zIndex:1,padding:"48px 0 32px" }}>
           <Rv>
-            <div style={{ display:"flex",alignItems:"center",gap:14,marginBottom:16,flexWrap:"wrap" }}>
+            <div style={{ display:"flex",alignItems:"center",gap:14,marginBottom:14,flexWrap:"wrap" }}>
               <div className="mn" style={{ fontSize:11,color:"var(--a)",letterSpacing:".1em" }}>// UPLOAD_PORTAL</div>
               <ServerStatusBadge online={serverOnline} />
             </div>
-            <h1 className="bb" style={{ fontSize:"clamp(48px,9vw,110px)",color:"var(--c)",lineHeight:.88,marginBottom:18 }}>Upload<br /><em className="sf" style={{color:"var(--a)"}}>Content.</em></h1>
-            <p style={{ fontSize:"clamp(13px,2.5vw,15px)",color:"var(--g)",maxWidth:"min(520px,90vw)",fontWeight:300,lineHeight:1.82 }}>
-              Files upload directly to <strong style={{color:"var(--a)"}}>Cloudinary</strong> for persistent cloud storage with global CDN delivery. A local IndexedDB copy is also kept for instant offline playback.
+            <h1 className="bb" style={{ fontSize:"clamp(44px,8vw,96px)",color:"var(--c)",lineHeight:.88,marginBottom:16 }}>Upload<br /><em className="sf" style={{color:"var(--a)"}}>Content.</em></h1>
+            <p style={{ fontSize:"clamp(13px,2.5vw,15px)",color:"var(--g)",maxWidth:"min(520px,90vw)",fontWeight:300,lineHeight:1.82,marginBottom:0 }}>
+              Files upload directly to <strong style={{color:"var(--a)"}}>Cloudinary</strong> for persistent cloud storage. A local IndexedDB copy is kept for offline playback.
             </p>
           </Rv>
         </div>
       </section>
 
+      {/* ── View switcher pill ───────────────────────────── */}
+      <div style={{background:"var(--d2)",borderBottom:"1px solid var(--bdr)",position:"sticky",top:"var(--navbar-h)",zIndex:50}}>
+        <div className="wrap" style={{padding:"12px var(--container-padding)",display:"flex",alignItems:"center",gap:10,flexWrap:"wrap"}}>
+          <div style={{display:"flex",background:"rgba(255,255,255,.04)",border:"1px solid var(--bdr)",borderRadius:4,padding:3,gap:2}}>
+            {[{id:"upload",label:"⬆ Upload New",color:"var(--a)"},{id:"library",label:`📂 My Library${uploadedEps.length>0?` (${uploadedEps.length})`:""}`,color:"#4ade80"}].map(v=>(
+              <button key={v.id} onClick={()=>setView(v.id)}
+                style={{padding:"8px 18px",borderRadius:3,border:"none",cursor:"pointer",fontFamily:"'JetBrains Mono'",fontSize:9,letterSpacing:".08em",fontWeight:700,transition:"all .2s",
+                  background:view===v.id?"rgba(255,255,255,.09)":"transparent",
+                  color:view===v.id?v.color:"var(--g)",
+                  boxShadow:view===v.id?"0 1px 4px rgba(0,0,0,.4)":"none"
+                }}>{v.label}</button>
+            ))}
+          </div>
+          {view==="library"&&uploadedEps.length>0&&(
+            <div style={{fontSize:11,color:"var(--g)",marginLeft:4}}>
+              <span style={{color:"#4ade80",fontWeight:600}}>{uploadedEps.length}</span> file{uploadedEps.length!==1?"s":""} in your library
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* ══════════════════════════════════════════════════
+          VIEW: LIBRARY
+         ══════════════════════════════════════════════════ */}
+      {view==="library"&&(
+        <section style={{background:"var(--d)",minHeight:"60vh",padding:"40px 0 80px"}}>
+          <div className="wrap">
+            {/* Library header */}
+            <Rv>
+              <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",flexWrap:"wrap",gap:16,marginBottom:28}}>
+                <div>
+                  <div className="mn" style={{fontSize:8,color:"#4ade80",letterSpacing:".14em",marginBottom:8}}>// YOUR_LIBRARY</div>
+                  <h2 className="bb" style={{fontSize:"clamp(32px,5vw,56px)",color:"var(--c)",lineHeight:.9,marginBottom:8}}>My <em className="sf" style={{color:"#4ade80"}}>Library</em></h2>
+                  <p style={{fontSize:13,color:"var(--g)",fontWeight:300,margin:0}}>
+                    {uploadedEps.length===0?"No files uploaded yet.":
+                      `${libCount("audio")} audio · ${libCount("video")} video · ${libCount("song")} song${libCount("song")!==1?"s":""}`}
+                  </p>
+                </div>
+                <button onClick={()=>setView("upload")} className="btn btn-g" style={{fontSize:10,padding:"9px 20px",flexShrink:0}}>⬆ Upload New →</button>
+              </div>
+            </Rv>
+
+            {uploadedEps.length===0?(
+              <Rv delay={.1}>
+                <div style={{textAlign:"center",padding:"80px 20px",border:"1px dashed rgba(74,222,128,.2)",borderRadius:4,background:"rgba(74,222,128,.03)"}}>
+                  <div style={{fontSize:56,marginBottom:16,opacity:.4}}>📂</div>
+                  <div className="mn" style={{fontSize:10,color:"var(--g)",letterSpacing:".1em",marginBottom:20}}>No files in your library yet</div>
+                  <button onClick={()=>setView("upload")} className="btn btn-a" style={{fontSize:10}}>Upload Your First File →</button>
+                </div>
+              </Rv>
+            ):(
+              <>
+                {/* Filter tabs + search */}
+                <Rv delay={.08}>
+                  <div style={{display:"flex",gap:10,marginBottom:20,flexWrap:"wrap",alignItems:"center"}}>
+                    <div style={{display:"flex",gap:4,background:"rgba(255,255,255,.03)",border:"1px solid var(--bdr)",borderRadius:3,padding:"3px",flexShrink:0}}>
+                      {[{id:"all",label:"All",color:"var(--c)"},{id:"audio",label:"🎙 Audio",color:"var(--a)"},{id:"video",label:"🎬 Video",color:"#8b5cf6"},{id:"song",label:"🎵 Songs",color:"#ec4899"}].map(f=>(
+                        <button key={f.id} onClick={()=>setLibFilter(f.id)}
+                          style={{padding:"6px 14px",borderRadius:2,border:"none",cursor:"pointer",fontFamily:"'JetBrains Mono'",fontSize:9,letterSpacing:".07em",transition:"all .18s",
+                            background:libFilter===f.id?"rgba(255,255,255,.1)":"transparent",
+                            color:libFilter===f.id?f.color:"var(--g)"}}>
+                          {f.label}{libCount(f.id)>0?` (${libCount(f.id)})`:""}
+                        </button>
+                      ))}
+                    </div>
+                    <input
+                      value={libSearch} onChange={e=>setLibSearch(e.target.value)}
+                      placeholder="Search by title, guest, filename…"
+                      style={{flex:1,minWidth:180,background:"rgba(255,255,255,.04)",border:"1px solid var(--bdr)",borderRadius:3,padding:"8px 14px",color:"var(--c)",fontFamily:"'DM Sans'",fontSize:12,outline:"none"}}
+                      onFocus={e=>e.target.style.borderColor="var(--a)"}
+                      onBlur={e=>e.target.style.borderColor="var(--bdr)"}
+                    />
+                    {libSearch&&<button onClick={()=>setLibSearch("")} style={{background:"none",border:"none",cursor:"pointer",color:"var(--g)",fontSize:16,padding:"0 4px"}}>✕</button>}
+                  </div>
+                </Rv>
+
+                {/* No results */}
+                {libEps.length===0&&(
+                  <div style={{textAlign:"center",padding:"60px 20px",opacity:.6}}>
+                    <div style={{fontSize:36,marginBottom:12}}>◎</div>
+                    <div className="mn" style={{fontSize:10,color:"var(--g)",letterSpacing:".1em"}}>No results for "{libSearch}"</div>
+                  </div>
+                )}
+
+                {/* Card grid */}
+                {libEps.length>0&&(
+                  <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(300px,1fr))",gap:14}}>
+                    {libEps.map((ep,i)=>{
+                      const mType=ep.mediaType||"audio";
+                      const mCat=UPLOAD_CATEGORIES[mType]||UPLOAD_CATEGORIES.audio;
+                      const playUrl=ep.audioUrl||ep.cloudAudioUrl;
+                      return (
+                        <Rv key={ep.id} delay={i*.04}>
+                          <div className="card" style={{overflow:"hidden",display:"flex",flexDirection:"column",border:"1px solid var(--bdr)",transition:"border-color .2s"}}
+                            onMouseEnter={e=>e.currentTarget.style.borderColor=mCat.border}
+                            onMouseLeave={e=>e.currentTarget.style.borderColor="var(--bdr)"}>
+                            {/* Thumbnail */}
+                            <div style={{position:"relative",height:160,overflow:"hidden",background:"#0a0a0a",flexShrink:0}}>
+                              <img src={ep.img||ep.cover||FALLBACK_IMG} alt="" style={{width:"100%",height:"100%",objectFit:"cover",opacity:.85}} />
+                              <div style={{position:"absolute",inset:0,background:"linear-gradient(to top,rgba(7,7,7,.85) 0%,transparent 55%)"}} />
+                              {/* Type badge */}
+                              <div style={{position:"absolute",top:8,left:8,display:"flex",gap:4,alignItems:"center"}}>
+                                <span style={{fontSize:8,fontFamily:"'JetBrains Mono'",padding:"3px 7px",borderRadius:2,background:mCat.accent,color:mCat.color,border:`1px solid ${mCat.border}`,letterSpacing:".07em",fontWeight:700}}>{mCat.icon} {mCat.label.toUpperCase()}</span>
+                                <StorageBadge mode={ep._storageMode||"local"} />
+                              </div>
+                              {ep.dur&&ep.dur!=="—:—"&&<div style={{position:"absolute",bottom:8,right:8,background:"rgba(0,0,0,.82)",borderRadius:2,padding:"2px 7px",fontSize:9,color:"#fff",fontFamily:"'JetBrains Mono'"}}>{ep.dur}</div>}
+                            </div>
+                            {/* Info */}
+                            <div style={{padding:"14px 16px",flex:1,display:"flex",flexDirection:"column",gap:6}}>
+                              <div style={{fontSize:13,fontWeight:700,color:"var(--c)",lineHeight:1.3,overflow:"hidden",display:"-webkit-box",WebkitLineClamp:2,WebkitBoxOrient:"vertical"}}>{ep.title}</div>
+                              {ep.guest&&<div style={{fontSize:11,color:"var(--g)",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{ep.guest}</div>}
+                              {/* Tags */}
+                              {(ep.tags||[]).length>0&&(
+                                <div style={{display:"flex",gap:4,flexWrap:"wrap"}}>
+                                  {(ep.tags||[]).slice(0,3).map(t=><span key={t} className="tag" style={{fontSize:8,opacity:.7}}>{t}</span>)}
+                                </div>
+                              )}
+                              {/* Audio player */}
+                              {playUrl&&mType!=="video"&&(
+                                <audio controls src={playUrl} style={{width:"100%",height:28,marginTop:4,accentColor:mCat.color}} />
+                              )}
+                              {/* Actions */}
+                              <div style={{display:"flex",alignItems:"center",justifyContent:"flex-end",marginTop:"auto",paddingTop:8,borderTop:"1px solid var(--bdr)"}}>
+                                {onDeleteEpisode&&(
+                                  <button onClick={()=>onDeleteEpisode(ep.id)}
+                                    style={{padding:"5px 12px",background:"rgba(232,68,26,.08)",border:"1px solid rgba(232,68,26,.2)",borderRadius:2,cursor:"pointer",color:"var(--r)",fontFamily:"'JetBrains Mono'",fontSize:9,letterSpacing:".06em",transition:"all .2s"}}
+                                    onMouseEnter={e=>e.currentTarget.style.background="rgba(232,68,26,.18)"}
+                                    onMouseLeave={e=>e.currentTarget.style.background="rgba(232,68,26,.08)"}>
+                                    ✕ Remove
+                                  </button>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </Rv>
+                      );
+                    })}
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        </section>
+      )}
+
+      {/* ══════════════════════════════════════════════════
+          VIEW: UPLOAD
+         ══════════════════════════════════════════════════ */}
+      {view==="upload"&&(
       <section className="sec">
         <div className="wrap">
           <div className="upload-grid">
@@ -1574,7 +1770,7 @@ function Upload({ onEpisodeAdded, uploadedEps, onDeleteEpisode, serverOnline }) 
                         <span style={{fontSize:22}}>{cat.icon}</span>
                         <div>
                           <div style={{fontSize:13,fontWeight:600,color:"rgba(74,222,128,.9)",marginBottom:2}}>{doneCount} {cat.label} file{doneCount!==1?"s":""} published!</div>
-                          <div style={{fontSize:11,color:"var(--g)"}}>Content appears on the Episodes page with real playback.</div>
+                          <div style={{fontSize:11,color:"var(--g)"}}>Content appears on the Episodes page with real playback. <button onClick={()=>setView("library")} style={{background:"none",border:"none",cursor:"pointer",color:"#4ade80",fontFamily:"'JetBrains Mono'",fontSize:9,letterSpacing:".06em",textDecoration:"underline",padding:0}}>View in Library →</button></div>
                         </div>
                       </div>
                     )}
@@ -1585,45 +1781,22 @@ function Upload({ onEpisodeAdded, uploadedEps, onDeleteEpisode, serverOnline }) 
                       </button>
                     )}
                     {queue.length===0&&<div style={{textAlign:"center",padding:"10px 0",fontSize:11,color:"rgba(138,134,128,.45)",fontFamily:"'JetBrains Mono'",letterSpacing:".06em"}}>No files selected. Use the drop zone above to begin.</div>}
+                    {queue.length===0&&uploadedEps.length>0&&(
+                      <div style={{marginTop:16,padding:"12px 16px",background:"rgba(74,222,128,.04)",border:"1px solid rgba(74,222,128,.15)",borderRadius:3,display:"flex",alignItems:"center",gap:12,cursor:"pointer"}} onClick={()=>setView("library")}>
+                        <div style={{display:"flex",gap:-8}}>
+                          {uploadedEps.slice(0,3).map((ep,i)=><img key={ep.id} src={ep.img||FALLBACK_IMG} alt="" style={{width:32,height:32,borderRadius:"50%",objectFit:"cover",border:"2px solid var(--d)",marginLeft:i>0?-8:0,flexShrink:0}} />)}
+                        </div>
+                        <div style={{flex:1}}>
+                          <div style={{fontSize:12,fontWeight:600,color:"rgba(74,222,128,.9)"}}>{uploadedEps.length} file{uploadedEps.length!==1?"s":""} in your library</div>
+                          <div style={{fontSize:10,color:"var(--g)"}}>Tap to browse, manage, and delete uploads</div>
+                        </div>
+                        <span style={{color:"#4ade80",fontSize:14}}>→</span>
+                      </div>
+                    )}
                   </div>
                 </div>
               </Rv>
 
-              {/* Published episodes manager */}
-              {uploadedEps?.length>0&&(
-                <Rv delay={.15}>
-                  <div style={{marginTop:24}} className="card">
-                    <div style={{borderBottom:"1px solid var(--bdr)",padding:"16px 20px",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
-                      <div>
-                        <div className="mn" style={{fontSize:8,color:"#4ade80",letterSpacing:".12em",marginBottom:4}}>// YOUR_UPLOADS</div>
-                        <h3 style={{fontSize:15,fontWeight:700,color:"var(--c)"}}>Published Content <span style={{color:"var(--g)",fontWeight:400}}>({uploadedEps.length})</span></h3>
-                      </div>
-                    </div>
-                    <div style={{padding:"16px 20px",display:"flex",flexDirection:"column",gap:10}}>
-                      {uploadedEps.map(ep=>{
-                        const mType=ep.mediaType||"audio", mCat=UPLOAD_CATEGORIES[mType]||UPLOAD_CATEGORIES.audio;
-                        const playUrl=ep.audioUrl||ep.cloudAudioUrl;
-                        return(
-                          <div key={ep.id} className="pub-ep-row">
-                            {ep.img&&ep.hasThumbnail?<img src={ep.img} alt="" style={{width:44,height:44,objectFit:"cover",borderRadius:2,flexShrink:0,border:"1px solid var(--bdr)"}} />:<span style={{fontSize:22,flexShrink:0}}>{mCat.icon}</span>}
-                            <div style={{flex:1,minWidth:0}}>
-                              <div style={{display:"flex",alignItems:"center",gap:7,marginBottom:2,flexWrap:"wrap"}}>
-                                <span style={{fontSize:8,fontFamily:"'JetBrains Mono'",padding:"2px 6px",borderRadius:2,background:mCat.accent,color:mCat.color,border:`1px solid ${mCat.border}`,letterSpacing:".07em",flexShrink:0}}>{mCat.label.toUpperCase()}</span>
-                                <StorageBadge mode={ep._storageMode||"local"} />
-                                <div style={{fontSize:12,fontWeight:600,color:"var(--c)",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{ep.title}</div>
-                              </div>
-                              <div className="mn" style={{fontSize:9,color:"var(--g)",marginTop:2}}>{ep.num} · {ep.dur} · {ep.fileName}</div>
-                              {(ep.cloudAudioUrl||ep.cloudVideoUrl)&&<div className="mn" style={{fontSize:8,color:"var(--cloud-c)",marginTop:2,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>☁ {ep.cloudAudioUrl||ep.cloudVideoUrl}</div>}
-                            </div>
-                            {playUrl&&mType!=="video"&&<audio controls src={playUrl} style={{height:28,width:160,accentColor:mCat.color,flexShrink:0}} />}
-                            {onDeleteEpisode&&<button onClick={()=>onDeleteEpisode(ep.id)} title="Remove" style={{background:"rgba(232,68,26,.1)",border:"1px solid rgba(232,68,26,.22)",borderRadius:2,cursor:"pointer",color:"var(--r)",fontSize:10,padding:"5px 10px",fontFamily:"'JetBrains Mono'",flexShrink:0,transition:"all .2s"}} onMouseEnter={e=>e.currentTarget.style.background="rgba(232,68,26,.2)"} onMouseLeave={e=>e.currentTarget.style.background="rgba(232,68,26,.1)"}>✕ Remove</button>}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </Rv>
-              )}
             </div>
 
             {/* Sidebar */}
@@ -1682,6 +1855,7 @@ function Upload({ onEpisodeAdded, uploadedEps, onDeleteEpisode, serverOnline }) 
           </div>
         </div>
       </section>
+      )}
     </div>
   );
 }
@@ -1733,6 +1907,10 @@ function Home({ nav, onPlay, uploadedEps=[] }) {
   const [heroIdx,setHeroIdx]=useState(0); const heroEps=EPS.slice(0,5);
   useEffect(()=>{const t=setInterval(()=>setHeroIdx(i=>(i+1)%heroEps.length),5500);return()=>clearInterval(t);},[]);
   const heroEp=heroEps[heroIdx];
+  const handlePlayOrNav=(ep)=>{
+    const hasMedia=ep.audioUrl||ep.videoUrl||ep.cloudAudioUrl||ep.cloudVideoUrl;
+    if(hasMedia){onPlay(ep);}else{nav("episode",ep);}
+  };
   return (
     <div>
       {/* Hero */}
@@ -1748,7 +1926,7 @@ function Home({ nav, onPlay, uploadedEps=[] }) {
               <h1 className="bb fu d1" style={{fontSize:"clamp(48px,8.5vw,112px)",color:"var(--c)",lineHeight:.9,marginBottom:20}}>{heroEp.title.split(" ").map((w,i)=><span key={i} style={{display:"inline-block",marginRight:".16em",color:i%4===2?"var(--a)":"var(--c)",transition:"color .6s"}}>{w}</span>)}</h1>
               <p className="fu d2" style={{fontSize:15,color:"var(--g)",maxWidth:500,lineHeight:1.82,marginBottom:32,fontWeight:300}}>{heroEp.desc.slice(0,145)}…</p>
               <div className="fu d3" style={{display:"flex",gap:12,flexWrap:"wrap",marginBottom:44}}>
-                <button className="btn btn-a" style={{fontSize:11}} onClick={()=>onPlay(heroEp)}><span>▶</span> Play Episode</button>
+                <button className="btn btn-a" style={{fontSize:11}} onClick={()=>handlePlayOrNav(heroEp)}><span>▶</span> Play Episode</button>
                 <button className="btn btn-g" style={{fontSize:11}} onClick={()=>nav("episodes")}>Browse All →</button>
                 <button className="btn btn-g" style={{fontSize:11}} onClick={()=>nav("upload")}>Upload Content ↑</button>
               </div>
@@ -1771,19 +1949,24 @@ function Home({ nav, onPlay, uploadedEps=[] }) {
         <div className="wrap">
           <Rv><div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-end",marginBottom:40,flexWrap:"wrap",gap:16}}><div><div className="mn" style={{fontSize:9,color:"var(--a)",letterSpacing:".14em",marginBottom:10}}>// RECENT_DROPS</div><h2 className="bb" style={{fontSize:"clamp(42px,6vw,72px)",color:"var(--c)",lineHeight:.92}}>Latest<br /><em className="sf" style={{color:"var(--a)"}}>Releases</em></h2></div><button className="btn btn-g" onClick={()=>nav("episodes")}>View All →</button></div></Rv>
           <div style={{display:"flex",flexDirection:"column",gap:2}}>
-            {[...uploadedEps.slice(0,3),...EPS].slice(0,5).map((ep,i)=>{
+            {(()=>{
+              const combined=[...uploadedEps,...EPS];
+              const seen=new Set();
+              const deduped=combined.filter(ep=>{const k=String(ep.id);if(seen.has(k))return false;seen.add(k);return true;});
+              return deduped.slice(0,5).map((ep,i)=>{
               const mIcon=ep.mediaType==="video"?"🎬":ep.mediaType==="song"?"🎵":null;
               return (
               <Rv key={ep.id||i} delay={i*.06}>
-                <div className="card" style={{display:"flex",alignItems:"center",gap:18,padding:"16px 20px",cursor:"pointer",transition:"all .25s",outline:ep.isLocal||ep._storageMode?"1px solid rgba(74,222,128,.15)":"none"}} onMouseEnter={e=>{e.currentTarget.style.background="#141414";e.currentTarget.style.paddingLeft="26px"}} onMouseLeave={e=>{e.currentTarget.style.background="var(--card)";e.currentTarget.style.paddingLeft="20px"}}>
+                <div className="card" style={{display:"flex",alignItems:"center",gap:18,padding:"16px 20px",cursor:"pointer",transition:"all .25s",outline:ep.isLocal||ep._storageMode?"1px solid rgba(74,222,128,.15)":"none"}} onClick={()=>nav("episode",ep)} onMouseEnter={e=>{e.currentTarget.style.background="#141414";e.currentTarget.style.paddingLeft="26px"}} onMouseLeave={e=>{e.currentTarget.style.background="var(--card)";e.currentTarget.style.paddingLeft="20px"}}>
                   <div className="bb" style={{fontSize:22,color:"rgba(245,166,35,.13)",minWidth:30,lineHeight:1,flexShrink:0}}>{String(i+1).padStart(2,"00")}</div>
                   <img src={ep.img||ep.cover} alt="" style={{width:58,height:58,objectFit:"cover",borderRadius:2,flexShrink:0,border:"1px solid var(--bdr)"}} />
                   <div style={{flex:1,minWidth:0}}><div style={{display:"flex",gap:6,alignItems:"center",marginBottom:4,flexWrap:"wrap"}}>{ep.num&&<span className="tag" style={{fontSize:8}}>{ep.num}</span>}{mIcon&&<span className="mn" style={{fontSize:9}}>{mIcon}</span>}{ep.isNew&&<span className="tag tag-r" style={{fontSize:8}}>New</span>}{ep._storageMode&&<StorageBadge mode={ep._storageMode} />}{(ep.tags||[]).slice(0,2).map(t=><span key={t} className="mn" style={{fontSize:8,color:"var(--g)",opacity:.65}}>{t}</span>)}</div><div style={{fontSize:14,fontWeight:600,color:"var(--c)",marginBottom:2,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{ep.title}</div><div style={{fontSize:11,color:"var(--g)"}}>{ep.guest||ep.host} · {ep.date||"Uploaded"}</div></div>
                   <div style={{textAlign:"right",flexShrink:0,marginRight:8}}><div style={{fontSize:12,fontWeight:600,color:"var(--c)"}}>{ep.dur||"—"}</div><div className="mn" style={{fontSize:8,color:"var(--g)"}}>{ep.plays||"Uploaded"}</div></div>
-                  <button onClick={()=>onPlay(ep)} style={{width:40,height:40,borderRadius:"50%",background:"var(--a2)",border:"1px solid rgba(245,166,35,.2)",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,color:"var(--a)",transition:"all .2s",flexShrink:0}} onMouseEnter={e=>{e.currentTarget.style.background="var(--a)";e.currentTarget.style.color="#070707"}} onMouseLeave={e=>{e.currentTarget.style.background="var(--a2)";e.currentTarget.style.color="var(--a)"}}>▶</button>
+                  <button onClick={e=>{e.stopPropagation();handlePlayOrNav(ep);}} style={{width:40,height:40,borderRadius:"50%",background:"var(--a2)",border:"1px solid rgba(245,166,35,.2)",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,color:"var(--a)",transition:"all .2s",flexShrink:0}} onMouseEnter={e=>{e.currentTarget.style.background="var(--a)";e.currentTarget.style.color="#070707"}} onMouseLeave={e=>{e.currentTarget.style.background="var(--a2)";e.currentTarget.style.color="var(--a)"}}>▶</button>
                 </div>
               </Rv>
-            );})}
+            );});
+            })()}
           </div>
         </div>
       </section>
@@ -1873,10 +2056,10 @@ function Episodes({ nav, onPlay, uploadedEps=[], loading=false }) {
     return (
       <div>
         <SectionHeader icon={icon} label={label} color={color} count={items.length} accentBg={accentBg} />
-        {loading?<div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))",gap:14}}>{[1,2,3].map(i=><SkeletonCard key={i} />)}</div>
+        {loading?<div className="ep-cards-grid" style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))",gap:14}}>{[1,2,3].map(i=><SkeletonCard key={i} />)}</div>
         :items.length===0?<div style={{textAlign:"center",padding:"48px 20px",border:`1px dashed ${color}33`,borderRadius:4,background:`${color}05`}}><div style={{fontSize:40,marginBottom:12,opacity:.5}}>{icon}</div><div className="mn" style={{fontSize:10,color:"var(--g)",letterSpacing:".1em",marginBottom:16}}>No {label.toLowerCase()} uploaded yet</div><button className="btn btn-a" onClick={onUpload} style={{padding:"9px 22px",fontSize:10}}>Upload {label} →</button></div>
         :<>
-          <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))",gap:14}}>{visible.map((ep,i)=><EpCard key={ep.id} ep={ep} i={i} />)}</div>
+          <div className="ep-cards-grid" style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))",gap:14}}>{visible.map((ep,i)=><EpCard key={ep.id} ep={ep} i={i} />)}</div>
           {hasMore&&<div style={{textAlign:"center",marginTop:22}}><button onClick={()=>setExpanded(v=>!v)} style={{padding:"11px 28px",background:"transparent",border:`1px solid ${color}55`,borderRadius:3,color,fontFamily:"'JetBrains Mono'",fontSize:9,letterSpacing:".1em",cursor:"pointer",transition:"all .25s"}} onMouseEnter={e=>{e.currentTarget.style.background=`${color}11`;e.currentTarget.style.borderColor=color}} onMouseLeave={e=>{e.currentTarget.style.background="transparent";e.currentTarget.style.borderColor=`${color}55`}}>{expanded?`▲ SHOW LESS`:`▼ SHOW ALL ${items.length} ${label.toUpperCase()}`}</button></div>}
         </>}
       </div>
@@ -1898,7 +2081,7 @@ function Episodes({ nav, onPlay, uploadedEps=[], loading=false }) {
         </div>
       </section>
 
-      {/* ── Podcast Category Filter Bar ── */}
+      {/* ── Podcast Category Filter Bar (filters uploaded episodes by category) ── */}
       {uploadedEps.length>0&&(
         <div style={{background:"var(--d2)",borderBottom:"1px solid var(--bdr)"}}>
           <div className="wrap" style={{padding:"14px var(--container-padding)"}}>
@@ -1925,12 +2108,7 @@ function Episodes({ nav, onPlay, uploadedEps=[], loading=false }) {
         </div>
       )}
 
-      {/* Tag filter bar (for demo episodes) */}
-      <div style={{background:"var(--d)",borderBottom:"1px solid var(--bdr)",position:"sticky",top:"var(--navbar-h)",zIndex:50}}>
-        <div className="wrap" style={{display:"flex",gap:8,padding:"12px var(--container-padding)",overflowX:"auto",WebkitOverflowScrolling:"touch",scrollbarWidth:"none"}}>
-          {allTags.map(t=><button key={t} onClick={()=>setFilter(t)} style={{padding:"8px 14px",borderRadius:2,border:`1px solid ${filter===t?"var(--a)":"var(--bdr)"}`,background:filter===t?"var(--a2)":"transparent",color:filter===t?"var(--a)":"var(--g)",fontFamily:"'JetBrains Mono'",fontSize:9,letterSpacing:".09em",textTransform:"uppercase",cursor:"pointer",transition:"all .2s",whiteSpace:"nowrap",flexShrink:0,minHeight:36}}>{t}</button>)}
-        </div>
-      </div>
+
       {/* Videos */}
       <section style={{padding:"56px 0 48px",background:"var(--d)",borderBottom:"1px solid var(--bdr)"}}>
         <div className="wrap"><Section items={filtUplVideos} icon="🎬" label="Videos" color="#8b5cf6" accentBg="rgba(139,92,246,.12)" onUpload={()=>nav("upload")} /></div>
@@ -2116,11 +2294,8 @@ function EditEpisodeModal({ ep, onSave, onClose }) {
    ═══════════════════════════════════════════════════════════════ */
 function Guests({ onPlay, uploadedEps=[], onEditEpisode }) {
   const [hovered,setHovered]=useState(null);
-
-  /* Merge uploaded episodes + fallback fake guests.
-     Uploaded episodes are shown first. Each uploaded ep becomes a "guest card"
-     using the guest/host name, thumbnail, and media file for playback. */
-  const allEps = [...uploadedEps, ...EPS];
+  const [showAll,setShowAll]=useState(false);
+  const VISIBLE_COUNT=6;
 
   /* Build guest cards from uploaded episodes */
   const uploadedCards = uploadedEps.map(ep=>({
@@ -2131,25 +2306,27 @@ function Guests({ onPlay, uploadedEps=[], onEditEpisode }) {
     img:   ep.img   || ep.cover || FALLBACK_IMG,
     bio:   ep.desc  || "Uploaded episode.",
     tw:    "",
-    _ep:   ep,   // full episode object — used directly for play
+    _ep:   ep,
   }));
 
-  /* Fill remaining slots with fake guests (so the page never looks empty) */
+  /* Fill remaining slots with fake guests */
   const fakeCards = GUESTS.map(g=>({
     ...g,
     _ep: EPS.find(e=>e.num===g.ep)||EPS[0],
   }));
 
-  /* Show uploaded first, then fake ones */
-  const cards = uploadedCards.length > 0
+  const allCards = uploadedCards.length > 0
     ? [...uploadedCards, ...fakeCards]
     : fakeCards;
+
+  const visibleCards = showAll ? allCards : allCards.slice(0, VISIBLE_COUNT);
+  const hiddenCount  = allCards.length - VISIBLE_COUNT;
 
   return (
     <div style={{paddingTop:68}}>
       <section style={{position:"relative",minHeight:"460px",display:"flex",alignItems:"center",overflow:"hidden",background:"#050505"}}>
         <div style={{position:"absolute",inset:0,display:"grid",gridTemplateColumns:"repeat(6,1fr)"}}>
-          {cards.slice(0,6).map((g,i)=>(
+          {allCards.slice(0,6).map((g,i)=>(
             <div key={g.id??i} style={{overflow:"hidden"}}>
               <img src={g.img} alt={g.name} style={{width:"100%",height:"100%",objectFit:"cover",filter:"grayscale(1) brightness(.35) contrast(1.15)"}} />
             </div>
@@ -2167,6 +2344,14 @@ function Guests({ onPlay, uploadedEps=[], onEditEpisode }) {
                 ? `${uploadedEps.length} uploaded episode${uploadedEps.length>1?"s":""} · Click ▶ to play`
                 : "World-class thinkers, researchers, and rebels who've sat across from us."}
             </p>
+            {allCards.length > 0 && (
+              <div style={{marginTop:24,display:"flex",gap:20,alignItems:"center",flexWrap:"wrap"}}>
+                <div style={{display:"flex",alignItems:"center",gap:10}}>
+                  <div style={{width:32,height:1,background:"var(--a)",opacity:.6}} />
+                  <span className="mn" style={{fontSize:9,color:"var(--a)",letterSpacing:".12em"}}>{allCards.length} GUESTS FEATURED</span>
+                </div>
+              </div>
+            )}
           </Rv>
         </div>
       </section>
@@ -2180,8 +2365,9 @@ function Guests({ onPlay, uploadedEps=[], onEditEpisode }) {
               </span>
             </div>
           )}
+
           <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(340px,1fr))",gap:2}}>
-            {cards.map((g,i)=>{
+            {visibleCards.map((g,i)=>{
               const isHov=hovered===g.id;
               const ep = g._ep;
               return (
@@ -2242,6 +2428,41 @@ function Guests({ onPlay, uploadedEps=[], onEditEpisode }) {
               );
             })}
           </div>
+
+          {/* ── Show More / Show Less button ──────────────────────── */}
+          {allCards.length > VISIBLE_COUNT && (
+            <div style={{textAlign:"center",marginTop:40}}>
+              <button
+                onClick={()=>setShowAll(v=>!v)}
+                style={{
+                  display:"inline-flex",alignItems:"center",gap:10,
+                  padding:"14px 32px",
+                  background:"transparent",
+                  border:"1px solid var(--bdr)",
+                  color:"var(--g)",
+                  fontFamily:"'JetBrains Mono',monospace",
+                  fontSize:10,letterSpacing:".1em",textTransform:"uppercase",
+                  cursor:"pointer",
+                  transition:"all .25s cubic-bezier(.16,1,.3,1)",
+                  borderRadius:2,
+                  position:"relative",overflow:"hidden",
+                }}
+                onMouseEnter={e=>{e.currentTarget.style.borderColor="var(--a)";e.currentTarget.style.color="var(--a)";e.currentTarget.style.background="var(--a2)";}}
+                onMouseLeave={e=>{e.currentTarget.style.borderColor="var(--bdr)";e.currentTarget.style.color="var(--g)";e.currentTarget.style.background="transparent";}}
+              >
+                {showAll
+                  ? <><span style={{fontSize:13}}>↑</span> Show Less</>
+                  : <><span style={{fontSize:13}}>+</span> {hiddenCount} More Guests</>
+                }
+              </button>
+              {!showAll && (
+                <p style={{marginTop:12,fontSize:11,color:"var(--g)",opacity:.5}}>
+                  Showing {VISIBLE_COUNT} of {allCards.length} guests
+                </p>
+              )}
+            </div>
+          )}
+
         </div>
       </section>
     </div>
@@ -2523,9 +2744,11 @@ export default function App() {
   /* ── Play handler ────────────────────────────────────────── */
   const handlePlay=ep=>{
     if(ep.mediaType==="video"&&(ep.videoUrl||ep.cloudVideoUrl)){
+      setPlaying(null);       // stop audio player first
       setVideoPlaying(ep);
       showToast(`🎬 Playing: ${ep.title}`);
     } else {
+      setVideoPlaying(null);  // stop video player first
       setPlaying(ep);
       showToast(`▶ Now playing: ${ep.num||""}${ep.num?" — ":""}${ep.guest||ep.title}`);
     }
