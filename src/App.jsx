@@ -2136,9 +2136,9 @@ function Episodes({ nav, onPlay, uploadedEps=[], loading=false, playing=null }) 
     const mIcon=ep.mediaType==="video"?"🎬":ep.mediaType==="song"?"🎵":"🎙";
     const isPlaying=playing&&String(playing.id)===String(ep.id);
     return (
-      <Rv delay={i*.045}>
-        <div className="card hl" style={{overflow:"hidden",outline:isUploaded?"1px solid rgba(74,222,128,.22)":"none"}}>
-          <div style={{position:"relative",height:190,overflow:"hidden"}}>
+      <Rv delay={i*.045} style={{height:"100%"}}>
+        <div className="card hl" style={{overflow:"hidden",outline:isUploaded?"1px solid rgba(74,222,128,.22)":"none",display:"flex",flexDirection:"column",height:"100%"}}>
+          <div style={{position:"relative",height:190,overflow:"hidden",flexShrink:0}}>
             <img src={ep.img} alt="" style={{width:"100%",height:"100%",objectFit:"cover",filter:"saturate(.75)",transition:"transform .6s,filter .4s"}} onMouseOver={e=>{e.currentTarget.style.transform="scale(1.06)";e.currentTarget.style.filter="saturate(1)"}} onMouseOut={e=>{e.currentTarget.style.transform="scale(1)";e.currentTarget.style.filter="saturate(.75)"}} />
             <div style={{position:"absolute",inset:0,background:"linear-gradient(to top,rgba(7,7,7,.9) 0%,transparent 55%)"}} />
             {isUploaded&&<span style={{position:"absolute",top:10,left:10,background:mColor,color:ep.mediaType==="song"?"#fff":"#070707",fontFamily:"'JetBrains Mono'",fontSize:8,fontWeight:700,letterSpacing:".08em",padding:"3px 8px",borderRadius:2}}>{mIcon} {(ep.mediaType||"audio").toUpperCase()}</span>}
@@ -2148,14 +2148,16 @@ function Episodes({ nav, onPlay, uploadedEps=[], loading=false, playing=null }) 
             {isPlaying&&<div style={{position:"absolute",bottom:10,left:ep._storageMode?80:10,display:"flex",alignItems:"flex-end",gap:2,height:24}}><WaveBars count={7} playing={true} color={mColor} height={20} /></div>}
             <button onClick={()=>onPlay(ep)} style={{position:"absolute",bottom:10,right:10,width:38,height:38,borderRadius:"50%",background:playUrl?"var(--a)":"rgba(138,134,128,.4)",border:"none",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,color:"#070707",transition:"all .2s",minWidth:44,minHeight:44}} onMouseEnter={e=>{e.currentTarget.style.transform="scale(1.15)";e.currentTarget.style.boxShadow="0 0 20px var(--a3)"}} onMouseLeave={e=>{e.currentTarget.style.transform="scale(1)";e.currentTarget.style.boxShadow="none"}}>{isPlaying?"⏸":"▶"}</button>
           </div>
-          <div style={{padding:"16px 18px"}}>
+          <div style={{padding:"16px 18px",display:"flex",flexDirection:"column",flex:1}}>
             <div style={{display:"flex",flexWrap:"wrap",gap:5,marginBottom:9}}>
               {ep.podcastCategory&&ep.isLocal&&(()=>{const cat=PODCAST_CATEGORIES.find(c=>c.id===ep.podcastCategory);return cat?<span style={{fontSize:8,fontFamily:"'JetBrains Mono'",color:cat.color,background:cat.accent,border:`1px solid ${cat.border}`,padding:"2px 7px",borderRadius:2,letterSpacing:".06em"}}>{cat.icon} {cat.label}</span>:null;})()}
               {ep.tags.map(t=><span key={t} className="mn" style={{fontSize:8,color:"var(--g)"}}>{t}</span>)}
             </div>
             <h3 className="sf" style={{fontSize:15,fontWeight:400,color:"var(--c)",marginBottom:6,lineHeight:1.3,cursor:"pointer"}} onClick={()=>nav("episode",ep)}>{ep.title}</h3>
-            {isUploaded&&ep.fileName&&<div className="mn" style={{fontSize:9,color:"rgba(74,222,128,.55)",marginBottom:4,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{ep.fileName}</div>}
-            {isUploaded&&(ep.cloudAudioUrl||ep.cloudVideoUrl)&&<div className="mn" style={{fontSize:8,color:"var(--cloud-c)",marginBottom:4,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>☁ {ep.cloudAudioUrl||ep.cloudVideoUrl}</div>}
+            <div style={{flex:1}}>
+              {isUploaded&&ep.fileName&&<div className="mn" style={{fontSize:9,color:"rgba(74,222,128,.55)",marginBottom:4,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{ep.fileName}</div>}
+              {isUploaded&&(ep.cloudAudioUrl||ep.cloudVideoUrl)&&<div className="mn" style={{fontSize:8,color:"var(--cloud-c)",marginBottom:4,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>☁ {ep.cloudAudioUrl||ep.cloudVideoUrl}</div>}
+            </div>
             <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",borderTop:"1px solid var(--bdr)",paddingTop:10,marginTop:8}}>
               <div style={{display:"flex",alignItems:"center",gap:7}}><img src={ep.img} alt="" style={{width:22,height:22,borderRadius:"50%",objectFit:"cover"}} /><span style={{fontSize:10,fontWeight:600,color:"var(--c)"}}>{(ep.guest||"").split(" ")[0]}</span></div>
               <div style={{display:"flex",alignItems:"center",gap:6}}>
@@ -2188,7 +2190,7 @@ function Episodes({ nav, onPlay, uploadedEps=[], loading=false, playing=null }) 
         {loading?<div className="ep-cards-grid" style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(min(100%,280px),1fr))",gap:14}}>{[1,2,3].map(i=><SkeletonCard key={i} />)}</div>
         :items.length===0?<div style={{textAlign:"center",padding:"48px 20px",border:`1px dashed ${color}33`,borderRadius:4,background:`${color}05`}}><div style={{fontSize:40,marginBottom:12,opacity:.5}}>{icon}</div><div className="mn" style={{fontSize:10,color:"var(--g)",letterSpacing:".1em",marginBottom:16}}>No {label.toLowerCase()} uploaded yet</div><button className="btn btn-a" onClick={onUpload} style={{padding:"9px 22px",fontSize:10}}>Upload {label} →</button></div>
         :<>
-          <div className="ep-cards-grid" style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(min(100%,280px),1fr))",gap:14}}>{visible.map((ep,i)=><EpCard key={ep.id} ep={ep} i={i} />)}</div>
+          <div className="ep-cards-grid" style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(min(100%,280px),1fr))",gap:14,alignItems:"stretch"}}>{visible.map((ep,i)=><EpCard key={ep.id} ep={ep} i={i} />)}</div>
           {hasMore&&(
             <div style={{textAlign:"center",marginTop:22}}>
               <button onClick={()=>setExpanded(v=>!v)} style={{padding:"11px 28px",background:"transparent",border:`1px solid ${color}55`,borderRadius:3,color,fontFamily:"'JetBrains Mono'",fontSize:9,letterSpacing:".1em",cursor:"pointer",transition:"all .25s",minHeight:44,width:"100%",maxWidth:340}}
@@ -2953,3 +2955,4 @@ export default function App() {
     </div>
   );
 }
+
