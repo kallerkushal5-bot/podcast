@@ -843,7 +843,7 @@ function NavbarV2({ page, nav, onSearch, darkMode, toggleDark, serverOnline }) {
     {id:"about",l:"About"},{id:"subscribe",l:"Subscribe"},{id:"contact",l:"Contact"},{id:"upload",l:"Upload"},
   ];
   return (
-    <nav style={{ position:"fixed",top:0,left:0,right:0,zIndex:1000, background:darkMode?(scrolled?"rgba(7,7,7,.96)":"transparent"):(scrolled?"rgba(245,243,239,.96)":"transparent"), backdropFilter:scrolled?"blur(20px)":"none", borderBottom:scrolled?"1px solid var(--bdr)":"1px solid transparent", transition:"all .4s ease" }}>
+    <nav style={{ position:"fixed",top:0,left:0,right:0,zIndex:1000, background:darkMode?(scrolled?"rgba(7,7,7,.82)":"transparent"):(scrolled?"rgba(245,243,239,.88)":"transparent"), backdropFilter:scrolled?"blur(22px) saturate(160%)":"none", borderBottom:scrolled?`1px solid rgba(245,166,35,${y>200?.13:.07})`:"1px solid transparent", boxShadow:scrolled?"0 1px 0 rgba(245,166,35,.06)":"none", transition:"all .35s ease" }}>
       <div className="wrap" style={{ display:"flex",alignItems:"center",justifyContent:"space-between",height:68,gap:16,minWidth:0 }}>
         <button onClick={()=>nav("home")} style={{ background:"none",border:"none",cursor:"pointer",display:"flex",alignItems:"center",gap:11,padding:0,flexShrink:0,minWidth:0,maxWidth:"clamp(120px,30vw,200px)",overflow:"hidden" }}>
           <WaveBars count={6} height={18} />
@@ -1903,8 +1903,9 @@ function SearchOverlay({ onClose, nav, onPlay, uploadedEps=[] }) {
 /* ═══════════════════════════════════════════════════════════════
    HOME PAGE  (abridged — full hero + latest + platforms + CTA)
    ═══════════════════════════════════════════════════════════════ */
-function Home({ nav, onPlay, uploadedEps=[] }) {
+function Home({ nav, onPlay, uploadedEps=[], playing=null }) {
   const [heroIdx,setHeroIdx]=useState(0); const heroEps=EPS.slice(0,5);
+  const scrollY=useScrollY();
   useEffect(()=>{const t=setInterval(()=>setHeroIdx(i=>(i+1)%heroEps.length),5500);return()=>clearInterval(t);},[]);
   const heroEp=heroEps[heroIdx];
   const handlePlayOrNav=(ep)=>{
@@ -1915,7 +1916,7 @@ function Home({ nav, onPlay, uploadedEps=[] }) {
     <div>
       {/* Hero */}
       <section style={{minHeight:"100vh",display:"flex",flexDirection:"column",justifyContent:"center",position:"relative",overflow:"hidden",paddingTop:68,background:"#050505"}}>
-        {heroEps.map((ep,i)=><div key={ep.id} style={{position:"absolute",inset:0,transition:"opacity 1.2s ease",opacity:i===heroIdx?1:0,zIndex:0}}><img src={ep.cover} alt="" style={{width:"100%",height:"100%",objectFit:"cover",opacity:.13,filter:"saturate(.2) blur(2px)",transform:"scale(1.06)"}} /></div>)}
+        {heroEps.map((ep,i)=><div key={ep.id} style={{position:"absolute",inset:"-8%",transition:"opacity 1.2s ease",opacity:i===heroIdx?1:0,zIndex:0,transform:`translateY(${scrollY*0.22}px)`,willChange:"transform"}}><img src={ep.cover} alt="" style={{width:"100%",height:"100%",objectFit:"cover",opacity:.13,filter:"saturate(.2) blur(2px)"}} /></div>)}
         <div style={{position:"absolute",inset:0,background:"linear-gradient(135deg, rgba(7,7,7,.55) 0%, rgba(7,7,7,.98) 60%)",zIndex:1}} />
         <div style={{position:"absolute",top:0,width:"100vw",height:"1px",background:"linear-gradient(90deg,transparent,rgba(245,166,35,.4),transparent)",animation:"scanX 10s linear infinite",zIndex:2,pointerEvents:"none"}} />
         <div className="gbg" style={{position:"absolute",inset:0,zIndex:1,opacity:.4}} />
@@ -1962,7 +1963,7 @@ function Home({ nav, onPlay, uploadedEps=[] }) {
                   <img src={ep.img||ep.cover} alt="" style={{width:58,height:58,objectFit:"cover",borderRadius:2,flexShrink:0,border:"1px solid var(--bdr)"}} />
                   <div style={{flex:1,minWidth:0}}><div style={{display:"flex",gap:6,alignItems:"center",marginBottom:4,flexWrap:"wrap"}}>{ep.num&&<span className="tag" style={{fontSize:8}}>{ep.num}</span>}{mIcon&&<span className="mn" style={{fontSize:9}}>{mIcon}</span>}{ep.isNew&&<span className="tag tag-r" style={{fontSize:8}}>New</span>}{ep._storageMode&&<StorageBadge mode={ep._storageMode} />}{(ep.tags||[]).slice(0,2).map(t=><span key={t} className="mn" style={{fontSize:8,color:"var(--g)",opacity:.65}}>{t}</span>)}</div><div style={{fontSize:14,fontWeight:600,color:"var(--c)",marginBottom:2,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{ep.title}</div><div style={{fontSize:11,color:"var(--g)"}}>{ep.guest||ep.host} · {ep.date||"Uploaded"}</div></div>
                   <div style={{textAlign:"right",flexShrink:0,marginRight:8}}><div style={{fontSize:12,fontWeight:600,color:"var(--c)"}}>{ep.dur||"—"}</div><div className="mn" style={{fontSize:8,color:"var(--g)"}}>{ep.plays||"Uploaded"}</div></div>
-                  <button onClick={e=>{e.stopPropagation();handlePlayOrNav(ep);}} style={{width:40,height:40,borderRadius:"50%",background:"var(--a2)",border:"1px solid rgba(245,166,35,.2)",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,color:"var(--a)",transition:"all .2s",flexShrink:0}} onMouseEnter={e=>{e.currentTarget.style.background="var(--a)";e.currentTarget.style.color="#070707"}} onMouseLeave={e=>{e.currentTarget.style.background="var(--a2)";e.currentTarget.style.color="var(--a)"}}>▶</button>
+                  <button onClick={e=>{e.stopPropagation();handlePlayOrNav(ep);}} style={{width:40,height:40,borderRadius:"50%",background:playing&&String(playing.id)===String(ep.id)?"var(--a)":"var(--a2)",border:`1px solid rgba(245,166,35,${playing&&String(playing.id)===String(ep.id)?1:.2})`,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,color:playing&&String(playing.id)===String(ep.id)?"#070707":"var(--a)",transition:"all .2s",flexShrink:0}} onMouseEnter={e=>{e.currentTarget.style.background="var(--a)";e.currentTarget.style.color="#070707"}} onMouseLeave={e=>{e.currentTarget.style.background=playing&&String(playing.id)===String(ep.id)?"var(--a)":"var(--a2)";e.currentTarget.style.color=playing&&String(playing.id)===String(ep.id)?"#070707":"var(--a)"}}>{playing&&String(playing.id)===String(ep.id)?"⏸":"▶"}</button>
                 </div>
               </Rv>
             );});
@@ -1989,7 +1990,7 @@ function Home({ nav, onPlay, uploadedEps=[] }) {
 /* ═══════════════════════════════════════════════════════════════
    EPISODES PAGE  (with 3 category sections)
    ═══════════════════════════════════════════════════════════════ */
-function Episodes({ nav, onPlay, uploadedEps=[], loading=false }) {
+function Episodes({ nav, onPlay, uploadedEps=[], loading=false, playing=null }) {
   const [filter,setFilter]=useState("All");
   const [categoryFilter,setCategoryFilter]=useState("all");
   const allTags=["All",...new Set(EPS.flatMap(e=>e.tags))];
@@ -2012,6 +2013,7 @@ function Episodes({ nav, onPlay, uploadedEps=[], loading=false }) {
     const isUploaded=ep.isLocal, playUrl=ep.audioUrl||ep.videoUrl||ep.cloudAudioUrl||ep.cloudVideoUrl;
     const mColor=ep.mediaType==="video"?"#8b5cf6":ep.mediaType==="song"?"#ec4899":"var(--a)";
     const mIcon=ep.mediaType==="video"?"🎬":ep.mediaType==="song"?"🎵":"🎙";
+    const isPlaying=playing&&String(playing.id)===String(ep.id);
     return (
       <Rv delay={i*.045}>
         <div className="card hl" style={{overflow:"hidden",outline:isUploaded?"1px solid rgba(74,222,128,.22)":"none"}}>
@@ -2022,7 +2024,8 @@ function Episodes({ nav, onPlay, uploadedEps=[], loading=false }) {
             {!isUploaded&&ep.isNew&&<span className="tag tag-r" style={{position:"absolute",top:10,left:10,fontSize:8}}>New</span>}
             <span className="tag" style={{position:"absolute",top:10,right:10,fontSize:8}}>{ep.num}</span>
             {ep._storageMode&&<div style={{position:"absolute",bottom:10,left:10}}><StorageBadge mode={ep._storageMode} /></div>}
-            <button onClick={()=>onPlay(ep)} style={{position:"absolute",bottom:10,right:10,width:38,height:38,borderRadius:"50%",background:playUrl?"var(--a)":"rgba(138,134,128,.4)",border:"none",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,color:"#070707",transition:"all .2s",minWidth:44,minHeight:44}} onMouseEnter={e=>{e.currentTarget.style.transform="scale(1.15)";e.currentTarget.style.boxShadow="0 0 20px var(--a3)"}} onMouseLeave={e=>{e.currentTarget.style.transform="scale(1)";e.currentTarget.style.boxShadow="none"}}>▶</button>
+            {isPlaying&&<div style={{position:"absolute",bottom:10,left:ep._storageMode?80:10,display:"flex",alignItems:"flex-end",gap:2,height:24}}><WaveBars count={7} playing={true} color={mColor} height={20} /></div>}
+            <button onClick={()=>onPlay(ep)} style={{position:"absolute",bottom:10,right:10,width:38,height:38,borderRadius:"50%",background:playUrl?"var(--a)":"rgba(138,134,128,.4)",border:"none",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,color:"#070707",transition:"all .2s",minWidth:44,minHeight:44}} onMouseEnter={e=>{e.currentTarget.style.transform="scale(1.15)";e.currentTarget.style.boxShadow="0 0 20px var(--a3)"}} onMouseLeave={e=>{e.currentTarget.style.transform="scale(1)";e.currentTarget.style.boxShadow="none"}}>{isPlaying?"⏸":"▶"}</button>
           </div>
           <div style={{padding:"16px 18px"}}>
             <div style={{display:"flex",flexWrap:"wrap",gap:5,marginBottom:9}}>
@@ -2034,7 +2037,11 @@ function Episodes({ nav, onPlay, uploadedEps=[], loading=false }) {
             {isUploaded&&(ep.cloudAudioUrl||ep.cloudVideoUrl)&&<div className="mn" style={{fontSize:8,color:"var(--cloud-c)",marginBottom:4,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>☁ {ep.cloudAudioUrl||ep.cloudVideoUrl}</div>}
             <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",borderTop:"1px solid var(--bdr)",paddingTop:10,marginTop:8}}>
               <div style={{display:"flex",alignItems:"center",gap:7}}><img src={ep.img} alt="" style={{width:22,height:22,borderRadius:"50%",objectFit:"cover"}} /><span style={{fontSize:10,fontWeight:600,color:"var(--c)"}}>{(ep.guest||"").split(" ")[0]}</span></div>
-              <div style={{display:"flex",alignItems:"center",gap:6}}><span className="mn" style={{fontSize:8,color:"var(--g)"}}>{ep.dur}</span>{!isUploaded&&<ProgressRing pct={Math.round((parseInt(ep.plays)/120)*100)} size={28} />}{isUploaded&&<span style={{fontSize:9,color:"rgba(74,222,128,.8)",fontFamily:"'JetBrains Mono'"}}>✓</span>}</div>
+              <div style={{display:"flex",alignItems:"center",gap:6}}>
+                {isPlaying?<WaveBars count={5} playing={true} color={mColor} height={14} />:<span className="mn" style={{fontSize:8,color:"var(--g)"}}>{ep.dur}</span>}
+                {!isUploaded&&!isPlaying&&<ProgressRing pct={Math.round((parseInt(ep.plays)/120)*100)} size={28} />}
+                {isUploaded&&!isPlaying&&<span style={{fontSize:9,color:"rgba(74,222,128,.8)",fontFamily:"'JetBrains Mono'"}}>✓</span>}
+              </div>
             </div>
           </div>
         </div>
@@ -2295,6 +2302,7 @@ function EditEpisodeModal({ ep, onSave, onClose }) {
 function Guests({ onPlay, uploadedEps=[], onEditEpisode }) {
   const [hovered,setHovered]=useState(null);
   const [showAll,setShowAll]=useState(false);
+  const scrollY=useScrollY();
   const VISIBLE_COUNT=6;
 
   /* Build guest cards from uploaded episodes */
@@ -2325,7 +2333,7 @@ function Guests({ onPlay, uploadedEps=[], onEditEpisode }) {
   return (
     <div style={{paddingTop:68}}>
       <section style={{position:"relative",minHeight:"460px",display:"flex",alignItems:"center",overflow:"hidden",background:"#050505"}}>
-        <div style={{position:"absolute",inset:0,display:"grid",gridTemplateColumns:"repeat(6,1fr)"}}>
+        <div style={{position:"absolute",inset:"-8%",display:"grid",gridTemplateColumns:"repeat(6,1fr)",transform:`translateY(${scrollY*0.2}px)`,willChange:"transform"}}>
           {allCards.slice(0,6).map((g,i)=>(
             <div key={g.id??i} style={{overflow:"hidden"}}>
               <img src={g.img} alt={g.name} style={{width:"100%",height:"100%",objectFit:"cover",filter:"grayscale(1) brightness(.35) contrast(1.15)"}} />
@@ -2470,6 +2478,7 @@ function Guests({ onPlay, uploadedEps=[], onEditEpisode }) {
 }
 
 function About() {
+  const scrollY=useScrollY();
   return (
     <div style={{paddingTop:68}}>
       <section style={{position:"relative",minHeight:"520px",display:"flex",alignItems:"stretch",overflow:"hidden",background:"#040404"}}>
@@ -2478,7 +2487,9 @@ function About() {
           <Rv><h1 className="bb" style={{fontSize:"clamp(52px,9vw,114px)",color:"var(--c)",lineHeight:.86,marginBottom:30}}>Where<br /><em className="sf" style={{color:"var(--a)"}}>Signal</em><br />Meets<br />Noise.</h1><div style={{borderLeft:"3px solid var(--a)",paddingLeft:20}}><p className="sf" style={{fontSize:"clamp(14px,2.5vw,18px)",color:"rgba(240,237,230,.65)",fontStyle:"italic",lineHeight:1.75,fontWeight:300}}>"We don't rush. We don't cut.<br />We let ideas breathe."</p><div className="mn" style={{fontSize:8,color:"var(--a)",letterSpacing:".12em",marginTop:10}}>— JORDAN COLE, HOST</div></div></Rv>
         </div>
         <div style={{flex:"0 0 42%",position:"relative",overflow:"hidden"}}>
-          <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=900&q=85" alt="Host" style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"top center",filter:"grayscale(.45) contrast(1.08)",opacity:.7}} />
+          <div style={{position:"absolute",inset:"-10%",transform:`translateY(${scrollY*0.18}px)`,willChange:"transform"}}>
+            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=900&q=85" alt="Host" style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"top center",filter:"grayscale(.45) contrast(1.08)",opacity:.7}} />
+          </div>
           <div style={{position:"absolute",inset:0,background:"linear-gradient(to left,transparent 20%,rgba(4,4,4,.5) 60%,#040404 90%)"}} />
           <div style={{position:"absolute",bottom:28,left:28,right:28}}><div className="mn" style={{fontSize:8,color:"var(--a)",letterSpacing:".14em",marginBottom:5}}>HOST & CREATOR</div><div className="bb" style={{fontSize:28,color:"var(--c)",lineHeight:1}}>Jordan Cole</div></div>
         </div>
@@ -2756,8 +2767,8 @@ export default function App() {
 
   /* ── Pages map ───────────────────────────────────────────── */
   const VIEWS={
-    home:     <Home      nav={nav} onPlay={handlePlay} uploadedEps={uploadedEps} />,
-    episodes: <Episodes  nav={nav} onPlay={handlePlay} uploadedEps={uploadedEps} loading={loading} />,
+    home:     <Home      nav={nav} onPlay={handlePlay} uploadedEps={uploadedEps} playing={playing} />,
+    episodes: <Episodes  nav={nav} onPlay={handlePlay} uploadedEps={uploadedEps} loading={loading} playing={playing} />,
     episode:  <EpisodeDetail ep={data||[...uploadedEps,...EPS][0]} onPlay={handlePlay} />,
     guests:   <Guests    onPlay={handlePlay} uploadedEps={uploadedEps} onEditEpisode={ep=>setEditingEp(ep)} />,
     about:    <About />,
