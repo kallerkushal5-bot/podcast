@@ -501,9 +501,15 @@ img{max-width:100%;height:auto;display:block}
 /* Overlays */
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:2000;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px);animation:fadeIn .25s ease}
 .modal-box{background:#111;border:1px solid var(--bdr);border-radius:4px;padding:36px;max-width:460px;width:100%;position:relative;animation:fadeUp .35s cubic-bezier(.16,1,.3,1)}
-.search-overlay{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:1500;display:flex;flex-direction:column;align-items:center;padding:80px 20px 40px;backdrop-filter:blur(16px);animation:fadeIn .2s ease}
-.search-input-big{background:transparent;border:none;border-bottom:2px solid var(--a);color:var(--c);font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,7vw,72px);letter-spacing:.04em;outline:none;text-align:center;width:100%;max-width:800px;padding:12px 0;caret-color:var(--a)}
-.search-input-big::placeholder{color:rgba(245,166,35,.25)}
+.search-overlay{position:fixed;top:68px;left:0;right:0;z-index:1500;animation:fadeUp .18s ease}
+.search-panel{background:#0f0f0f;border-bottom:1px solid rgba(245,166,35,.15);box-shadow:0 20px 60px rgba(0,0,0,.8)}
+.search-backdrop{position:fixed;inset:0;top:68px;z-index:1499;background:rgba(0,0,0,.45);backdrop-filter:blur(3px)}
+.search-input-big{background:transparent;border:none;color:var(--c);font-family:'DM Sans',sans-serif;font-size:16px;outline:none;width:100%;padding:0;caret-color:var(--a);-webkit-appearance:none}
+.search-input-big::placeholder{color:var(--g)}
+@media(max-width:479px){
+  .search-overlay{top:68px}
+  .search-panel .wrap{padding:0 12px!important}
+}
 .nl-popup{position:fixed;bottom:100px;right:28px;z-index:1400;background:#111;border:1px solid var(--bdr);border-radius:4px;padding:28px;width:320px;box-shadow:0 24px 64px rgba(0,0,0,.7);animation:fadeUp .45s cubic-bezier(.16,1,.3,1)}
 .toast{position:fixed;top:80px;right:24px;z-index:3000;background:#111;border:1px solid var(--bdr);border-left:3px solid var(--a);padding:14px 18px;border-radius:3px;font-size:13px;font-weight:500;color:var(--c);box-shadow:0 12px 36px rgba(0,0,0,.6);animation:fadeUp .4s cubic-bezier(.16,1,.3,1)}
 .btt{position:fixed;bottom:28px;right:28px;z-index:800;width:42px;height:42px;border-radius:50%;background:var(--a2);border:1px solid rgba(245,166,35,.28);color:var(--a);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .25s;animation:fadeIn .3s ease}
@@ -572,7 +578,7 @@ body.player-active .nl-popup{bottom:118px}
   .ep-cards-grid{grid-template-columns:1fr!important;gap:10px!important}
 }
 @media(max-width:767px){
-  .ep-cards-grid{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))!important}
+  .ep-cards-grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr))!important}
 }
 @media print{body{background:white;color:black}.btt,.toast{display:none!important}}
 `;
@@ -855,9 +861,10 @@ function NavbarV2({ page, nav, onSearch, darkMode, toggleDark, serverOnline }) {
         <div className="hm" style={{ display:"flex",gap:"clamp(12px,2.5vw,28px)",alignItems:"center",flex:1,justifyContent:"center",minWidth:0 }}>
           {desktopLinks.map(l=><button key={l.id} className={`nl${page===l.id?" act":""}`} onClick={()=>nav(l.id)}>{l.l}</button>)}
         </div>
-        <div style={{ display:"flex",gap:"clamp(6px,2vw,8px)",alignItems:"center",flexShrink:0 }}>
+        <div style={{ display:"flex",gap:"clamp(4px,1.5vw,8px)",alignItems:"center",flexShrink:0 }}>
           <div className="hm"><ServerStatusBadge online={serverOnline} /></div>
-          <button onClick={onSearch} className="hm" style={{ width:34,height:34,borderRadius:2,background:"rgba(255,255,255,.05)",border:"1px solid var(--bdr)",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",color:"var(--g)",fontSize:14,transition:"all .2s" }} onMouseEnter={e=>{e.currentTarget.style.borderColor="var(--a)";e.currentTarget.style.color="var(--a)"}} onMouseLeave={e=>{e.currentTarget.style.borderColor="var(--bdr)";e.currentTarget.style.color="var(--g)"}}>⌕</button>
+          {/* Search — visible on ALL screen sizes */}
+          <button onClick={onSearch} style={{ width:38,height:38,borderRadius:2,background:"rgba(255,255,255,.05)",border:"1px solid var(--bdr)",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",color:"var(--g)",fontSize:16,transition:"all .2s",flexShrink:0 }} onMouseEnter={e=>{e.currentTarget.style.borderColor="var(--a)";e.currentTarget.style.color="var(--a)"}} onMouseLeave={e=>{e.currentTarget.style.borderColor="var(--bdr)";e.currentTarget.style.color="var(--g)"}}>⌕</button>
           <button onClick={toggleDark} className="hm" style={{ width:34,height:34,borderRadius:2,background:"rgba(255,255,255,.05)",border:"1px solid var(--bdr)",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,transition:"all .2s" }} onMouseEnter={e=>e.currentTarget.style.borderColor="var(--a)"} onMouseLeave={e=>e.currentTarget.style.borderColor="var(--bdr)"}>{darkMode?"☀":"🌙"}</button>
           <button className="btn btn-a hm" onClick={()=>nav("subscribe")} style={{ padding:"9px 20px",fontSize:10,whiteSpace:"nowrap" }}>Subscribe</button>
           <button onClick={()=>setOpen(!open)} style={{ background:"none",border:"none",cursor:"pointer",display:"flex",flexDirection:"column",gap:5,padding:4,width:44,height:44,justifyContent:"center",alignItems:"center",flexShrink:0 }}>
@@ -1865,38 +1872,134 @@ function Upload({ onEpisodeAdded, uploadedEps, onDeleteEpisode, serverOnline }) 
    ═══════════════════════════════════════════════════════════════ */
 function SearchOverlay({ onClose, nav, onPlay, uploadedEps=[] }) {
   const [q,setQ]=useState(""); const ref=useRef(null);
-  useEffect(()=>{ref.current?.focus();const esc=e=>{if(e.key==="Escape")onClose()};window.addEventListener("keydown",esc);return()=>window.removeEventListener("keydown",esc);},[]);
+  useEffect(()=>{
+    ref.current?.focus();
+    const esc=e=>{if(e.key==="Escape")onClose();};
+    window.addEventListener("keydown",esc);
+    return()=>window.removeEventListener("keydown",esc);
+  },[]);
+
   const query=q.trim().toLowerCase();
-  const match=ep=>ep.title.toLowerCase().includes(query)||(ep.guest||"").toLowerCase().includes(query)||(ep.tags||[]).some(t=>t.toLowerCase().includes(query))||(ep.num||"").toLowerCase().includes(query);
-  const demoR=query.length<2?[]:EPS.filter(match);
-  const uplR=query.length<2?[]:uploadedEps.filter(match);
-  const total=demoR.length+uplR.length;
-  const Row=({ep,isUploaded})=>(
-    <div onClick={()=>{nav("episode",ep);onClose();}} style={{display:"flex",gap:14,alignItems:"center",padding:"12px 16px",background:"rgba(255,255,255,.04)",border:"1px solid var(--bdr)",borderRadius:2,cursor:"pointer",transition:"all .2s",marginBottom:4}} onMouseEnter={e=>{e.currentTarget.style.background=isUploaded?"rgba(74,222,128,.07)":"rgba(245,166,35,.07)";e.currentTarget.style.borderColor=isUploaded?"rgba(74,222,128,.3)":"rgba(245,166,35,.2)"}} onMouseLeave={e=>{e.currentTarget.style.background="rgba(255,255,255,.04)";e.currentTarget.style.borderColor="var(--bdr)"}}>
-      <img src={ep.img} alt="" style={{width:44,height:44,objectFit:"cover",borderRadius:2,flexShrink:0}} />
-      <div style={{flex:1,minWidth:0}}>
-        {isUploaded&&<div style={{display:"flex",alignItems:"center",gap:6,marginBottom:2}}><StorageBadge mode={ep._storageMode||"local"} /><span style={{fontSize:8,fontFamily:"'JetBrains Mono'",color:"#4ade80"}}>YOUR UPLOAD</span></div>}
-        <div style={{fontSize:13,fontWeight:600,color:"var(--c)",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{ep.title}</div>
-        <div style={{fontSize:10,color:"var(--g)",marginTop:2}}>{ep.guest||ep.host}{ep.dur?` · ${ep.dur}`:""}</div>
-      </div>
-      <button onClick={e=>{e.stopPropagation();onPlay(ep);onClose();}} style={{width:32,height:32,borderRadius:"50%",background:"var(--a)",border:"none",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontSize:11,color:"#070707"}}>▶</button>
-    </div>
-  );
-  return (
-    <div className="search-overlay" onClick={onClose}>
-      <div style={{width:"100%",maxWidth:800,display:"flex",flexDirection:"column",alignItems:"center"}} onClick={e=>e.stopPropagation()}>
-        <div className="mn" style={{fontSize:9,color:"var(--a)",letterSpacing:".14em",marginBottom:14}}>// SEARCH_ARCHIVE</div>
-        <input ref={ref} className="search-input-big" placeholder="Search episodes, uploads, guests…" value={q} onChange={e=>setQ(e.target.value)} />
-        <div className="mn" style={{fontSize:9,color:"rgba(245,166,35,.4)",letterSpacing:".1em",marginBottom:32}}>{query.length<2?`${EPS.length+uploadedEps.length} episodes in archive`:`${total} result${total!==1?"s":""} found`}</div>
-        {total>0&&(
-          <div style={{width:"100%",maxWidth:700,display:"flex",flexDirection:"column",gap:6,maxHeight:"55vh",overflowY:"auto"}}>
-            {uplR.length>0&&<><div className="mn" style={{fontSize:8,color:"#4ade80",letterSpacing:".1em",marginBottom:8,paddingLeft:4}}>YOUR UPLOADS</div>{uplR.map(ep=><Row key={ep.id} ep={ep} isUploaded />)}</>}
-            {demoR.length>0&&<><div className="mn" style={{fontSize:8,color:"var(--g)",letterSpacing:".1em",marginBottom:8,paddingLeft:4}}>EPISODES</div>{demoR.map(ep=><Row key={ep.id} ep={ep} isUploaded={false} />)}</>}
+  const mediaIcon=ep=>ep.mediaType==="video"?"🎬":ep.mediaType==="song"?"🎵":"🎙";
+  const mediaLabel=ep=>ep.mediaType==="video"?"Video":ep.mediaType==="song"?"Song":"Audio";
+  const mediaColor=ep=>ep.mediaType==="video"?"#a78bfa":ep.mediaType==="song"?"#ec4899":"var(--a)";
+
+  const match=ep=>
+    ep.title.toLowerCase().includes(query)||
+    (ep.guest||"").toLowerCase().includes(query)||
+    (ep.tags||[]).some(t=>t.toLowerCase().includes(query))||
+    (ep.num||"").toLowerCase().includes(query)||
+    (ep.fileName||"").toLowerCase().includes(query);
+
+  const uplR=query.length<1?uploadedEps.slice(0,8):uploadedEps.filter(match);
+  const total=uplR.length;
+
+  const Row=({ep})=>{
+    const playable=!!(ep.audioUrl||ep.videoUrl||ep.cloudAudioUrl||ep.cloudVideoUrl);
+    const col=mediaColor(ep);
+    return (
+      <div
+        onClick={()=>{nav("episode",ep);onClose();}}
+        style={{display:"flex",alignItems:"center",gap:12,padding:"11px 8px",cursor:"pointer",transition:"background .15s",borderRadius:3,minHeight:44}}
+        onMouseEnter={e=>e.currentTarget.style.background="rgba(255,255,255,.05)"}
+        onMouseLeave={e=>e.currentTarget.style.background="transparent"}>
+        {/* Thumbnail */}
+        <div style={{position:"relative",flexShrink:0}}>
+          <img src={ep.img||ep.cover||FALLBACK_IMG} alt="" style={{width:48,height:48,objectFit:"cover",borderRadius:4,border:`1px solid ${col}44`,display:"block"}} />
+          <span style={{position:"absolute",bottom:-4,right:-4,fontSize:12,lineHeight:1,background:"#0f0f0f",borderRadius:"50%",padding:2}}>{mediaIcon(ep)}</span>
+        </div>
+        {/* Info */}
+        <div style={{flex:1,minWidth:0}}>
+          <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:2}}>
+            <span style={{fontSize:9,fontFamily:"'JetBrains Mono'",color:col,letterSpacing:".06em",fontWeight:700}}>{mediaLabel(ep)}</span>
+            {ep.num&&<span style={{fontSize:9,color:"var(--g)",fontFamily:"'JetBrains Mono'"}}>{ep.num}</span>}
+            {ep._storageMode==="cloud"&&<span style={{fontSize:8,color:"#4ade80",fontFamily:"'JetBrains Mono'"}}>☁</span>}
           </div>
+          <div style={{fontSize:13,fontWeight:600,color:"var(--c)",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{ep.title}</div>
+          <div style={{fontSize:11,color:"var(--g)",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap",marginTop:1}}>
+            {ep.guest||ep.host||"—"}{ep.dur?` · ${ep.dur}`:""}
+          </div>
+        </div>
+        {/* Play button */}
+        {playable&&(
+          <button
+            onClick={e=>{e.stopPropagation();onPlay(ep);onClose();}}
+            style={{width:38,height:38,borderRadius:"50%",background:col,border:"none",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontSize:13,color:"#070707",flexShrink:0,transition:"transform .15s",minWidth:38}}
+            onMouseEnter={e=>e.currentTarget.style.transform="scale(1.1)"}
+            onMouseLeave={e=>e.currentTarget.style.transform="scale(1)"}>▶</button>
         )}
-        {query.length>=2&&total===0&&<div style={{textAlign:"center",opacity:.5}}><div style={{fontSize:40,marginBottom:12}}>◎</div><p style={{fontSize:14,color:"var(--g)"}}>No results for "{q}"</p></div>}
       </div>
-    </div>
+    );
+  };
+
+  return (
+    <>
+      {/* Backdrop */}
+      <div className="search-backdrop" onClick={onClose} />
+
+      {/* Panel */}
+      <div className="search-overlay">
+        <div className="search-panel">
+          <div className="wrap" style={{padding:"0 var(--container-padding)"}}>
+            {/* Input row */}
+            <div style={{display:"flex",alignItems:"center",gap:12,padding:"14px 0",borderBottom:"1px solid var(--bdr)"}}>
+              <span style={{fontSize:18,color:"var(--g)",flexShrink:0}}>⌕</span>
+              <input
+                ref={ref}
+                className="search-input-big"
+                placeholder="Search your audio, video, songs…"
+                value={q}
+                onChange={e=>setQ(e.target.value)}
+              />
+              {q&&(
+                <button onClick={()=>setQ("")} style={{background:"none",border:"none",cursor:"pointer",color:"var(--g)",fontSize:18,padding:"0 4px",flexShrink:0,lineHeight:1}}>✕</button>
+              )}
+              <button onClick={onClose} style={{background:"rgba(255,255,255,.06)",border:"1px solid var(--bdr)",borderRadius:4,cursor:"pointer",color:"var(--g)",fontFamily:"'JetBrains Mono'",fontSize:10,padding:"5px 9px",flexShrink:0,letterSpacing:".04em"}}>ESC</button>
+            </div>
+
+            {/* Results count hint */}
+            <div style={{padding:"8px 0 6px",display:"flex",alignItems:"center",gap:8}}>
+              <span style={{fontSize:11,color:"var(--g)"}}>
+                {query.length<1
+                  ? `${uploadedEps.length} upload${uploadedEps.length!==1?"s":""} — type to search`
+                  : `${total} result${total!==1?"s":""} for "${q}"`}
+              </span>
+              {query.length<1&&uploadedEps.length>0&&(
+                <div style={{display:"flex",gap:6}}>
+                  {[["🎙","audio"],["🎬","video"],["🎵","song"]].map(([icon,type])=>{
+                    const cnt=uploadedEps.filter(e=>(e.mediaType||"audio")===type).length;
+                    return cnt>0?<span key={type} style={{fontSize:10,color:"var(--g)",background:"rgba(255,255,255,.05)",border:"1px solid var(--bdr)",borderRadius:10,padding:"1px 8px"}}>{icon} {cnt}</span>:null;
+                  })}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Results list */}
+          <div style={{maxHeight:"min(60vh,420px)",overflowY:"auto",padding:"4px 0 8px",WebkitOverflowScrolling:"touch"}}>
+            <div className="wrap" style={{padding:"0 var(--container-padding)"}}>
+              {uplR.length>0
+                ? uplR.map(ep=><Row key={ep.id} ep={ep} />)
+                : query.length>=1&&(
+                  <div style={{textAlign:"center",padding:"32px 20px",opacity:.5}}>
+                    <div style={{fontSize:32,marginBottom:8}}>◎</div>
+                    <div style={{fontSize:13,color:"var(--g)"}}>No results for "{q}"</div>
+                    <div style={{fontSize:11,color:"var(--g)",marginTop:4,opacity:.7}}>Try searching by title, guest, or file name</div>
+                  </div>
+                )
+              }
+              {uploadedEps.length===0&&(
+                <div style={{textAlign:"center",padding:"32px 20px",opacity:.5}}>
+                  <div style={{fontSize:32,marginBottom:8}}>📂</div>
+                  <div style={{fontSize:13,color:"var(--g)"}}>No uploads yet</div>
+                  <div style={{fontSize:11,color:"var(--g)",marginTop:4,opacity:.7}}>Upload audio, video or songs to search them here</div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
 
@@ -1908,9 +2011,15 @@ function Home({ nav, onPlay, uploadedEps=[], playing=null }) {
   const scrollY=useScrollY();
   useEffect(()=>{const t=setInterval(()=>setHeroIdx(i=>(i+1)%heroEps.length),5500);return()=>clearInterval(t);},[]);
   const heroEp=heroEps[heroIdx];
+  // Use first uploaded audio episode (with real audio) for the banner Play button
+  const firstUploadedAudio=uploadedEps.find(e=>(e.mediaType==="audio"||!e.mediaType)&&(e.audioUrl||e.cloudAudioUrl));
   const handlePlayOrNav=(ep)=>{
     const hasMedia=ep.audioUrl||ep.videoUrl||ep.cloudAudioUrl||ep.cloudVideoUrl;
     if(hasMedia){onPlay(ep);}else{nav("episode",ep);}
+  };
+  const handleBannerPlay=()=>{
+    if(firstUploadedAudio){onPlay(firstUploadedAudio);}
+    else{handlePlayOrNav(heroEp);}
   };
   return (
     <div>
@@ -1927,15 +2036,31 @@ function Home({ nav, onPlay, uploadedEps=[], playing=null }) {
               <h1 className="bb fu d1" style={{fontSize:"clamp(48px,8.5vw,112px)",color:"var(--c)",lineHeight:.9,marginBottom:20}}>{heroEp.title.split(" ").map((w,i)=><span key={i} style={{display:"inline-block",marginRight:".16em",color:i%4===2?"var(--a)":"var(--c)",transition:"color .6s"}}>{w}</span>)}</h1>
               <p className="fu d2" style={{fontSize:15,color:"var(--g)",maxWidth:500,lineHeight:1.82,marginBottom:32,fontWeight:300}}>{heroEp.desc.slice(0,145)}…</p>
               <div className="fu d3" style={{display:"flex",gap:12,flexWrap:"wrap",marginBottom:44}}>
-                <button className="btn btn-a" style={{fontSize:11}} onClick={()=>handlePlayOrNav(heroEp)}><span>▶</span> Play Episode</button>
+                <button className="btn btn-a" style={{fontSize:11}} onClick={handleBannerPlay}><span>▶</span> {firstUploadedAudio?`Play: ${firstUploadedAudio.title.slice(0,28)}${firstUploadedAudio.title.length>28?"…":""}` :"Play Episode"}</button>
                 <button className="btn btn-g" style={{fontSize:11}} onClick={()=>nav("episodes")}>Browse All →</button>
                 <button className="btn btn-g" style={{fontSize:11}} onClick={()=>nav("upload")}>Upload Content ↑</button>
               </div>
-              <div className="fu d4" style={{display:"inline-flex",alignItems:"center",gap:14,padding:"14px 20px",background:"rgba(10,10,10,.9)",border:"1px solid var(--bdr)",borderRadius:3,backdropFilter:"blur(16px)"}}>
-                <img src={heroEp.img} alt="" style={{width:46,height:46,borderRadius:"50%",objectFit:"cover",border:"2px solid var(--a)",flexShrink:0}} />
-                <div><div className="mn" style={{fontSize:8,color:"var(--a)",letterSpacing:".1em",marginBottom:2}}>FEATURED GUEST</div><div style={{fontSize:14,fontWeight:600,color:"var(--c)"}}>{heroEp.guest}</div><div style={{fontSize:11,color:"var(--g)"}}>{heroEp.role}</div></div>
-                <div style={{paddingLeft:16,borderLeft:"1px solid var(--bdr)"}}><div className="mn" style={{fontSize:8,color:"var(--g)",marginBottom:2}}>DURATION</div><div style={{fontSize:14,fontWeight:700,color:"var(--c)"}}>{heroEp.dur}</div></div>
-              </div>
+              {(()=>{
+                const featEp=firstUploadedAudio||heroEp;
+                return (
+                  <div className="fu d4" style={{display:"inline-flex",alignItems:"center",gap:14,padding:"14px 20px",background:"rgba(10,10,10,.9)",border:`1px solid ${firstUploadedAudio?"rgba(74,222,128,.25)":"var(--bdr)"}`,borderRadius:3,backdropFilter:"blur(16px)",cursor:"pointer",transition:"border-color .3s"}} onClick={()=>firstUploadedAudio&&nav("episode",firstUploadedAudio)}>
+                    <img src={featEp.img||featEp.cover||FALLBACK_IMG} alt="" style={{width:46,height:46,borderRadius:"50%",objectFit:"cover",border:`2px solid ${firstUploadedAudio?"#4ade80":"var(--a)"}`,flexShrink:0}} />
+                    <div>
+                      <div className="mn" style={{fontSize:8,color:firstUploadedAudio?"#4ade80":"var(--a)",letterSpacing:".1em",marginBottom:2}}>{firstUploadedAudio?"YOUR UPLOAD":"FEATURED GUEST"}</div>
+                      <div style={{fontSize:14,fontWeight:600,color:"var(--c)"}}>{featEp.guest||featEp.host||"Your Episode"}</div>
+                      <div style={{fontSize:11,color:"var(--g)"}}>{featEp.role||(firstUploadedAudio?"Uploaded Podcast":"Podcast Host")}</div>
+                    </div>
+                    <div style={{paddingLeft:16,borderLeft:"1px solid var(--bdr)"}}>
+                      <div className="mn" style={{fontSize:8,color:"var(--g)",marginBottom:2}}>DURATION</div>
+                      <div style={{fontSize:14,fontWeight:700,color:"var(--c)"}}>{featEp.dur||"—:—"}</div>
+                    </div>
+                    {firstUploadedAudio&&<div style={{paddingLeft:16,borderLeft:"1px solid var(--bdr)"}}>
+                      <div className="mn" style={{fontSize:8,color:"#4ade80",marginBottom:2}}>STATUS</div>
+                      <div style={{fontSize:11,fontWeight:700,color:"#4ade80"}}>☁ Ready</div>
+                    </div>}
+                  </div>
+                );
+              })()}
             </div>
             <div style={{display:"flex",flexDirection:"column",gap:8,alignItems:"center"}}>{heroEps.map((ep,i)=><button key={ep.id} onClick={()=>setHeroIdx(i)} style={{width:3,height:i===heroIdx?28:10,borderRadius:2,background:i===heroIdx?"var(--a)":"rgba(255,255,255,.2)",border:"none",cursor:"pointer",transition:"all .4s",padding:0}} />)}</div>
           </div>
@@ -1991,9 +2116,7 @@ function Home({ nav, onPlay, uploadedEps=[], playing=null }) {
    EPISODES PAGE  (with 3 category sections)
    ═══════════════════════════════════════════════════════════════ */
 function Episodes({ nav, onPlay, uploadedEps=[], loading=false, playing=null }) {
-  const [filter,setFilter]=useState("All");
   const [categoryFilter,setCategoryFilter]=useState("all");
-  const allTags=["All",...new Set(EPS.flatMap(e=>e.tags))];
   const uploadedVideos=uploadedEps.filter(e=>e.mediaType==="video");
   const uploadedAudios=uploadedEps.filter(e=>e.mediaType==="audio"||!e.mediaType);
   const uploadedSongs=uploadedEps.filter(e=>e.mediaType==="song");
@@ -2003,8 +2126,6 @@ function Episodes({ nav, onPlay, uploadedEps=[], loading=false, playing=null }) 
   const filtUplVideos=allUploaded.filter(e=>e.mediaType==="video");
   const filtUplAudios=allUploaded.filter(e=>e.mediaType==="audio"||!e.mediaType);
   const filtUplSongs=allUploaded.filter(e=>e.mediaType==="song");
-
-  const filteredDemo=filter==="All"?EPS:EPS.filter(e=>e.tags.includes(filter));
 
   // Count uploaded per category (excluding "all")
   const catCount=id=>id==="all"?uploadedEps.length:uploadedEps.filter(e=>(e.podcastCategory||"other")===id).length;
@@ -2059,15 +2180,24 @@ function Episodes({ nav, onPlay, uploadedEps=[], loading=false, playing=null }) 
   const INIT=6;
   const Section=({items,icon,label,color,accentBg,onUpload})=>{
     const [expanded,setExpanded]=useState(false);
-    const visible=expanded?items:items.slice(0,INIT), hasMore=items.length>INIT+2;
+    const visible=expanded?items:items.slice(0,INIT);
+    const hasMore=items.length>INIT; // show button whenever ANY items are hidden
     return (
       <div>
         <SectionHeader icon={icon} label={label} color={color} count={items.length} accentBg={accentBg} />
-        {loading?<div className="ep-cards-grid" style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))",gap:14}}>{[1,2,3].map(i=><SkeletonCard key={i} />)}</div>
+        {loading?<div className="ep-cards-grid" style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(min(100%,280px),1fr))",gap:14}}>{[1,2,3].map(i=><SkeletonCard key={i} />)}</div>
         :items.length===0?<div style={{textAlign:"center",padding:"48px 20px",border:`1px dashed ${color}33`,borderRadius:4,background:`${color}05`}}><div style={{fontSize:40,marginBottom:12,opacity:.5}}>{icon}</div><div className="mn" style={{fontSize:10,color:"var(--g)",letterSpacing:".1em",marginBottom:16}}>No {label.toLowerCase()} uploaded yet</div><button className="btn btn-a" onClick={onUpload} style={{padding:"9px 22px",fontSize:10}}>Upload {label} →</button></div>
         :<>
-          <div className="ep-cards-grid" style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))",gap:14}}>{visible.map((ep,i)=><EpCard key={ep.id} ep={ep} i={i} />)}</div>
-          {hasMore&&<div style={{textAlign:"center",marginTop:22}}><button onClick={()=>setExpanded(v=>!v)} style={{padding:"11px 28px",background:"transparent",border:`1px solid ${color}55`,borderRadius:3,color,fontFamily:"'JetBrains Mono'",fontSize:9,letterSpacing:".1em",cursor:"pointer",transition:"all .25s"}} onMouseEnter={e=>{e.currentTarget.style.background=`${color}11`;e.currentTarget.style.borderColor=color}} onMouseLeave={e=>{e.currentTarget.style.background="transparent";e.currentTarget.style.borderColor=`${color}55`}}>{expanded?`▲ SHOW LESS`:`▼ SHOW ALL ${items.length} ${label.toUpperCase()}`}</button></div>}
+          <div className="ep-cards-grid" style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(min(100%,280px),1fr))",gap:14}}>{visible.map((ep,i)=><EpCard key={ep.id} ep={ep} i={i} />)}</div>
+          {hasMore&&(
+            <div style={{textAlign:"center",marginTop:22}}>
+              <button onClick={()=>setExpanded(v=>!v)} style={{padding:"11px 28px",background:"transparent",border:`1px solid ${color}55`,borderRadius:3,color,fontFamily:"'JetBrains Mono'",fontSize:9,letterSpacing:".1em",cursor:"pointer",transition:"all .25s",minHeight:44,width:"100%",maxWidth:340}}
+                onMouseEnter={e=>{e.currentTarget.style.background=`${color}11`;e.currentTarget.style.borderColor=color}}
+                onMouseLeave={e=>{e.currentTarget.style.background="transparent";e.currentTarget.style.borderColor=`${color}55`}}>
+                {expanded?`▲ SHOW LESS`:`▼ SHOW ALL ${items.length} ${label.toUpperCase()} (${items.length-INIT} more)`}
+              </button>
+            </div>
+          )}
         </>}
       </div>
     );
@@ -2078,11 +2208,11 @@ function Episodes({ nav, onPlay, uploadedEps=[], loading=false, playing=null }) 
       <section style={{padding:"72px 0 52px",background:"var(--d2)",borderBottom:"1px solid var(--bdr)",position:"relative",overflow:"hidden"}}>
         <div className="wrap" style={{position:"relative"}}>
           <Rv>
-            <div className="mn" style={{fontSize:9,color:"var(--a)",letterSpacing:".14em",marginBottom:14}}>// THE_ARCHIVE — {EPS.length+uploadedEps.length} total{uploadedEps.length>0&&<span style={{marginLeft:12,color:"#4ade80"}}>· {uploadedEps.length} uploaded by you</span>}</div>
+            <div className="mn" style={{fontSize:9,color:"var(--a)",letterSpacing:".14em",marginBottom:14}}>// THE_ARCHIVE — {uploadedEps.length} total{uploadedEps.length>0&&<span style={{marginLeft:12,color:"#4ade80"}}>· {uploadedEps.length} uploaded by you</span>}</div>
             <h1 className="bb" style={{fontSize:"clamp(56px,9vw,112px)",color:"var(--c)",lineHeight:.92,marginBottom:20}}>The <em className="sf" style={{color:"var(--a)"}}>Archive</em></h1>
             <p style={{fontSize:15,color:"var(--g)",maxWidth:440,fontWeight:300,lineHeight:1.78}}>Every conversation, every mind. Browse by category below.</p>
             <div style={{display:"flex",gap:20,marginTop:28,flexWrap:"wrap"}}>
-              {[{icon:"🎬",label:"Videos",count:uploadedVideos.length,color:"#8b5cf6"},{icon:"🎙",label:"Audio",count:uploadedAudios.length+EPS.length,color:"var(--a)"},{icon:"🎵",label:"Songs",count:uploadedSongs.length,color:"#ec4899"}].map(s=><div key={s.label} style={{display:"flex",alignItems:"center",gap:8,padding:"8px 14px",background:"rgba(255,255,255,.03)",border:"1px solid var(--bdr)",borderRadius:3}}><span style={{fontSize:14}}>{s.icon}</span><span className="bb" style={{fontSize:20,color:s.color,lineHeight:1}}>{s.count}</span><span className="mn" style={{fontSize:9,color:"var(--g)",letterSpacing:".08em"}}>{s.label}</span></div>)}
+              {[{icon:"🎬",label:"Videos",count:uploadedVideos.length,color:"#8b5cf6"},{icon:"🎙",label:"Audio",count:uploadedAudios.length,color:"var(--a)"},{icon:"🎵",label:"Songs",count:uploadedSongs.length,color:"#ec4899"}].map(s=><div key={s.label} style={{display:"flex",alignItems:"center",gap:8,padding:"8px 14px",background:"rgba(255,255,255,.03)",border:"1px solid var(--bdr)",borderRadius:3}}><span style={{fontSize:14}}>{s.icon}</span><span className="bb" style={{fontSize:20,color:s.color,lineHeight:1}}>{s.count}</span><span className="mn" style={{fontSize:9,color:"var(--g)",letterSpacing:".08em"}}>{s.label}</span></div>)}
             </div>
           </Rv>
         </div>
@@ -2122,7 +2252,7 @@ function Episodes({ nav, onPlay, uploadedEps=[], loading=false, playing=null }) 
       </section>
       {/* Audio */}
       <section style={{padding:"56px 0 48px",background:"var(--d2)",borderBottom:"1px solid var(--bdr)"}}>
-        <div className="wrap"><Section items={[...filtUplAudios,...filteredDemo]} icon="🎙" label="Audio Podcasts" color="var(--a)" accentBg="rgba(245,166,35,.1)" onUpload={()=>nav("upload")} /></div>
+        <div className="wrap"><Section items={filtUplAudios} icon="🎙" label="Audio Podcasts" color="var(--a)" accentBg="rgba(245,166,35,.1)" onUpload={()=>nav("upload")} /></div>
       </section>
       {/* Songs */}
       <section style={{padding:"56px 0 56px",background:"var(--d)"}}>
